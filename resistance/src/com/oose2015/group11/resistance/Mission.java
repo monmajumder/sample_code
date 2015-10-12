@@ -1,12 +1,21 @@
 package com.oose2015.group11.resistance;
 
+import java.util.ArrayList;
+
+/**
+ * Mission class is in charge of all things mission related.
+ * Keeps track of the mission number, creates the Mission Leader,
+ * keeps track of mission history, etc.
+ * @author Group 11
+ *
+ */
 public class Mission{
 
-Player missionLeader;
+Leader missionLeader;
 int missionNum;
 boolean success;//if the players voted yes/no for the mission
 boolean approved;//if the mission is approved (only if success == true)
-ArrayList<HashMap<Player, boolean>> stateHistory;
+ArrayList<Round> stateHistory;
 ArrayList<Missionary> missionaries;
 
 /**
@@ -15,7 +24,7 @@ Creates a mission object
 @param missionNum the mission number
 @param stateHistory, all the player's votes
 */
-public Mission(Player missionLeader, int missionNum, ArrayList<HashMap<Player, boolean>> stateHistory){
+public Mission(Leader missionLeader, int missionNum, ArrayList<Round> stateHistory){
 this.missionLeader = missionLeader;
 this.missionNum = missionNum;
 this.stateHistory = stateHistory;
@@ -39,11 +48,18 @@ public boolean isApproved(){
 }
 
 /**
+   Generates a randomized mission leader
+   @param numPlayers the number of players in the game
+   */
+   public void createRandomMissionLeader(int numPlayers){
+   }
+
+/**
 Changes the mission Leader to a new player
 @param newLeader is Player that will be the new
    mission Leader
 */
-public void changeLeader(Player newLeader){
+public void changeLeader(Leader newLeader){
    this.missionLeader = newLeader;
 }
 
