@@ -49,9 +49,9 @@ public class Game{
    }
    
    /**
-   Displays all of the mission's vote history
+   Gets all of the mission's vote history
    */
-   public void displayHistory(){
+   public void getHistory(){
    }
    
    /**
@@ -68,5 +68,19 @@ public class Game{
     */
    public boolean start(){
 	   return true;
+   }
+   
+   /**
+    * Restarts/resets the game.
+    */
+   public void restart(){
+	   
+   }
+   
+   /**
+    * Changes the Game's host
+    */
+   public void changeHost(){
+	   
    }
 }
