@@ -1,5 +1,11 @@
 package com.oose2015.group11.resistance;
 
+/**
+ * Player class is responsible for creating the Player object,
+ * and letting Players vote
+ * @author Group 11
+ *
+ */
 public class Player{
 
 String username;
@@ -16,13 +22,6 @@ this.username = username;
 this.playerType = "Spy"; //or Resistor depending on randomizer
 }
 
-/**
-Returns if  player is a host or not
-@return true if player is host, false otherwise
-*/
-public boolean isHost(){
-   return true;
-}
 
 /**
 Player votes for missionaries - votes yes/no for the
