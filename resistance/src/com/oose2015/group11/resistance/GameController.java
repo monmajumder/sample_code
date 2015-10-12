@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 /**
  * GameController class is in charge of controlling the Game.
- * Keeps track of all the games that are active, and deals with
- * Game related functions such as
+ * Deals with Game related functions such as starting/playing a Game
  * @author Group 11
  *
  */
@@ -23,8 +22,7 @@ public GameController(){
 }
 
 /**
-Creates a new Game, initializes it, adds it to list
-of games in Lobby
+Creates a new Game, initializes it
 */
 public void createGame(){
 
@@ -37,6 +35,22 @@ Adds a player to an existing game.
 */
 public void joinGame(String keyword){
 
+}
+
+/**
+ * Plays the game
+ * @param game the game to be played
+ */
+public void playGame(Game game){
+	
+}
+
+/**
+ * Deletes a game
+ * @param game the Game to be deleted
+ */
+public void removeGame(Game game){
+	
 }
 
 
