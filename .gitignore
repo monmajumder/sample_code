@@ -35,3 +35,4 @@ captures/
 #.DS_Store and .idea
 .DS_Store
 .idea
+app.iml
