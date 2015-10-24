@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+    <TextView android:text="@string/hello_citizen" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hello_citizen"
+        android:textSize="36dp"
+        android:layout_marginBottom="50dp"
+        android:layout_above="@+id/what_is_your_name"
+        android:layout_centerHorizontal="true" />
+
+    <com.resistance.theresistance.MyTextView
+        android:text="@string/what_is_your_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/what_is_your_name"
+        android:textSize="28dp"
+        android:layout_above="@+id/enter_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp" />
+
+    <com.resistance.theresistance.MyEditTextView
+        android:id="@+id/enter_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name"
+        android:inputType="text"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/what_is_your_name"
+        android:layout_alignEnd="@+id/what_is_your_name"
+        android:layout_alignLeft="@+id/what_is_your_name"
+        android:layout_alignStart="@+id/what_is_your_name" />
+
+    <com.resistance.theresistance.MyButton
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter"
+        android:id="@+id/enter_button"
+        android:layout_marginTop="67dp"
+        android:layout_below="@+id/enter_name"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
