@@ -1,4 +1,4 @@
-package logic;
+package com.resistance.theresistance.logic;
 
 /**
  * Class is responsible for giving Missionaries (Missionaries

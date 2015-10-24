@@ -1,4 +1,4 @@
-package logic;
+package com.resistance.theresistance.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,17 +1,22 @@
-package com.resistance.theresistance;
+package com.resistance.theresistance.activities;
 
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.EditText;
+
+import com.resistance.theresistance.R;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    public final static String EXTRA_MESSAGE = "come.resistance.theresistance.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,5 +57,14 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /** Called when user clicks the Send button after typing name */
+    public void enterName(View view) {
+        Intent intent = new Intent(this, GameNameActivity.class);
+        EditText editText = (EditText) findViewById(R.id.enter_name);
+        String message = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
     }
 }
