@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">TheResistance</string>
 
-    <string name="hello_world">Hello World!!</string>
+    <string name="hello_citizen">Hello, citizen.</string>
+    <string name="what_is_your_name">What is your name?</string>
+    <string name="name">Name</string>
+    <string name="enter">ENTER</string>
     <string name="action_settings">Settings</string>
 </resources>

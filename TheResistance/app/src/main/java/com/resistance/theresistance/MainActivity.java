@@ -1,9 +1,11 @@
 package com.resistance.theresistance;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -14,7 +16,21 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
+
         setContentView(R.layout.activity_main);
+
+        TextView tv = (TextView) findViewById(R.id.hello_citizen);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "fonts/HelveticaNeueDeskInterface.ttc");
+        tv.setTypeface(face);
+
+        TextView text = (TextView) findViewById(R.id.what_is_your_name);
+        Typeface faces = Typeface.createFromAsset(getAssets(),
+                "fonts/HelveticaNeueDeskInterface.ttc");
+        text.setTypeface(face);
+
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
 
