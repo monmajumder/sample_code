@@ -1,4 +1,4 @@
-package com.resistance.theresistance;
+package com.resistance.theresistance.views;
 
 import android.content.Context;
 import android.graphics.Typeface;
