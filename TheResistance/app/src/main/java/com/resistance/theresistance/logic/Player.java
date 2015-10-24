@@ -1,4 +1,4 @@
-package logic;
+package com.resistance.theresistance.logic;
 
 /**
  * Player class is responsible for creating the Player object,
