@@ -9,20 +9,36 @@ import android.widget.TextView;
  * Created by jwagner on 10/23/15.
  */
 public class MyTextView extends TextView {
-    public MyTextView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/HelveticaNeueDeskInterface.ttc"), defStyle);
+    public MyTextView(Context context) {
+        super(context);
+        init();
+
     }
 
     public MyTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/HelveticaNeueDeskInterface.ttc"));
-
+        init();
     }
 
-    public MyTextView(Context context) {
-        super(context);
-        this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/HelveticaNeueDeskInterface.ttc"));
+    public MyTextView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init();
+    }
+
+    private void init() {
+        Typeface font=Typeface.createFromAsset(getContext().getAssets(), "fonts/HelveticaNeueDeskInterface.ttf");
+        this.setTypeface(font);
+    }
+    @Override
+    public void setTypeface(Typeface tf, int style) {
+        tf=Typeface.createFromAsset(getContext().getAssets(), "fonts/HelveticaNeueDeskInterface.ttf");
+        super.setTypeface(tf, style);
+    }
+
+    @Override
+    public void setTypeface(Typeface tf) {
+        tf=Typeface.createFromAsset(getContext().getAssets(), "fonts/HelveticaNeueDeskInterface.ttf");
+        super.setTypeface(tf);
     }
 
 }
