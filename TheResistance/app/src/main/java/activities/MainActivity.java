@@ -21,16 +21,6 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        TextView tv = (TextView) findViewById(R.id.hello_citizen);
-        Typeface face = Typeface.createFromAsset(getAssets(),
-                "fonts/HelveticaNeueDeskInterface.ttc");
-        tv.setTypeface(face);
-
-        TextView text = (TextView) findViewById(R.id.what_is_your_name);
-        Typeface faces = Typeface.createFromAsset(getAssets(),
-                "fonts/HelveticaNeueDeskInterface.ttc");
-        text.setTypeface(face);
-
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
 
