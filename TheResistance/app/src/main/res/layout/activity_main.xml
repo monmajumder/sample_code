@@ -45,4 +45,16 @@
         android:layout_below="@+id/enter_name"
         android:layout_centerHorizontal="true" />
 
+    <com.resistance.theresistance.MyTextView
+        android:text="@string/sorry_use_another_name"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/sorry_use_another_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:layout_below="@+id/enter_button"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
