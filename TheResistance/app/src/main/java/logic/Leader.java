@@ -40,6 +40,7 @@ Changes the mission Leader to a new player
    Leader is being changed to
 */
 public void changeLeader(String username){
+   leader.username = username;
 }
 
 }
