@@ -19,12 +19,12 @@ public class GameNameActivity extends AppCompatActivity {
 
         // Get the message from the intent
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String name = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         // Create the text view
         TextView textView = new TextView(this);
         textView.setTextSize(40);
-        textView.setText(message);
+        textView.setText(name);
 
         // Set the text view as the activity layout
         setContentView(textView);

@@ -2,21 +2,28 @@ package com.resistance.theresistance.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.parse.CountCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.resistance.theresistance.R;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.resistance.theresistance.logic.GameController;
 
-
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "come.resistance.theresistance.MESSAGE";
+    private static String playerName;
+    private static Intent intent;
+    private static View alreadyExistsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +68,32 @@ public class MainActivity extends ActionBarActivity {
 
     /** Called when user clicks the Send button after typing name */
     public void enterName(View view) {
-        Intent intent = new Intent(this, GameNameActivity.class);
+        alreadyExistsView= (View) findViewById(R.id.sorry_use_another_name);
+        intent = new Intent(this, GameNameActivity.class);
         EditText editText = (EditText) findViewById(R.id.enter_name);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+        playerName = editText.getText().toString();
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("NameObject");
+        query.whereEqualTo("Name", playerName);
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                if (e == null) {
+                    Log.d("name", "The retrieval succeeded");
+                    if (count <= 0) {
+                        ParseObject nameObject = new ParseObject("NameObject");
+                        nameObject.put("Name", playerName);
+                        nameObject.saveInBackground();
+                        intent.putExtra(EXTRA_MESSAGE, playerName);
+                        startActivity(intent);
+                    } else {
+                        intent.putExtra(EXTRA_MESSAGE, "Name is taken.");
+                        alreadyExistsView.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    Log.d("name", "The retrieval failed");
+                }
+            }
+        });
     }
 }
