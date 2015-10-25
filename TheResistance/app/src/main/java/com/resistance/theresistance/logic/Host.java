@@ -1,4 +1,4 @@
-package logic;
+package com.resistance.theresistance.logic;
 
 /**
  * Host class in charge of the Game's players before the

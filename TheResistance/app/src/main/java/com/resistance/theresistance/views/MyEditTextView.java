@@ -1,26 +1,27 @@
-package com.resistance.theresistance;
+package com.resistance.theresistance.views;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import android.widget.EditText;
 
 /**
  * Created by jwagner on 10/23/15.
  */
-public class MyTextView extends TextView {
-    public MyTextView(Context context) {
+public class MyEditTextView extends EditText {
+
+    public MyEditTextView(Context context) {
         super(context);
         init();
 
     }
 
-    public MyTextView(Context context, AttributeSet attrs) {
+    public MyEditTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public MyTextView(Context context, AttributeSet attrs, int defStyle) {
+    public MyEditTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -40,5 +41,4 @@ public class MyTextView extends TextView {
         tf=Typeface.createFromAsset(getContext().getAssets(), "fonts/HelveticaNeueDeskInterface.ttf");
         super.setTypeface(tf);
     }
-
 }
