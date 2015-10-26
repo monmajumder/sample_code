@@ -1,4 +1,4 @@
-package logic;
+package com.resistance.theresistance.logic;
 
 /**
  * Host class in charge of the Game's players before the
@@ -22,9 +22,10 @@ public Host(Player host){
 /**
  * Removes player from the game
  * @param player the player to be removed
+ * @return the player to be evicted
  */
-public void evict(Player player){
-	
+public Player evict(Player player){
+   return player;
 }
 
 }

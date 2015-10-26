@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+    <com.resistance.theresistance.views.MyTextView
+        android:text="@string/game_keyword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/game_keyword"
+        android:textSize="26dp"
+        android:layout_marginBottom="50dp"
+        android:layout_above="@+id/enter_game_keyword"
+        android:layout_centerHorizontal="true" />
+
+    <com.resistance.theresistance.views.MyEditTextView
+        android:id="@+id/enter_game_keyword"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/game"
+        android:inputType="text"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/game_keyword"
+        android:layout_alignEnd="@+id/game_keyword"
+        android:layout_alignLeft="@+id/game_keyword"
+        android:layout_alignStart="@+id/game_keyword" />
+
+    <com.resistance.theresistance.views.MyButton
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/join"
+        android:id="@+id/join_game_button"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/enter_game_keyword"
+        android:layout_centerHorizontal="true"
+        android:onClick="joinGame" />
+
+    <com.resistance.theresistance.views.MyButton
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create"
+        android:id="@+id/create_game_button"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/join_game_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="createGame" />
+
+    <com.resistance.theresistance.views.MyTextView
+        android:text="@string/sorry_use_another_name"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/sorry_use_another_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:layout_below="@+id/create_game_button"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <com.resistance.theresistance.views.MyTextView
+        android:text="@string/name_doesnt_exist"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/name_doesnt_exist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:layout_below="@+id/create_game_button"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+</RelativeLayout>

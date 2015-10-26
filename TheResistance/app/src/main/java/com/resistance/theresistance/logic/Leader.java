@@ -1,4 +1,4 @@
-package logic;
+package com.resistance.theresistance.logic;
 
 import java.util.ArrayList;
 
@@ -40,6 +40,7 @@ Changes the mission Leader to a new player
    Leader is being changed to
 */
 public void changeLeader(String username){
+   leader.username = username;
 }
 
 }
