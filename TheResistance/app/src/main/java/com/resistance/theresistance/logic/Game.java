@@ -1,6 +1,7 @@
 package com.resistance.theresistance.logic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Game class where players will be able to join a game
@@ -16,13 +17,13 @@ public class Game{
    Host gameHost;
    //assume arraylist is storing players in order of them joining the game
    //so oldest player will be the player in slot 0
-   ArrayList<Player> players;
+   //ArrayList<Player> players;
+   HashMap<String, Player> players;
    public enum State{
       WAITING, START, PLAYING //etc
    }
    State gameState;
-   //enum gameState; Will add game states later
-
+   
    /**
     Creates Game object, with user-created keyword
     and a maximum numPlayers
@@ -30,13 +31,14 @@ public class Game{
     @param numPlayers the maximum number of players allowed
     in the game
     */
-   public Game(String keyword, int numPlayers){
+   public Game(String host, String keyword, int numPlayers){
 
       this.keyword = keyword;
       this.numPlayers = numPlayers;
-      players = new ArrayList<Player>();
+      players = new HashMap<String, Player>();
       gameState = State.WAITING; //some kind of gameState
-
+      Player h = new Player(host);
+      gameHost = new Host(h);
    }
 
    /**
@@ -70,7 +72,7 @@ public class Game{
     * @param player, the Player to add to the game
     */
    public void addPlayer(Player player){
-      players.add(player);
+      players.put(player.username, player);
    }
 
    /**
@@ -85,7 +87,7 @@ public class Game{
     * Restarts/resets the game.
     */
    public void restart(){
-      //some code of some sort
+      //what?
       gameState = State.WAITING;//which game state?
    }
 

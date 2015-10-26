@@ -1,11 +1,11 @@
 package com.resistance.theresistance.logic;
 
-import com.parse.GetCallback;
-import com.parse.Parse;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+//import com.parse.GetCallback;
+//import com.parse.Parse;
+//import com.parse.ParseObject;
+//import com.parse.ParseQuery;
 
-import java.text.ParseException;
+//import java.text.ParseException;
 
 
 /**

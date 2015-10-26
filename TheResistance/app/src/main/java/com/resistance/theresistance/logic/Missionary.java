@@ -23,8 +23,8 @@ public Missionary(Player player){
 /**
  * Missionary votes to pass/fail the mission
  */
-public void voteForMission(){
-	
+public String voteForMission(String vote){
+	return vote;
 }
 
 /**
@@ -32,7 +32,7 @@ public void voteForMission(){
  * @param player the player to become a Missionary
  */
 public void changeMissionary(Player player){
-	
+   this.player = player;	
 }
 
 }

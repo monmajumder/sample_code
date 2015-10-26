@@ -1,5 +1,6 @@
 package com.resistance.theresistance.logic;
 
+import java.util.HashMap;
 import java.util.ArrayList;
 
 /**
@@ -27,20 +28,26 @@ public Leader(Player leader){
 Chooses the missionaries to go on the mission.
 @param allPlayers, all the players in the game
 @param numMiss the number of missionaries to choose
-@return true if valid choices, false otherwise
+@return ArrayList of the missionaries that will be going on the mission
 */
-public boolean chooseMissionaries(ArrayList<Player> allPlayers,
+public boolean chooseMissionaries(HashMap<String, Player> allPlayers,
    int numMiss){
+   System.out.println("which players do you want to go for the mission?");
+   //DO SOMETHING HERE IN A SECOND, JUST GOING TO SEE HOW
 	return true;
 }
 
 /**
 Changes the mission Leader to a new player
-@param username, the username of the player the 
+@param player, the player the 
    Leader is being changed to
 */
-public void changeLeader(String username){
-   leader.username = username;
+public void changeLeader(Player newLeader){
+   if (leader.equals(newLeader)){
+      //throw exception of leader is already here
+   }
+   leader = newLeader;
+   
 }
 
 }
