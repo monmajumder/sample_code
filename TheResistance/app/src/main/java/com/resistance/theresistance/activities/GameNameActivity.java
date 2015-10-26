@@ -48,7 +48,7 @@ public class GameNameActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.enter_game_keyword);
         gameName = editText.getText().toString();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameNameObject");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
         query.countInBackground(new CountCallback() {
             @Override
@@ -76,7 +76,7 @@ public class GameNameActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.enter_game_keyword);
         gameName = editText.getText().toString();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameNameObject");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
         query.countInBackground(new CountCallback() {
             @Override
@@ -101,7 +101,7 @@ public class GameNameActivity extends AppCompatActivity {
      * @param gameName
      */
     public void createNewParseGameObject(String gameName) {
-        ParseObject nameObject = new ParseObject("GameNameObject");
+        ParseObject nameObject = new ParseObject("GameObject");
         nameObject.put("Name", gameName);
         nameObject.saveInBackground();
     }
