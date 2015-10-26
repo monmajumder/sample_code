@@ -21,9 +21,9 @@ public Missionary(Player player){
 }
 
 /**
- * Missionary votes to pass/fail the mission
+ * Missionary votes to pass/fail (true/false) the mission
  */
-public String voteForMission(String vote){
+public boolean voteForMission(boolean vote){
 	return vote;
 }
 
