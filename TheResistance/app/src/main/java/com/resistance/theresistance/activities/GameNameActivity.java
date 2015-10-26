@@ -56,11 +56,8 @@ public class GameNameActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("gameName", "The retrieval succeeded");
                     if (count <= 0) {
-                        ParseObject nameObject = new ParseObject("GameNameObject");
-                        nameObject.put("Name", gameName);
-                        nameObject.saveInBackground();
-                        intent.putExtra(EXTRA_MESSAGE, gameName);
-                        startActivity(intent);
+                        createNewParseGameObject(gameName);
+                        createIntent(gameName);
                     } else {
                         secondView.setVisibility(View.INVISIBLE);
                         existsView.setVisibility(View.VISIBLE);
@@ -76,7 +73,6 @@ public class GameNameActivity extends AppCompatActivity {
     public void joinGame(View view) {
         existsView= (View) findViewById(R.id.name_doesnt_exist);
         secondView= (View) findViewById(R.id.sorry_use_another_name);
-        intent = new Intent(this, GameActivity.class);
         EditText editText = (EditText) findViewById(R.id.enter_game_keyword);
         gameName = editText.getText().toString();
 
@@ -88,8 +84,7 @@ public class GameNameActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("gameName", "The retrieval succeeded");
                     if (count > 0) {
-                        intent.putExtra(EXTRA_MESSAGE, gameName);
-                        startActivity(intent);
+                        createIntent(gameName);
                     } else {
                         secondView.setVisibility(View.INVISIBLE);
                         existsView.setVisibility(View.VISIBLE);
@@ -99,5 +94,24 @@ public class GameNameActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Creates a new Parse object for game name.
+     * @param gameName
+     */
+    public void createNewParseGameObject(String gameName) {
+        ParseObject nameObject = new ParseObject("GameNameObject");
+        nameObject.put("Name", gameName);
+        nameObject.saveInBackground();
+    }
+
+    /**
+     * Create an intent.
+     */
+    public void createIntent(String gameName) {
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, gameName);
+        startActivity(intent);
     }
 }
