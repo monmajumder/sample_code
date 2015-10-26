@@ -20,9 +20,8 @@ import com.resistance.theresistance.logic.GameController;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String EXTRA_MESSAGE = "come.resistance.theresistance.MESSAGE";
+    public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     private static String playerName;
-    private static Intent intent;
     private static View alreadyExistsView;
 
     @Override
@@ -32,16 +31,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         setContentView(R.layout.activity_main);
-
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-
-        Parse.initialize(this, "C5sIm3CQ2cGgW7CbD7XTDb9Ji0uiw6ouYuXGoWBL", "lBdhDvJITQQqgXBrimKvMy36at4o3aa5hW75SYev");
-
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
-
     }
 
     @Override
@@ -69,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     /** Called when user clicks the Send button after typing name */
     public void enterName(View view) {
         alreadyExistsView= (View) findViewById(R.id.sorry_use_another_name);
-        intent = new Intent(this, GameNameActivity.class);
         EditText editText = (EditText) findViewById(R.id.enter_name);
         playerName = editText.getText().toString();
 
@@ -81,13 +69,9 @@ public class MainActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("name", "The retrieval succeeded");
                     if (count <= 0) {
-                        ParseObject nameObject = new ParseObject("NameObject");
-                        nameObject.put("Name", playerName);
-                        nameObject.saveInBackground();
-                        intent.putExtra(EXTRA_MESSAGE, playerName);
-                        startActivity(intent);
+                        createNewParseNameObject(playerName);
+                        createIntent(playerName);
                     } else {
-                        intent.putExtra(EXTRA_MESSAGE, "Name is taken.");
                         alreadyExistsView.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -95,5 +79,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Creates a new Parse object for player name.
+     * @param playerName
+     */
+    public void createNewParseNameObject(String playerName) {
+        ParseObject nameObject = new ParseObject("NameObject");
+        nameObject.put("Name", playerName);
+        nameObject.saveInBackground();
+    }
+
+    /**
+     * Create an intent.
+     */
+    public void createIntent(String playerName) {
+        Intent intent = new Intent(this, GameNameActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, playerName);
+        startActivity(intent);
     }
 }

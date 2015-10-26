@@ -9,7 +9,11 @@ import static org.junit.Assert.assertThat;
 public class GameControllerTest {
 
     @Test
-    public void twoPlusTwo() {
+    public void testTwoPlusTwo() {
         assertTrue(2+2 == 4);
     }
+    //@Test
+    //public void ILoveBigBrother() {
+    //    assertTrue(2+2 == 5);
+    //}
 }
