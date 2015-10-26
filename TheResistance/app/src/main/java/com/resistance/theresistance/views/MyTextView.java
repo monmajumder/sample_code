@@ -9,6 +9,8 @@ import android.widget.TextView;
  * Created by jwagner on 10/23/15.
  */
 public class MyTextView extends TextView {
+
+    //This comment is here to fix issue.
     public MyTextView(Context context) {
         super(context);
         init();
