@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     private static String playerName;
-    private static Intent intent;
     private static View alreadyExistsView;
 
     @Override
@@ -63,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     /** Called when user clicks the Send button after typing name */
     public void enterName(View view) {
         alreadyExistsView= (View) findViewById(R.id.sorry_use_another_name);
-        intent = new Intent(this, GameNameActivity.class);
         EditText editText = (EditText) findViewById(R.id.enter_name);
         playerName = editText.getText().toString();
 
@@ -75,11 +73,8 @@ public class MainActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("name", "The retrieval succeeded");
                     if (count <= 0) {
-                        ParseObject nameObject = new ParseObject("NameObject");
-                        nameObject.put("Name", playerName);
-                        nameObject.saveInBackground();
-                        intent.putExtra(EXTRA_MESSAGE, playerName);
-                        startActivity(intent);
+                        createNewParseNameObject(playerName);
+                        createIntent(playerName);
                     } else {
                         alreadyExistsView.setVisibility(View.VISIBLE);
                     }
@@ -88,5 +83,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Creates a new Parse object for player name.
+     * @param playerName
+     */
+    public void createNewParseNameObject(String playerName) {
+        ParseObject nameObject = new ParseObject("NameObject");
+        nameObject.put("Name", playerName);
+        nameObject.saveInBackground();
+    }
+
+    /**
+     * Create an intent.
+     */
+    public void createIntent(String playerName) {
+        Intent intent = new Intent(this, GameNameActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, playerName);
+        startActivity(intent);
     }
 }
