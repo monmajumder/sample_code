@@ -1,7 +1,11 @@
 package com.resistance.theresistance.logic;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.HashMap;
+=======
+import java.util.Random;
+>>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
 
 /**
  * Game class where players will be able to join a game
@@ -23,14 +27,23 @@ public class Game{
       WAITING, START, PLAYING //etc
    }
    State gameState;
+<<<<<<< HEAD
    
+=======
+
+    public enum PlayerType{
+        UNDECIDED, SPY, RESISTOR //etc
+    }
+   //enum gameState; Will add game states later
+
+>>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
    /**
     Creates Game object, with user-created keyword
     and a maximum numPlayers
     @param keyword, the keyword players will use to join the game
-    @param numPlayers the maximum number of players allowed
     in the game
     */
+<<<<<<< HEAD
    public Game(String host, String keyword, int numPlayers){
 
       this.keyword = keyword;
@@ -39,6 +52,16 @@ public class Game{
       gameState = State.WAITING; //some kind of gameState
       Player h = new Player(host);
       gameHost = new Host(h);
+=======
+   public Game (String keyword){ //Game now only takes a keyword - players are counted as they join the game
+
+      this.keyword = keyword;
+      this.numPlayers = 1; // this is the host
+      players = new ArrayList<Player>();
+      gameState = State.WAITING; //some kind of gameState
+
+      //Create a player object for the host right at the beginning of the game - game controller?
+>>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
    }
 
    /**
@@ -54,9 +77,12 @@ public class Game{
     Assigns all players the role of Resistor/Spy
     */
    public void chooseRoles(){
-      int res, spy;//number of resistors and spies for the game
+      int res, spy;
+
+      //number of resistors and spies for the game
       //setting resistance
       //setting spy
+
 
 
    }
@@ -79,8 +105,11 @@ public class Game{
     * Checks if the Game is ready to start
     * @return true if game is ready, false otherwise
     */
-   public boolean start(){
-      return gameState == State.START;
+   public boolean start() throws IllegalGameException {
+       if (numPlayers < 5 || numPlayers > 10) {
+           throw new IllegalGameException("The number of players is insufficient for gameplay.");
+       }
+       return gameState == State.START;
    }
 
    /**
@@ -98,4 +127,14 @@ public class Game{
       gameHost.host = players.get(0);
 
    }
+
+    public void incrementNumPlayers() { numPlayers++; }
+
+    //Helper Classes and Methods
+
+    public static class IllegalGameException extends Exception {
+        public IllegalGameException(String message) {
+            super (message);
+        }
+    }
 }

@@ -8,9 +8,15 @@ package com.resistance.theresistance.logic;
  */
 public class Player{
 
+<<<<<<< HEAD
    String username;
    String playerType;
    boolean isHost;
+=======
+String username;
+Game.PlayerType playerType;
+boolean isHost;
+>>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
 
 /**
 Creates a Player object
@@ -26,6 +32,7 @@ Creates a Player object
 Sets the player's type
 @param playerType, "Spy" or "Resistor" for type
 */
+<<<<<<< HEAD
    public void setType(String playerType){
       if (playerType != "Spy" && playerType != "Resistor"){
          //throw some illlegal exception here
@@ -33,6 +40,12 @@ Sets the player's type
       }
       this.playerType = playerType;
    }
+=======
+public Player(String username, Game.PlayerType playerType){
+    this.username = username;
+    this.playerType = playerType;
+}
+>>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
 
 
 /**
