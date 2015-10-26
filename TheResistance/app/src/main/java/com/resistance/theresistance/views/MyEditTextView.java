@@ -10,6 +10,7 @@ import android.widget.EditText;
  */
 public class MyEditTextView extends EditText {
 
+    //This comment is here to fix issue.
     public MyEditTextView(Context context) {
         super(context);
         init();
