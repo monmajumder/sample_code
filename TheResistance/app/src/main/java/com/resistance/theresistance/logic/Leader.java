@@ -30,11 +30,23 @@ Chooses the missionaries to go on the mission.
 @param numMiss the number of missionaries to choose
 @return ArrayList of the missionaries that will be going on the mission
 */
-public boolean chooseMissionaries(HashMap<String, Player> allPlayers,
+public ArrayList<Missionary> chooseMissionaries(HashMap<String, Player> allPlayers,
    int numMiss){
-   System.out.println("which players do you want to go for the mission?");
-   //DO SOMETHING HERE IN A SECOND, JUST GOING TO SEE HOW
-	return true;
+   ArrayList<Missionary> choices = new ArrayList<Missionary>();
+   //Have some kind of information from who the user clicks on to be passed here
+   //Then we can process the click information
+   //SOME KIND OF LOOP HERE
+   choices.add(allPlayers.get("1"));
+   //Checking to make sure they don't select the same person? or something
+   //along those lines.
+   if (allPlayers.get("2").equals(allPlayers.get("2"))){
+      //throw another exception here
+   }
+   if (choices.size() != numMiss){
+   //Throw some kind of exception here
+   }
+   
+	return choices;
 }
 
 /**
