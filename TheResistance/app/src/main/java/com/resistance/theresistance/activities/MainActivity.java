@@ -20,7 +20,7 @@ import com.resistance.theresistance.logic.GameController;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String EXTRA_MESSAGE = "come.resistance.theresistance.MESSAGE";
+    public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     private static String playerName;
     private static Intent intent;
     private static View alreadyExistsView;
@@ -35,13 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
-
         Parse.initialize(this, "C5sIm3CQ2cGgW7CbD7XTDb9Ji0uiw6ouYuXGoWBL", "lBdhDvJITQQqgXBrimKvMy36at4o3aa5hW75SYev");
-
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
-
     }
 
     @Override
@@ -87,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra(EXTRA_MESSAGE, playerName);
                         startActivity(intent);
                     } else {
-                        intent.putExtra(EXTRA_MESSAGE, "Name is taken.");
                         alreadyExistsView.setVisibility(View.VISIBLE);
                     }
                 } else {
