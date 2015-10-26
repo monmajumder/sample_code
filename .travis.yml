@@ -10,8 +10,9 @@ cache:
 
 android:
   components:
-    - platform-tools
-    - tools
+    # uncomment to use the latest version of system tools
+    # - platform-tools
+    # - tools
     
     # The BuildTools version used by your project
     - build-tools-21.1.1
