@@ -11,12 +11,9 @@ import android.widget.EditText;
 
 import com.parse.CountCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.resistance.theresistance.R;
-
-import com.parse.Parse;
-import com.parse.ParseObject;
-import com.resistance.theresistance.logic.GameController;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+        //This comment is here to fix issue.
         setContentView(R.layout.activity_main);
     }
 

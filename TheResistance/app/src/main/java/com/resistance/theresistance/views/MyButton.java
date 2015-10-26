@@ -10,6 +10,7 @@ import android.widget.Button;
  */
 public class MyButton extends Button {
 
+    //This comment is here to fix issue.
     public MyButton(Context context) {
         super(context);
         init();
