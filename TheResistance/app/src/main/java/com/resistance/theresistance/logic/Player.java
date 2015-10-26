@@ -9,7 +9,7 @@ package com.resistance.theresistance.logic;
 public class Player{
 
 String username;
-String playerType;
+Game.PlayerType playerType;
 boolean isHost;
 
 /**
@@ -17,9 +17,9 @@ Creates a Player object
 @param username, the player's username
 @param playerType, "Spy" or "Resistor" for type
 */
-public Player(String username, String playerType){
-this.username = username;
-this.playerType = "Spy"; //or Resistor depending on randomizer
+public Player(String username, Game.PlayerType playerType){
+    this.username = username;
+    this.playerType = playerType;
 }
 
 
