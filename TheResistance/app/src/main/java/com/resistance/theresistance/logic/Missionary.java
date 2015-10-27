@@ -1,15 +1,16 @@
 package com.resistance.theresistance.logic;
 
 /**
- * Class is responsible for giving Missionaries (Missionaries
- * are Players with additional functionality, but are constantly
- * changing) the ability to vote on Missions. Can change the
- * Missionary to another Player easily.
+ * Class is responsible for giving Missionaries the ability to vote on Missions.
+ * Missionaries are Players with additional functionality, but are constantly
+ * changing. Can change the Missionary to another Player easily.
  * @author Group 11
  *
  */
-public class Missionary{
-    Player player;
+
+public class Missionary {
+
+    private Player player;
 
     /**
      * Creates Missionary object
@@ -17,10 +18,12 @@ public class Missionary{
      */
     public Missionary (Player player){
         this.player = player;
-}
+    }
 
     /**
      * Missionary votes to pass/fail (true/false) the mission
+     * @param vote pass/fail (true/false respectively)
+     * @return the vote
      */
     public boolean voteForMission(boolean vote){
         return vote;
@@ -34,6 +37,10 @@ public class Missionary{
         this.player = player;
     }
 
+    /**
+     * Returns the player who is the missionary.
+     * @return player
+     */
     public Player getMissionary() {
         return this.player;
     }

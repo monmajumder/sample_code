@@ -8,11 +8,11 @@ package com.resistance.theresistance.logic;
  */
 public class Player {
 
-    String username;
-    PlayerType playerType;
+    private String username;
+    private PlayerType playerType;
 
     public enum PlayerType {
-        SPY, RESISTOR //etc
+        SPY, RESISTOR
     }
 
     /**
@@ -22,7 +22,7 @@ public class Player {
      */
     public Player(String username) {
         this.username = username;
-        //this.playerType = playerType; //spy or Resistor depending on randomizer
+        //playerType is based on randomizer, is decided later
     }
 
     /**
@@ -38,28 +38,33 @@ public class Player {
         this.playerType = type;
     }
 
+
     /**
-     * Player votes for missionaries - votes yes/no (true/false) for the
-     * leader-chosen mission team
+     * Player votes for missionaries
+     * @param vote yes/no (true or false respectively)
+     * @return vote the casted vote
      */
     public boolean voteForMissionaries(boolean vote) {
         return vote;
     }
 
-    /**
-     * Player votes yes or no for the missionaries chosen by the leader
-     */
-    public void voteForMissionaries() {
-    }
 
     //-----------------------------------------------
     // Getter and Setter Methods
     //-----------------------------------------------
 
+    /**
+     * Returns the user name
+     * @return the username of the player
+     */
     public String getUsername() {
         return this.username;
     }
 
+    /**
+     * Get the player type.
+     * @return the type of the player
+     */
     public PlayerType getPlayerType() {
         return this.playerType;
     }

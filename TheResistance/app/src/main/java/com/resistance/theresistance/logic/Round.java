@@ -13,20 +13,18 @@ import java.util.HashMap;
  */
 public class Round{
 
-	int mission;
-	Leader leader;
-	ArrayList<String> missionaries;//The current proposed Mission team of Missionaries
-	HashMap<String, Boolean> votes;// Stores each Player's username and their votes
-	
+    private int mission;
+	private Leader leader;
+	private ArrayList<String> missionaries;//The current proposed Mission team of Missionaries
+	private HashMap<String, Boolean> votes;// Stores each Player's username and their votes
+
     /**
-     * Creates Round object. A Round contains all of the
-     * Player voting on whether to approve the Players in
-     * each Mission team. If the team is not approved, a new Round
-     * object is created, but the Mission is still the same.
-     * @param mission, the mission number
+     * Creates Round object. A Round contains all of the player voting on whether to approve the
+     * missionaries. If the team is not approved, a new Round object is created, but the Mission
+     * remains the same.
+     * @param mission the mission number
      */
     public Round(int mission){
-
         this.mission = mission;
     }
 

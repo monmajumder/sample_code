@@ -1,54 +1,51 @@
 package com.resistance.theresistance.logic;
 
+//Will import these when Parse is used
 //import com.parse.GetCallback;
 //import com.parse.Parse;
 //import com.parse.ParseObject;
 //import com.parse.ParseQuery;
-
-import java.text.ParseException;
-import java.util.ArrayList;
 //import java.text.ParseException;
-
+import java.util.ArrayList;
 
 /**
  * GameController class is in charge of controlling the Game.
- * Deals with Game related functions such as starting/playing a Game
+ * Deals with Game related functions including starting and playing a Game.
  * @author Group 11
  *
  */
 public class GameController {
 
-    //temp games storage
+    //Temporarily stores the games, will eventually be replaced by Parse
     ArrayList<Game> games = new ArrayList<Game>();
 
-    /** Constructor */
+    /**
+     * Constructor for GameController.
+     */
     public GameController(){
     }
 
-   /**
-    * Creates a new game and initializes it
-    */
-   public void createGame (String user, String key){
-       //NEED PARSE STUFF TO GET ACCESS TO KEYWORD and player username - halp me candace
+    /**
+     * Creates a game.
+     * @param hostName Name of the host
+     * @param keyword Keyword of the game
+     */
+    public void createGame (String hostName, String keyword){
+       //Will eventually add Parse stuff to access and store GameObjects
 
-       String username, keyword;
+        Player creator = new Player(hostName);
+        Host host = new Host(creator);
 
-       username = user;
-       keyword = key;
+        Game newGame = new Game(keyword);
+        newGame.addPlayer(creator);
 
-       Player creator = new Player (username);
-       Host host = new Host(creator);
-
-       Game newGame = new Game(keyword);
-       newGame.addPlayer(creator);
-
-       //temp add game to the arraylist of games to store temporarily before parse is included in code
-       games.add(newGame);
-   }
+        //Temporarily add game to the arraylist of games before Parse is included in code
+        games.add(newGame);
+    }
 
     /**
-     * Returns games arraylist for testing purposes
-     * @return games
+     * Returns games arraylist for testing purposes before Parse is added
+     * @return games Arraylist of all games
      */
     public ArrayList<Game> getGames () {
         return this.games;
@@ -60,15 +57,19 @@ public class GameController {
     * an existing game
     */
    public void joinGame(String keyword){
-       //ACCESS GAME WITH KEYWORD via PARSE
+       Game game = new Game("temp");
+       //Query Parse to retrieve GameObject using keyword
 
-       Game game;
-
-       //this.game = parse.getgamewith(keyword);
-       game = new Game ("temp"); //get rid of this line
+       //Temporary method that finds the game in Arraylist of games (replace with Parse query)
+       for(Game oneGame: games) {
+           if (oneGame.getKeyword().equals(keyword)) {
+               game = oneGame;
+               break;
+           }
+       }
 
        //Create a player object for new game joiner
-       //Get player's username from parse
+       //Get player's username from Parse
        String username = "temp"; // get rid of this - for compilation purposes only
        Player newPlayer = new Player (username);
        game.addPlayer(newPlayer);

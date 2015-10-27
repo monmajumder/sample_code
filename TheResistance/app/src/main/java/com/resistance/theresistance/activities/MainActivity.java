@@ -15,12 +15,19 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.resistance.theresistance.R;
 
+/**
+ * Main Activity
+ */
 public class MainActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     private static String playerName;
     private static View alreadyExistsView;
 
+    /**
+     * Called on create
+     * @param savedInstanceState state of instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * Inflate the menu
+     * @param menu the menu
+     * @return true if successful
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -38,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Handles action bar item.
+     * @param item item that is called
+     * @return if no inspection, true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -53,7 +70,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /** Called when user clicks the Send button after typing name */
+    /**
+     * Called when user clicks the Send button after typing name
+     * @param view view that is called
+     */
     public void enterName(View view) {
         alreadyExistsView= (View) findViewById(R.id.sorry_use_another_name);
         EditText editText = (EditText) findViewById(R.id.enter_name);
@@ -81,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Creates a new Parse object for player name.
-     * @param playerName
+     * @param playerName name of the player
      */
     public void createNewParseNameObject(String playerName) {
         ParseObject nameObject = new ParseObject("NameObject");
@@ -90,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Create an intent.
+     * Create an intent
+     * @param playerName name of the user
      */
     public void createIntent(String playerName) {
         Intent intent = new Intent(this, GameNameActivity.class);
