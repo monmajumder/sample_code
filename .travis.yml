@@ -10,4 +10,4 @@ jdk:
 notifications:
   email: false
   
-script: cd <dir of android project>/ && ./gradlew build
+script: cd TheResistance && ./gradlew build
