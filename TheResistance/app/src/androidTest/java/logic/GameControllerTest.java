@@ -40,8 +40,6 @@ public class GameControllerTest {
         mygame = runningGames.get(0);
         //the game is new and should have only 1 player - the host
         assert(mygame.getNumPlayers() == 1);
-        //ensure that the player object is the host
-        assert(mygame.getPlayers().get(0).isHost());
         //ensure that the game keyword is correct
         assert(mygame.getKeyword() == "Monica's GameRoom");
         //make sure that the player's user name is group11

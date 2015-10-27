@@ -1,12 +1,13 @@
 package com.resistance.theresistance.logic;
 
-import com.parse.GetCallback;
-import com.parse.Parse;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+//import com.parse.GetCallback;
+//import com.parse.Parse;
+//import com.parse.ParseObject;
+//import com.parse.ParseQuery;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+//import java.text.ParseException;
 
 
 /**
@@ -22,12 +23,11 @@ public class GameController {
 
     /** Constructor */
     public GameController(){
-
     }
 
    /**
-   Creates a new Game, initializes it
-   */
+    * Creates a new game and initializes it
+    */
    public void createGame (String user, String key){
        //NEED PARSE STUFF TO GET ACCESS TO KEYWORD and player username - halp me candace
 
@@ -36,27 +36,29 @@ public class GameController {
        username = user;
        keyword = key;
 
-       Player creator = new Player (username, Player.PlayerType.UNDECIDED);
+       Player creator = new Player (username);
        Host host = new Host(creator);
-       creator.changeToHost();
 
-       Game newGame = new Game (keyword);
+       Game newGame = new Game(keyword);
        newGame.addPlayer(creator);
 
-       //temp add game to the arraylist of games to store temporarily before parse
+       //temp add game to the arraylist of games to store temporarily before parse is included in code
        games.add(newGame);
    }
 
-    //return games for testing purposes
+    /**
+     * Returns games arraylist for testing purposes
+     * @return games
+     */
     public ArrayList<Game> getGames () {
         return this.games;
     }
 
    /**
-   Adds a player to an existing game.
-   @param keyword, the keyword that is associated with
-      an existing game
-   */
+    * Adds a player to an existing game.
+    * @param keyword, the keyword that is associated with
+    * an existing game
+    */
    public void joinGame(String keyword){
        //ACCESS GAME WITH KEYWORD via PARSE
 
@@ -68,9 +70,8 @@ public class GameController {
        //Create a player object for new game joiner
        //Get player's username from parse
        String username = "temp"; // get rid of this - for compilation purposes only
-       Player newPlayer = new Player (username, Player.PlayerType.UNDECIDED);
+       Player newPlayer = new Player (username);
        game.addPlayer(newPlayer);
-       game.incrementNumPlayers();
    }
 
    /**
@@ -87,7 +88,6 @@ public class GameController {
        switch(numPlayers) {
            case 5:
        }
-
    }
 
    /**
@@ -95,7 +95,7 @@ public class GameController {
     * @param game the Game to be deleted
     */
    public void removeGame(Game game){
-
+       games.remove(game);
    }
 
 }

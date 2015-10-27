@@ -28,7 +28,8 @@ public Mission(Leader missionLeader, int missionNum, ArrayList<Round> stateHisto
 this.missionLeader = missionLeader;
 this.missionNum = missionNum;
 this.stateHistory = stateHistory;
-
+approved = false;
+success = false;
 }
 
 /**
@@ -46,6 +47,7 @@ Checks if the mission is approved or not
 public boolean isApproved(){
    return approved;
 }
+
 
 /**
    Generates a randomized mission leader

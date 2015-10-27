@@ -1,5 +1,6 @@
 package com.resistance.theresistance.logic;
 
+import java.util.HashMap;
 import java.util.ArrayList;
 
 /**
@@ -13,34 +14,46 @@ import java.util.ArrayList;
  */
 public class Leader{
 
-Player leader;
+    Player leader;
 
-/**
-Creates a Leader object using a player's fields
-@param leader the player that is the leader
-*/
-public Leader(Player leader){
-   this.leader = leader;
-}
+    /**
+     * Creates a Leader object using a player's fields
+     * @param leader the player that is the leader
+     */
 
-/**
-Chooses the missionaries to go on the mission.
-@param allPlayers, all the players in the game
-@param numMiss the number of missionaries to choose
-@return true if valid choices, false otherwise
-*/
-public boolean chooseMissionaries(ArrayList<Player> allPlayers,
-   int numMiss){
-	return true;
-}
+    public Leader(Player leader){
+        this.leader = leader;
+    }
 
-/**
-Changes the mission Leader to a new player
-@param username, the username of the player the 
+   /**
+    * Chooses the missionaries to go on the mission.
+    * @param allPlayers, an ArrayList of all the players in the game
+    * @param numMiss the number of missionaries to choose
+    * @return ArrayList of the missionaries that will be going on the mission
+    */
+   public ArrayList<Missionary> chooseMissionaries(ArrayList<Player> allPlayers, int numMiss) {
+       //temporary variables
+       ArrayList<Missionary> missionariesChosen = new ArrayList<Missionary>();
+       return missionariesChosen;
+   }
+
+   /**
+   Changes the mission Leader to a new player
+   @param newLeader, the player the
    Leader is being changed to
-*/
-public void changeLeader(String username){
-   leader.username = username;
-}
+   */
+   public void changeLeader(Player newLeader){
+      if (leader.equals(newLeader)){
+         //throw exception of leader is already here
+      }
+      leader = newLeader;
+   }
 
+    //---------------------------------
+    // Getter and setter methods
+    //---------------------------------
+
+    public Player getLeader() {
+        return leader;
+    }
 }

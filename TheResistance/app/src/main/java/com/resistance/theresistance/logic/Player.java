@@ -10,28 +10,40 @@ public class Player {
 
     String username;
     PlayerType playerType;
-    boolean isHost;
 
-    public enum PlayerType{
-        UNDECIDED, SPY, RESISTOR //etc
+    public enum PlayerType {
+        SPY, RESISTOR //etc
     }
 
     /**
      * Creates a Player object
      *
-     * @param username,  the player's username.
-     * @param playerType - Spy, Resistor, or Undecided
+     * @param username, the player's username
      */
-    public Player(String username, PlayerType playerType) {
+    public Player(String username) {
         this.username = username;
-        this.playerType = playerType;
+        //this.playerType = playerType; //spy or Resistor depending on randomizer
     }
 
     /**
-     * Changes the player's status to host
+     * Sets the player's type
+     *
+     * @param type, "Spy" or "Resistor" for type
      */
-    public void changeToHost() {
-        this.isHost = true;
+    public void setType(PlayerType type) {
+
+        if (type != PlayerType.SPY && type != PlayerType.RESISTOR) {
+            //throw some illegal exception here
+        }
+        this.playerType = type;
+    }
+
+    /**
+     * Player votes for missionaries - votes yes/no (true/false) for the
+     * leader-chosen mission team
+     */
+    public boolean voteForMissionaries(boolean vote) {
+        return vote;
     }
 
     /**
@@ -44,10 +56,11 @@ public class Player {
     // Getter and Setter Methods
     //-----------------------------------------------
 
-    public String getUsername() {return this.username;}
+    public String getUsername() {
+        return this.username;
+    }
 
-    public PlayerType getPlayerType() {return this.playerType;}
-
-    public boolean isHost() {return isHost;}
-
+    public PlayerType getPlayerType() {
+        return this.playerType;
+    }
 }
