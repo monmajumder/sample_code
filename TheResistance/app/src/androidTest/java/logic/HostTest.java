@@ -12,8 +12,8 @@ import org.junit.runner.RunWith;
 import org.junit.Test;
 
 /**
-Testing Host.
-*/
+ * Testing Host.
+ */
 @RunWith(Theories.class)
 public class HostTest {
 
@@ -22,9 +22,10 @@ public class HostTest {
     private interface Fixture {
         Host init(); 
     }
-   /**
-   Creates Host.
-   */
+
+    /**
+     * Creates Host.
+     */
     @DataPoint
     public static final Fixture hostObject = new Fixture() {
         public Host init() {
@@ -35,7 +36,8 @@ public class HostTest {
 
     /**
      * Verifies that the evictPlayer returns the player to be evicted.
-     **/
+     * @param fix Fixture to test
+     */
     @Theory public void testEvictPlayer(Fixture fix){
         Host b = fix.init();
         Player m = new Player("Mindy");

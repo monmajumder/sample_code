@@ -25,7 +25,7 @@ public class MissionaryTest {
 
    /**
     * Creates Missionary.
-    * */
+    */
    @DataPoint
    public static final Fixture Missionary = new Fixture() {
       public Missionary init() {
@@ -38,17 +38,19 @@ public class MissionaryTest {
    /**
     * Verifying that the Missionary can vote on mission
     * @param fix Fixture to test
-    * */
+    */
    @Theory public void testMissionaryVote(Fixture fix) {
       Missionary b = fix.init();
       boolean vote = b.voteForMission(true);
       assertEquals(vote, true);
    }
-   
+
    /**
     * Verifies that we can change the missionary that is chosen in the missionary object
+    * @param fix Fixture to test
     */
-   @Theory public void testChangeMissionary(Fixture fix){
+   @Theory
+   public void testChangeMissionary(Fixture fix){
       Player a = new Player("Andrew");
       Missionary b = fix.init();
       Missionary c = new Missionary(a);

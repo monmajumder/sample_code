@@ -8,23 +8,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Testing GameController.
+ */
 public class GameControllerTest {
 
-    /*
-     * Create New Game Testing
+    /**
+     * Create new game testing.
      */
-
-    public enum PlayerType {UNDECIDED}
-
-    @Test
-    public void testTwoPlusTwo() {
-        assertTrue(2+2 == 4);
-    }
-    //@Test
-    //public void ILoveBigBrother() {
-    //    assertTrue(2+2 == 5);
-    //}
-
     @Test
     public void testNewGameCreation() {
         String myusername, gamekey;

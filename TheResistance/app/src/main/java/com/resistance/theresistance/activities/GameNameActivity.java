@@ -17,6 +17,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.resistance.theresistance.R;
 
+/**
+ * Game Name Activity
+ */
 public class GameNameActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
@@ -25,6 +28,10 @@ public class GameNameActivity extends AppCompatActivity {
     private static View existsView;
     private static View secondView;
 
+    /**
+     * Called on create
+     * @param savedInstanceState state of instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +47,10 @@ public class GameNameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_name);
     }
 
-    /** Called when user presses create button */
+    /**
+     * Called when a user clicks create game
+     * @param view View that is called
+     */
     public void createGame(View view) {
         existsView= (View) findViewById(R.id.sorry_use_another_name);
         secondView = (View) findViewById(R.id.name_doesnt_exist);
@@ -69,7 +79,10 @@ public class GameNameActivity extends AppCompatActivity {
         });
     }
 
-    /** Called when user presses join button */
+    /**
+     * Called when a user clicks join game.
+     * @param view the view that is called
+     */
     public void joinGame(View view) {
         existsView= (View) findViewById(R.id.name_doesnt_exist);
         secondView= (View) findViewById(R.id.sorry_use_another_name);
@@ -98,7 +111,7 @@ public class GameNameActivity extends AppCompatActivity {
 
     /**
      * Creates a new Parse object for game name.
-     * @param gameName
+     * @param gameName name of the game
      */
     public void createNewParseGameObject(String gameName) {
         ParseObject nameObject = new ParseObject("GameObject");
@@ -107,7 +120,8 @@ public class GameNameActivity extends AppCompatActivity {
     }
 
     /**
-     * Create an intent.
+     * Create an intent
+     * @param gameName name of the game
      */
     public void createIntent(String gameName) {
         Intent intent = new Intent(this, GameActivity.class);

@@ -11,8 +11,15 @@ import android.widget.TextView;
 
 import com.resistance.theresistance.R;
 
+/**
+ * Game Activity
+ */
 public class GameActivity extends AppCompatActivity {
 
+    /**
+     * Called on create
+     * @param savedInstanceState state of instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

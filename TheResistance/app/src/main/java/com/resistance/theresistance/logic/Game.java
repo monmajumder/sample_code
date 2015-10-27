@@ -13,11 +13,11 @@ import java.util.Random;
  */
 public class Game {
 
-    String keyword;
-    int numPlayers;
-    Host gameHost;
-    ArrayList<Player> players;
-    ArrayList<Mission> missions;
+    private String keyword;
+    private int numPlayers;
+    private Host gameHost;
+    private ArrayList<Player> players;
+    private ArrayList<Mission> missions;
 
     /**
      * Defines the states that a game can be in
@@ -28,13 +28,14 @@ public class Game {
     State gameState;
 
     /**
-     * Creates Game object, with user-created keyword
-     * @param keyword, the unique identifier for the game that players will use to join a game
+     * Creates Game object, with user-inputted keyword
+     * @param keyword, the unique identifier for a game
      */
     public Game(String keyword) {
         this.keyword = keyword;
-        players = new ArrayList<Player>();
-        gameState = State.WAITING_FOR_PLAYERS;
+        this.numPlayers = 1;
+        this.players = new ArrayList<Player>();
+        this.gameState = State.WAITING_FOR_PLAYERS;
     }
 
     /**
@@ -72,10 +73,11 @@ public class Game {
    public void getHistory(){
    }
 
-   /**
-    * Checks if the Game is ready to start
-    * @return true if game is ready, false otherwise
-    */
+    /**
+     * Checks if the Game is ready to start
+     * @return true if game is ready, false otherwise
+     * @throws IllegalGameException if number of players is wrong
+     */
    public boolean start() throws IllegalGameException {
        if (numPlayers < 5 || numPlayers > 10) {
            throw new IllegalGameException("The number of players is insufficient for gameplay.");
@@ -94,7 +96,7 @@ public class Game {
     * Changes the Game's host
     */
    public void changeHost(){
-       gameHost.host = players.get(0);
+       gameHost.setHost(players.get(0)); //If host leaves, the longest tenured player becomes host.
    }
 
     //-----------------------------------------------

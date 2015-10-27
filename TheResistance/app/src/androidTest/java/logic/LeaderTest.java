@@ -35,9 +35,10 @@ public class LeaderTest {
            return new Leader(p);
        }
    };
-   
+
    /**
     * Verifying that the changeLeader method changes the Leader.
+    * @param fix Fixture to test
     */
    @Theory public void testChangeLeader(Fixture fix){
       Player a = new Player("Andrew");
