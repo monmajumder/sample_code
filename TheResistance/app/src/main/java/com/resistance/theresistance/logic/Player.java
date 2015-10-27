@@ -11,6 +11,9 @@ public class Player {
     private String username;
     private PlayerType playerType;
 
+    /**
+     * Describes the player type, spy or resistor
+     */
     public enum PlayerType {
         SPY, RESISTOR
     }
