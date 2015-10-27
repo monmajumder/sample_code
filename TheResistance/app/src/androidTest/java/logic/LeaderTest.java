@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.junit.Test;
 
 /**
-Testing PriorityQueue.
+Testing Leader.
 */
 @RunWith(Theories.class)
 public class LeaderTest {
@@ -23,7 +23,7 @@ public class LeaderTest {
       Leader init(); 
    }
    /**
-   Creates BinaryHeapPriorityQueue.
+   Creates Leader.
    */
    @DataPoint
     public static final Fixture hostObject = 

@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.junit.Test;
 
 /**
-Testing PriorityQueue.
+Testing Missionary.
 */
 @RunWith(Theories.class)
 public class MissionaryTest {
@@ -21,7 +21,7 @@ public class MissionaryTest {
       Missionary init(); 
    }
    /**
-   Creates BinaryHeapPriorityQueue.
+   Creates Missionary.
    */
    @DataPoint
     public static final Fixture hostObject = 

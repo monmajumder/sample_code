@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.Test;
 
 /**
-Testing PriorityQueue.
+Testing Host.
 */
 @RunWith(Theories.class)
 public class HostTest {
@@ -22,7 +22,7 @@ public class HostTest {
         Host init(); 
     }
    /**
-   Creates BinaryHeapPriorityQueue.
+   Creates Host.
    */
     @DataPoint
     public static final Fixture hostObject = new Fixture() {

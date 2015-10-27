@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.Test;
 
 /**
-Testing PriorityQueue.
+Testing Player.
 */
 @RunWith(Theories.class)
 public class PlayerTest {
@@ -22,7 +22,7 @@ public class PlayerTest {
         Player init(); 
     }
    /**
-   Creates BinaryHeapPriorityQueue.
+   Creates Player.
    */
     @DataPoint
     public static final Fixture hostObject = new Fixture() {
