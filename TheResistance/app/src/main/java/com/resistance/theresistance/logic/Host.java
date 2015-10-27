@@ -17,6 +17,7 @@ public class Host{
  */
 public Host(Player host){
 	this.host = host;
+   host.isHost = true;
 }
 
 /**

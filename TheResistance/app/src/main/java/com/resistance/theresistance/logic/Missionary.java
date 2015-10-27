@@ -21,10 +21,10 @@ public Missionary(Player player){
 }
 
 /**
- * Missionary votes to pass/fail the mission
+ * Missionary votes to pass/fail (true/false) the mission
  */
-public void voteForMission(){
-	
+public boolean voteForMission(boolean vote){
+	return vote;
 }
 
 /**
@@ -32,7 +32,7 @@ public void voteForMission(){
  * @param player the player to become a Missionary
  */
 public void changeMissionary(Player player){
-	
+   this.player = player;	
 }
 
 }

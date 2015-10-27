@@ -1,7 +1,11 @@
 package com.resistance.theresistance.logic;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
+import java.util.HashMap;
+=======
 import java.util.Random;
+>>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
 
 /**
  * Game class where players will be able to join a game
@@ -17,23 +21,38 @@ public class Game{
    Host gameHost;
    //assume arraylist is storing players in order of them joining the game
    //so oldest player will be the player in slot 0
-   ArrayList<Player> players;
+   //ArrayList<Player> players;
+   HashMap<String, Player> players;
    public enum State{
       WAITING, START, PLAYING //etc
    }
    State gameState;
+<<<<<<< HEAD
+   
+=======
 
     public enum PlayerType{
         UNDECIDED, SPY, RESISTOR //etc
     }
    //enum gameState; Will add game states later
 
+>>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
    /**
     Creates Game object, with user-created keyword
     and a maximum numPlayers
     @param keyword, the keyword players will use to join the game
     in the game
     */
+<<<<<<< HEAD
+   public Game(String host, String keyword, int numPlayers){
+
+      this.keyword = keyword;
+      this.numPlayers = numPlayers;
+      players = new HashMap<String, Player>();
+      gameState = State.WAITING; //some kind of gameState
+      Player h = new Player(host);
+      gameHost = new Host(h);
+=======
    public Game (String keyword){ //Game now only takes a keyword - players are counted as they join the game
 
       this.keyword = keyword;
@@ -42,6 +61,7 @@ public class Game{
       gameState = State.WAITING; //some kind of gameState
 
       //Create a player object for the host right at the beginning of the game - game controller?
+>>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
    }
 
    /**
@@ -78,7 +98,7 @@ public class Game{
     * @param player, the Player to add to the game
     */
    public void addPlayer(Player player){
-      players.add(player);
+      players.put(player.username, player);
    }
 
    /**
@@ -96,7 +116,7 @@ public class Game{
     * Restarts/resets the game.
     */
    public void restart(){
-      //some code of some sort
+      //what?
       gameState = State.WAITING;//which game state?
    }
 

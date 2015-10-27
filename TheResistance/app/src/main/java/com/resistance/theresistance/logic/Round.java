@@ -12,7 +12,8 @@ import java.util.HashMap;
  *
  */
 public class Round{
-
+   
+   int mission;
 	String leader;
 	ArrayList<String> missionaries;//The current proposed Mission team of Missionaries
 	HashMap<String, Boolean> votes;// Stores each Player's username and their votes
@@ -22,9 +23,10 @@ public class Round{
  * Player voting on whether to approve the Players in 
  * each Mission team. If the team is not approved, a new Round
  * object is created, but the Mission is still the same.
+ * @param mission, the mission number
  */
-public Round(){
-	
+public Round(int mission){
+	this.mission = mission;
 }
 
 /**
@@ -32,6 +34,8 @@ public Round(){
  * @param newLeader the name of the new leader
  */
 public void setLeader(String newLeader){
+   this.mission.leader = newLeader;
+   leader = newLeader;
 }
 
 /**
@@ -39,7 +43,7 @@ public void setLeader(String newLeader){
  * @param missionaries the new chosen missionaries to be set
  */
 public void setMissionaries(ArrayList<String> missionaries){
-	
+	this.missionaries = missionaries;
 }
 
 /**
@@ -47,7 +51,7 @@ public void setMissionaries(ArrayList<String> missionaries){
  * @param votes the hashmap of player's and votes
  */
 public void setVotes(HashMap<String, Boolean> votes){
-	
+   this.votes = votes;	
 }
 	
 }
