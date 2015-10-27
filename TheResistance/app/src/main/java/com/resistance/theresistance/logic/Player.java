@@ -6,28 +6,48 @@ package com.resistance.theresistance.logic;
  * @author Group 11
  *
  */
-public class Player{
+public class Player {
 
-String username;
-Game.PlayerType playerType;
-boolean isHost;
+    String username;
+    PlayerType playerType;
+    boolean isHost;
 
-/**
-Creates a Player object
-@param username, the player's username
-@param playerType, "Spy" or "Resistor" for type
-*/
-public Player(String username, Game.PlayerType playerType){
-    this.username = username;
-    this.playerType = playerType;
-}
+    public enum PlayerType{
+        UNDECIDED, SPY, RESISTOR //etc
+    }
 
+    /**
+     * Creates a Player object
+     *
+     * @param username,  the player's username.
+     * @param playerType - Spy, Resistor, or Undecided
+     */
+    public Player(String username, PlayerType playerType) {
+        this.username = username;
+        this.playerType = playerType;
+    }
 
-/**
-Player votes for missionaries - votes yes/no for the
-leader-chosen mission team
-*/
-public void voteForMissionaries(){
-}
+    /**
+     * Changes the player's status to host
+     */
+    public void changeToHost() {
+        this.isHost = true;
+    }
+
+    /**
+     * Player votes yes or no for the missionaries chosen by the leader
+     */
+    public void voteForMissionaries() {
+    }
+
+    //-----------------------------------------------
+    // Getter and Setter Methods
+    //-----------------------------------------------
+
+    public String getUsername() {return this.username;}
+
+    public PlayerType getPlayerType() {return this.playerType;}
+
+    public boolean isHost() {return isHost;}
 
 }

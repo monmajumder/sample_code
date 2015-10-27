@@ -6,6 +6,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 
 
 /**
@@ -16,6 +17,9 @@ import java.text.ParseException;
  */
 public class GameController {
 
+    //temp games storage
+    ArrayList<Game> games = new ArrayList<Game>();
+
     /** Constructor */
     public GameController(){
 
@@ -24,14 +28,29 @@ public class GameController {
    /**
    Creates a new Game, initializes it
    */
-   public void createGame (){
+   public void createGame (String user, String key){
        //NEED PARSE STUFF TO GET ACCESS TO KEYWORD and player username - halp me candace
-       String username = "temp";
-       String keyword = "temp";
-       Host host = new Host(new Player (username, Game.PlayerType.UNDECIDED));
+
+       String username, keyword;
+
+       username = user;
+       keyword = key;
+
+       Player creator = new Player (username, Player.PlayerType.UNDECIDED);
+       Host host = new Host(creator);
+       creator.changeToHost();
 
        Game newGame = new Game (keyword);
+       newGame.addPlayer(creator);
+
+       //temp add game to the arraylist of games to store temporarily before parse
+       games.add(newGame);
    }
+
+    //return games for testing purposes
+    public ArrayList<Game> getGames () {
+        return this.games;
+    }
 
    /**
    Adds a player to an existing game.
@@ -49,7 +68,7 @@ public class GameController {
        //Create a player object for new game joiner
        //Get player's username from parse
        String username = "temp"; // get rid of this - for compilation purposes only
-       Player newPlayer = new Player (username, Game.PlayerType.UNDECIDED);
+       Player newPlayer = new Player (username, Player.PlayerType.UNDECIDED);
        game.addPlayer(newPlayer);
        game.incrementNumPlayers();
    }

@@ -10,7 +10,7 @@ import java.util.Random;
  * @author Group 11
  *
  */
-public class Game{
+public class Game {
 
    String keyword;
    int numPlayers;
@@ -22,10 +22,6 @@ public class Game{
       WAITING, START, PLAYING //etc
    }
    State gameState;
-
-    public enum PlayerType{
-        UNDECIDED, SPY, RESISTOR //etc
-    }
    //enum gameState; Will add game states later
 
    /**
@@ -35,22 +31,9 @@ public class Game{
     in the game
     */
    public Game (String keyword){ //Game now only takes a keyword - players are counted as they join the game
-
       this.keyword = keyword;
-      this.numPlayers = 1; // this is the host
       players = new ArrayList<Player>();
       gameState = State.WAITING; //some kind of gameState
-
-      //Create a player object for the host right at the beginning of the game - game controller?
-   }
-
-   /**
-    Gets the number of players in the game
-    @return numPlayers the number of players
-    in the game
-    */
-   public int getNumPlayers(){
-      return numPlayers;
    }
 
    /**
@@ -62,9 +45,6 @@ public class Game{
       //number of resistors and spies for the game
       //setting resistance
       //setting spy
-
-
-
    }
 
    /**
@@ -117,4 +97,18 @@ public class Game{
             super (message);
         }
     }
+
+    //-----------------------------------------------
+    // Getter and Setter Methods
+    //-----------------------------------------------
+
+    public String getKeyword() {return this.keyword;}
+
+    public int getNumPlayers() {return this.numPlayers;}
+
+    public Host getGameHost(){return gameHost;}
+
+    public ArrayList<Player> getPlayers() {return this.players;}
+
+    public State getGameState() {return gameState;}
 }
