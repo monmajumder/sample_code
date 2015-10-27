@@ -14,52 +14,46 @@ import java.util.ArrayList;
  */
 public class Leader{
 
-Player leader;
+    Player leader;
 
-/**
-Creates a Leader object using a player's fields
-@param leader the player that is the leader
-*/
-public Leader(Player leader){
-   this.leader = leader;
-}
+    /**
+     * Creates a Leader object using a player's fields
+     * @param leader the player that is the leader
+     */
 
-/**
-Chooses the missionaries to go on the mission.
-@param allPlayers, all the players in the game
-@param numMiss the number of missionaries to choose
-@return ArrayList of the missionaries that will be going on the mission
-*/
-public ArrayList<Missionary> chooseMissionaries(HashMap<String, Player> allPlayers,
-   int numMiss){
-   ArrayList<Missionary> choices = new ArrayList<Missionary>();
-   //Have some kind of information from who the user clicks on to be passed here
-   //Then we can process the click information
-   //SOME KIND OF LOOP HERE
-   choices.add(allPlayers.get("1"));
-   //Checking to make sure they don't select the same person? or something
-   //along those lines.
-   if (allPlayers.get("2").equals(allPlayers.get("2"))){
-      //throw another exception here
+    public Leader(Player leader){
+        this.leader = leader;
+    }
+
+   /**
+    * Chooses the missionaries to go on the mission.
+    * @param allPlayers, an ArrayList of all the players in the game
+    * @param numMiss the number of missionaries to choose
+    * @return ArrayList of the missionaries that will be going on the mission
+    */
+   public ArrayList<Missionary> chooseMissionaries(ArrayList<Player> allPlayers, int numMiss) {
+       //temporary variables
+       ArrayList<Missionary> missionariesChosen = new ArrayList<Missionary>();
+       return missionariesChosen;
    }
-   if (choices.size() != numMiss){
-   //Throw some kind of exception here
-   }
-   
-	return choices;
-}
 
-/**
-Changes the mission Leader to a new player
-@param player, the player the 
+   /**
+   Changes the mission Leader to a new player
+   @param newLeader, the player the
    Leader is being changed to
-*/
-public void changeLeader(Player newLeader){
-   if (leader.equals(newLeader)){
-      //throw exception of leader is already here
+   */
+   public void changeLeader(Player newLeader){
+      if (leader.equals(newLeader)){
+         //throw exception of leader is already here
+      }
+      leader = newLeader;
    }
-   leader = newLeader;
-   
-}
 
+    //---------------------------------
+    // Getter and setter methods
+    //---------------------------------
+
+    public Player getLeader() {
+        return leader;
+    }
 }

@@ -1,11 +1,8 @@
 package com.resistance.theresistance.logic;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.HashMap;
-=======
 import java.util.Random;
->>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
 
 /**
  * Game class where players will be able to join a game
@@ -14,91 +11,65 @@ import java.util.Random;
  * @author Group 11
  *
  */
-public class Game{
+public class Game {
 
-   String keyword;
-   int numPlayers;
-   Host gameHost;
-   //assume arraylist is storing players in order of them joining the game
-   //so oldest player will be the player in slot 0
-   //ArrayList<Player> players;
-   HashMap<String, Player> players;
-   public enum State{
-      WAITING, START, PLAYING //etc
-   }
-   State gameState;
-<<<<<<< HEAD
-   
-=======
+    String keyword;
+    int numPlayers;
+    Host gameHost;
+    ArrayList<Player> players;
+    ArrayList<Mission> missions;
 
-    public enum PlayerType{
-        UNDECIDED, SPY, RESISTOR //etc
+    /**
+     * Defines the states that a game can be in
+     */
+    public enum State {
+        WAITING_FOR_PLAYERS, START, MISSION_LEADER_CHOOSING, MISSIONARIES_VOTING, RESISTANCE_WINS, SPIES_WIN
     }
-   //enum gameState; Will add game states later
+    State gameState;
 
->>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
-   /**
-    Creates Game object, with user-created keyword
-    and a maximum numPlayers
-    @param keyword, the keyword players will use to join the game
-    in the game
+    /**
+     * Creates Game object, with user-created keyword
+     * @param keyword, the unique identifier for the game that players will use to join a game
+     */
+    public Game(String keyword) {
+        this.keyword = keyword;
+        players = new ArrayList<Player>();
+        gameState = State.WAITING_FOR_PLAYERS;
+    }
+
+    /**
+     * Adds a Player to the game
+     * @param player, the Player to add to the game
+     */
+    public void addPlayer(Player player){
+        players.add(player);
+        numPlayers++;
+    }
+
+    /**
+    * Assigns all players the role of Resistor or Spy
     */
-<<<<<<< HEAD
-   public Game(String host, String keyword, int numPlayers){
+    public void setPlayerType(){
 
-      this.keyword = keyword;
-      this.numPlayers = numPlayers;
-      players = new HashMap<String, Player>();
-      gameState = State.WAITING; //some kind of gameState
-      Player h = new Player(host);
-      gameHost = new Host(h);
-=======
-   public Game (String keyword){ //Game now only takes a keyword - players are counted as they join the game
+        int res, spy;
+        //number of resistors and spies for the game
+        // setting resistance
+        // setting spy
+    }
 
-      this.keyword = keyword;
-      this.numPlayers = 1; // this is the host
-      players = new ArrayList<Player>();
-      gameState = State.WAITING; //some kind of gameState
-
-      //Create a player object for the host right at the beginning of the game - game controller?
->>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
-   }
+    /**
+     * Returns number of missionaries that need to be chosen in the current mission
+     * @return numMissionaries
+     */
+    public int getNumMissionaries() {
+        int temp = 1;
+        return temp;
+    }
 
    /**
-    Gets the number of players in the game
-    @return numPlayers the number of players
-    in the game
-    */
-   public int getNumPlayers(){
-      return numPlayers;
-   }
-
-   /**
-    Assigns all players the role of Resistor/Spy
-    */
-   public void chooseRoles(){
-      int res, spy;
-
-      //number of resistors and spies for the game
-      //setting resistance
-      //setting spy
-
-
-
-   }
-
-   /**
-    Gets all of the mission's vote history
+    * Gets all of the mission's vote history
     */
    public void getHistory(){
-   }
-
-   /**
-    * Adds a Player to the game
-    * @param player, the Player to add to the game
-    */
-   public void addPlayer(Player player){
-      players.put(player.username, player);
    }
 
    /**
@@ -113,28 +84,43 @@ public class Game{
    }
 
    /**
-    * Restarts/resets the game.
+    * Restarts the game.
     */
    public void restart(){
-      //what?
-      gameState = State.WAITING;//which game state?
+      gameState = State.WAITING_FOR_PLAYERS;
    }
 
    /**
     * Changes the Game's host
     */
    public void changeHost(){
-      gameHost.host = players.get(0);
-
+       gameHost.host = players.get(0);
    }
 
-    public void incrementNumPlayers() { numPlayers++; }
+    //-----------------------------------------------
+    // Helper Methods
+    //-----------------------------------------------
 
-    //Helper Classes and Methods
-
+    /**
+     * Illegal Game Exception - throws an exception when the preconditions
+     */
     public static class IllegalGameException extends Exception {
         public IllegalGameException(String message) {
             super (message);
         }
     }
+
+    //-----------------------------------------------
+    // Getter and Setter Methods
+    //-----------------------------------------------
+
+    public String getKeyword() {return this.keyword;}
+
+    public int getNumPlayers() {return this.numPlayers;}
+
+    public Host getGameHost(){return this.gameHost;}
+
+    public ArrayList<Player> getPlayers() {return this.players;}
+
+    public State getGameState() {return gameState;}
 }
