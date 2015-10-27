@@ -6,62 +6,69 @@ package com.resistance.theresistance.logic;
  * @author Group 11
  *
  */
-public class Player{
+public class Player {
 
-<<<<<<< HEAD
-   String username;
-   String playerType;
-   boolean isHost;
-=======
-String username;
-Game.PlayerType playerType;
-boolean isHost;
->>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
+    private String username;
+    private PlayerType playerType;
 
-/**
-Creates a Player object
-@param username, the player's username
-*/
-   public Player(String username){
-      this.username = username;
-      isHost = false;
-      //this.playerType = playerType; //spy or Resistor depending on randomizer
-   }
-   
-/**
-Sets the player's type
-@param playerType, "Spy" or "Resistor" for type
-*/
-<<<<<<< HEAD
-   public void setType(String playerType){
-      if (playerType != "Spy" && playerType != "Resistor"){
-         //throw some illlegal exception here
-         
-      }
-      this.playerType = playerType;
-   }
-=======
-public Player(String username, Game.PlayerType playerType){
-    this.username = username;
-    this.playerType = playerType;
-}
->>>>>>> 18833d2608f1e4e2f37852b420050c1729e018a7
+    /**
+     * Describes the player type, spy or resistor
+     */
+    public enum PlayerType {
+        SPY, RESISTOR
+    }
+
+    /**
+     * Creates a Player object
+     *
+     * @param username, the player's username
+     */
+    public Player(String username) {
+        this.username = username;
+        //playerType is based on randomizer, is decided later
+    }
+
+    /**
+     * Sets the player's type
+     *
+     * @param type, "Spy" or "Resistor" for type
+     */
+    public void setType(PlayerType type) {
+
+        if (type != PlayerType.SPY && type != PlayerType.RESISTOR) {
+            //throw some illegal exception here
+        }
+        this.playerType = type;
+    }
 
 
-/**
-Player votes for missionaries - votes yes/no (true/false) for the
-leader-chosen mission team
-*/
-   public boolean voteForMissionaries(boolean vote){
-      return vote;
-   }
-   
-/**
-Checks if the player is a host
-@return true if host, false otherwise
-*/
-   public boolean isHost(){
-      return isHost;
-   }
+    /**
+     * Player votes for missionaries
+     * @param vote yes/no (true or false respectively)
+     * @return vote the casted vote
+     */
+    public boolean voteForMissionaries(boolean vote) {
+        return vote;
+    }
 
+
+    //-----------------------------------------------
+    // Getter and Setter Methods
+    //-----------------------------------------------
+
+    /**
+     * Returns the user name
+     * @return the username of the player
+     */
+    public String getUsername() {
+        return this.username;
+    }
+
+    /**
+     * Get the player type.
+     * @return the type of the player
+     */
+    public PlayerType getPlayerType() {
+        return this.playerType;
+    }
 }

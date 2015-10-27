@@ -1,6 +1,7 @@
 package com.resistance.theresistance.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Mission class is in charge of all things mission related.
@@ -9,60 +10,63 @@ import java.util.ArrayList;
  * @author Group 11
  *
  */
+
 public class Mission{
 
-Leader missionLeader;
-int missionNum;
-boolean success;//if the players voted yes/no for the mission
-boolean approved;//if the mission is approved (only if success == true)
-ArrayList<Round> stateHistory;
-ArrayList<Missionary> missionaries;
+    private Leader missionLeader;
+    private int missionNum;
+    private boolean success;//if the players voted yes/no for the mission
+    private boolean approved;//if the mission is approved
+    private ArrayList<Round> stateHistory;
+    private ArrayList<Missionary> missionaries;
 
-/**
-Creates a mission object
-@param missionLeader, the leader of the mission
-@param missionNum the mission number
-@param stateHistory, all the player's votes
-*/
-public Mission(Leader missionLeader, int missionNum, ArrayList<Round> stateHistory){
-this.missionLeader = missionLeader;
-this.missionNum = missionNum;
-this.stateHistory = stateHistory;
-approved = false;
-success = false;
-}
-
-/**
-Gets the mission number
-@return missionNum, the number of the mission
-*/
-public int getMissionNumber(){
-   return missionNum;
-}
-
-/**
-Checks if the mission is approved or not
-@return approved true if approved, false if not approved
-*/
-public boolean isApproved(){
-   return approved;
-}
-
-
-/**
-   Generates a randomized mission leader
-   @param numPlayers the number of players in the game
-   */
-   public void createRandomMissionLeader(int numPlayers){
+   /**
+    * Creates a mission object
+    * @param missionLeader the object for the leader of the mission, in charge of choosing missionaries
+    * @param missionNum the mission number
+    * @param stateHistory keeps track of all players votes
+    */
+   public Mission(Leader missionLeader, int missionNum, ArrayList<Round> stateHistory){
+       this.missionLeader = missionLeader;
+       this.missionNum = missionNum;
+       this.stateHistory = stateHistory;
+       this.approved = false;
+       this.success = false;
    }
 
-/**
-Changes the mission Leader to a new player
-@param newLeader is Player that will be the new
-   mission Leader
-*/
-public void changeLeader(Leader newLeader){
-   this.missionLeader = newLeader;
-}
+    /**
+     * Gets the mission number
+     * @return missionNum the mission number
+     */
+    public int getMissionNumber(){
+        return missionNum;
+    }
+
+    /**
+     * Checks if the mission is approved
+     * @return approved is true if the mission is approved, false if not
+     */
+    public boolean isApproved(){
+        return approved;
+    }
+
+    /**
+     * Generates the number of a random mission leader.
+     * @param numPlayers the number of players in the game
+     * @return newLeader the number of the new mission leader
+     */
+    public int createRandomMissionLeader(int numPlayers){
+        Random rn = new Random();
+        int newLeader = rn.nextInt(numPlayers);
+        return newLeader;
+    }
+
+    /**
+     * Changes the mission leader to a new player.
+     * @param newLeader player that is the new mission leader
+     */
+    public void changeLeader(Leader newLeader){
+        this.missionLeader = newLeader;
+    }
 
 }

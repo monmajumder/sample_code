@@ -1,57 +1,78 @@
 package com.resistance.theresistance.logic;
 
+//Will import these when Parse is used
 //import com.parse.GetCallback;
 //import com.parse.Parse;
 //import com.parse.ParseObject;
 //import com.parse.ParseQuery;
-
 //import java.text.ParseException;
-
+import java.util.ArrayList;
 
 /**
  * GameController class is in charge of controlling the Game.
- * Deals with Game related functions such as starting/playing a Game
+ * Deals with Game related functions including starting and playing a Game.
  * @author Group 11
  *
  */
 public class GameController {
 
-    /** Constructor */
-    public GameController(){
+    //Temporarily stores the games, will eventually be replaced by Parse
+    ArrayList<Game> games = new ArrayList<Game>();
 
+    /**
+     * Constructor for GameController.
+     */
+    public GameController(){
+    }
+
+    /**
+     * Creates a game.
+     * @param hostName Name of the host
+     * @param keyword Keyword of the game
+     */
+    public void createGame (String hostName, String keyword){
+       //Will eventually add Parse stuff to access and store GameObjects
+
+        Player creator = new Player(hostName);
+        Host host = new Host(creator);
+
+        Game newGame = new Game(keyword);
+        newGame.addPlayer(creator);
+
+        //Temporarily add game to the arraylist of games before Parse is included in code
+        games.add(newGame);
+    }
+
+    /**
+     * Returns games arraylist for testing purposes before Parse is added
+     * @return games Arraylist of all games
+     */
+    public ArrayList<Game> getGames () {
+        return this.games;
     }
 
    /**
-   Creates a new Game, initializes it
-   */
-   public void createGame (){
-       //NEED PARSE STUFF TO GET ACCESS TO KEYWORD and player username - halp me candace
-       String username = "temp";
-       String keyword = "temp";
-       Host host = new Host(new Player (username, Game.PlayerType.UNDECIDED));
-
-       Game newGame = new Game (keyword);
-   }
-
-   /**
-   Adds a player to an existing game.
-   @param keyword, the keyword that is associated with
-      an existing game
-   */
+    * Adds a player to an existing game.
+    * @param keyword, the keyword that is associated with
+    * an existing game
+    */
    public void joinGame(String keyword){
-       //ACCESS GAME WITH KEYWORD via PARSE
+       Game game = new Game("temp");
+       //Query Parse to retrieve GameObject using keyword
 
-       Game game;
-
-       //this.game = parse.getgamewith(keyword);
-       game = new Game ("temp"); //get rid of this line
+       //Temporary method that finds the game in Arraylist of games (replace with Parse query)
+       for(Game oneGame: games) {
+           if (oneGame.getKeyword().equals(keyword)) {
+               game = oneGame;
+               break;
+           }
+       }
 
        //Create a player object for new game joiner
-       //Get player's username from parse
+       //Get player's username from Parse
        String username = "temp"; // get rid of this - for compilation purposes only
-       Player newPlayer = new Player (username, Game.PlayerType.UNDECIDED);
+       Player newPlayer = new Player (username);
        game.addPlayer(newPlayer);
-       game.incrementNumPlayers();
    }
 
    /**
@@ -68,7 +89,6 @@ public class GameController {
        switch(numPlayers) {
            case 5:
        }
-
    }
 
    /**
@@ -76,7 +96,7 @@ public class GameController {
     * @param game the Game to be deleted
     */
    public void removeGame(Game game){
-
+       games.remove(game);
    }
 
 }

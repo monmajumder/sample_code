@@ -1,5 +1,6 @@
 package logic;
 
+import com.resistance.theresistance.logic.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue; 
 import static org.junit.Assert.assertFalse;
@@ -16,44 +17,46 @@ Testing Missionary.
 public class MissionaryTest {
 
    /** Fixture initialization (common initialization
-    *  for all tests). **/
+    *  for all tests).
+    */
    private interface Fixture {
-      Missionary init(); 
+      Missionary init();
    }
-   /**
-   Creates Missionary.
-   */
-   @DataPoint
-    public static final Fixture hostObject = 
-      new Fixture() {
-         public Host init() {
-            Player p = new Player("Mindy");
-            p.setType("Spy");
-            return new Missionary(p);
-         }
-      };
 
    /**
-   Verifying that the Missionary can vote on mission
-   @param fix Fixture to test
-   */
+    * Creates Missionary.
+    */
+   @DataPoint
+   public static final Fixture Missionary = new Fixture() {
+      public Missionary init() {
+         Player p = new Player("Mindy");
+         p.setType(Player.PlayerType.SPY);
+         return new Missionary(p);
+      }
+   };
+
+   /**
+    * Verifying that the Missionary can vote on mission
+    * @param fix Fixture to test
+    */
    @Theory public void testMissionaryVote(Fixture fix) {
       Missionary b = fix.init();
       boolean vote = b.voteForMission(true);
       assertEquals(vote, true);
    }
-   
+
    /**
-   Verifying that the evictPlayer returns the
-   player to be evicted.
-   */
-   @Theory public void testChangeMissionary(Fixture fix){
+    * Verifies that we can change the missionary that is chosen in the missionary object
+    * @param fix Fixture to test
+    */
+   @Theory
+   public void testChangeMissionary(Fixture fix){
       Player a = new Player("Andrew");
       Missionary b = fix.init();
       Missionary c = new Missionary(a);
-      assertEquals(b.player.username, "Mindy");
-      b.changeMissionary(c);
-      assertEquals(b.player.username, "Andrew");
-      assertEquals(c.player, a);
+      assert(b.getMissionary().getUsername().equals("Mindy"));
+      b.changeMissionary(a);
+      assert(b.getMissionary().getUsername().equals("Andrew"));
+      assertEquals(c.getMissionary(), a);
    }
 }

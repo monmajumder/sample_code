@@ -1,5 +1,6 @@
 package logic;
 
+import com.resistance.theresistance.logic.*;
 import java.util.Comparator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue; 
@@ -11,8 +12,8 @@ import org.junit.runner.RunWith;
 import org.junit.Test;
 
 /**
-Testing Host.
-*/
+ * Testing Host.
+ */
 @RunWith(Theories.class)
 public class HostTest {
 
@@ -21,9 +22,10 @@ public class HostTest {
     private interface Fixture {
         Host init(); 
     }
-   /**
-   Creates Host.
-   */
+
+    /**
+     * Creates Host.
+     */
     @DataPoint
     public static final Fixture hostObject = new Fixture() {
         public Host init() {
@@ -32,34 +34,13 @@ public class HostTest {
         }
     };
 
-   /**
-   Verifying that the Host is a host
-   @param fix Fixture to test
-   */
-   @Theory public void testIsHost(Fixture fix) {
-   Host b = fix.init();
-   assertTrue(b.host.isHost());
-   }
-   
-   /**
-   Verifying that the evictPlayer returns the
-   player to be evicted.
-   */
-   @Theory public void testEvictPlayer(Fixture fix){
-   Host b = fix.init();
-   Player m = new Player("Mindy");
-   assertEquals(b.evict(m), m);
-   }
-
-   
-   /**
-   Verifying exception thrown when getting top from
-   an empty queue.
-   @param fix Fixture to test
-   */
-   /*@Theory @Test (expected = EmptyQueueException.class)
-   public void cannotTopFromEmptyQueue(Fixture fix) {
-   PriorityQueue<Integer> b = fix.init();
-   b.top();
-   }*/
+    /**
+     * Verifies that the evictPlayer returns the player to be evicted.
+     * @param fix Fixture to test
+     */
+    @Theory public void testEvictPlayer(Fixture fix){
+        Host b = fix.init();
+        Player m = new Player("Mindy");
+        assertEquals(b.evict(m), m);
+    }
 }
