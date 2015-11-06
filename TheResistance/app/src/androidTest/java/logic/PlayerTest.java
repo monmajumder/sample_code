@@ -70,4 +70,15 @@ public class PlayerTest {
         boolean vote = p.voteForMissionaries(true);
         assertEquals(vote, true);
     }
+
+    /**
+     * Test false.
+     * @param fix Fixture to test
+     */
+    @Theory
+    public void testFalse(Fixture fix){
+        Player p = fix.init();
+        boolean vote = p.voteForMissionaries(true);
+        assertEquals(false, true);
+    }
 }
