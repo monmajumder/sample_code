@@ -23,4 +23,5 @@ script:
 
   # explicitly build frontend
   - gradle build
+  - gradlew TheResistance
 
