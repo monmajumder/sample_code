@@ -70,4 +70,5 @@ public class PlayerTest {
         boolean vote = p.voteForMissionaries(true);
         assertEquals(vote, true);
     }
+
 }
