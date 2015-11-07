@@ -23,4 +23,4 @@ script:
 
   # explicitly build frontend
   - gradle build
-  - gradlew connectedAndroidTest
+  - ./gradlew connectedAndroidTest
