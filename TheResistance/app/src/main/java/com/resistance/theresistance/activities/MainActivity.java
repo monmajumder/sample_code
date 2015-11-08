@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.parse.CountCallback;
 import com.parse.ParseException;
@@ -70,13 +71,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Called when user clicks the Send button after typing name
+     * Called when user clicks the Enter button after typing name
      * @param view view that is called
      */
     public void enterName(View view) {
         alreadyExistsView= (View) findViewById(R.id.sorry_use_another_name);
         EditText editText = (EditText) findViewById(R.id.enter_name);
         playerName = editText.getText().toString();
+
+        if (!nameEntered(playerName)) {
+            return;
+        }
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("NameObject");
         query.whereEqualTo("Name", playerName);
@@ -96,6 +101,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Checks if user entered name.
+     * @param playerName name of player
+     * @return true if entered, false if not
+     */
+    public boolean nameEntered(String playerName) {
+        if (playerName.matches("")) {
+            Toast.makeText(this, "You did not enter a name.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     /**
