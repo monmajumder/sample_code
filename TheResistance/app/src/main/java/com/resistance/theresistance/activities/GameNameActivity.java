@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.CountCallback;
 import com.parse.ParseException;
@@ -58,6 +59,10 @@ public class GameNameActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.enter_game_keyword);
         gameName = editText.getText().toString();
 
+        if (!nameEntered(gameName)) {
+            return;
+        }
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
         query.countInBackground(new CountCallback() {
@@ -89,6 +94,10 @@ public class GameNameActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.enter_game_keyword);
         gameName = editText.getText().toString();
 
+        if (!nameEntered(gameName)) {
+            return;
+        }
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
         query.countInBackground(new CountCallback() {
@@ -108,6 +117,20 @@ public class GameNameActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Checks if user entered name.
+     * @param gameName name of game
+     * @return true if entered, false if not
+     */
+    public boolean nameEntered(String gameName) {
+        if (gameName.matches("")) {
+            Toast.makeText(this, "You did not enter a game name.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
 
     /**
      * Creates a new Parse object for game name.
