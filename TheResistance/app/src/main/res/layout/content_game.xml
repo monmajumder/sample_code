@@ -21,6 +21,77 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp" />
+    <ru.biovamp.widget.CircleLayout
+        android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_height="300dp"
+        app:angleOffset="35">
+
+        <!-- Add here any views you want -->
+    <ImageView
+        android:src="@drawable/player_icon_pink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/player_pink" />
+    <ImageView
+        android:src="@drawable/player_icon_pink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/playerborder"
+        android:visibility="invisible"
+        android:id="@+id/player_pink_border"/>
+    <ImageView
+        android:src="@drawable/player_icon_purp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/player_purp" />
+    <ImageView
+        android:src="@drawable/player_icon_purp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/playerborder"
+        android:visibility="invisible"
+        android:id="@+id/player_purp_border"/>
+    <ImageView
+        android:src="@drawable/player_icon_yellow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/player_yellow" />
+    <ImageView
+        android:src="@drawable/player_icon_yellow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/playerborder"
+        android:visibility="invisible"
+        android:id="@+id/player_yellow_border"/>
+    <ImageView
+        android:src="@drawable/player_icon_orange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/player_orange" />
+    <ImageView
+        android:src="@drawable/player_icon_orange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/playerborder"
+        android:visibility="invisible"
+        android:id="@+id/player_orange_border"/>
+    <ImageView
+        android:src="@drawable/player_icon_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/player_gray"/>
+    <ImageView
+        android:src="@drawable/player_icon_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/playerborder"
+        android:visibility="invisible"
+        android:id="@+id/player_gray_border"/>
+
+    </ru.biovamp.widget.CircleLayout>
+
 
     <com.resistance.theresistance.views.MyTextView
         android:layout_width="wrap_content"
@@ -28,7 +99,7 @@
         android:text="@string/waiting_for_host"
         android:id="@+id/waiting_for_host"
         android:textSize="20sp"
-        android:layout_marginBottom="122dp"
+        android:layout_marginBottom="69dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
