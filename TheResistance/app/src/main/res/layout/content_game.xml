@@ -28,7 +28,7 @@
         android:text="@string/waiting_for_host"
         android:id="@+id/waiting_for_host"
         android:textSize="20sp"
-        android:layout_marginBottom="151dp"
+        android:layout_marginBottom="122dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
