@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "The Resistance": {
+      "applicationId": "C5sIm3CQ2cGgW7CbD7XTDb9Ji0uiw6ouYuXGoWBL"
+    },
+    "_default": {
+      "link": "The Resistance"
+    }
+  }
+}
