@@ -33,16 +33,21 @@ public class GameNameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game_name);
 
         // Get the message from the intent
         Intent intent = getIntent();
         String name = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String hiString = this.getResources().getString(R.string.hi_name);
 
+        hiString = hiString + " " + name + ".";
+
+        ((com.resistance.theresistance.views.MyTextView)findViewById(R.id.hi_name)).setText(hiString);
         // Create the text view
         TextView textView = new TextView(this);
         textView.setTextSize(40);
         textView.setText(name);
-        setContentView(R.layout.activity_game_name);
+
     }
 
     /**
