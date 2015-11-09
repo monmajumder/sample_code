@@ -4,19 +4,15 @@ Parse.Cloud.define("hello", function(request, response) {
 });
 
 Parse.Cloud.define("cloudifyNameObject", function(request, response) {
-  var playerName = request.params.Name;
-  var query = new Parse.Query(Parse.Object.extend("NameObject"));
-  query.equalTo("Name", playerName);
-  query.first().then(function(object) {
-        if (!object)
-          response.error("no object by this name");
-        object.set("Name", "clouuuuuuud");
-        object.save();
-        console.log("changed player name");
-        response.success();
-      }, function(error) {
-        response.error("Something fucked up.");
-    });
+  (function() {
+    return findObject("NameObject",request.params.Name);
+  }()).then(function(object){
+    addCloudToName(object);
+  }).then(function() {
+    response.success();
+  }), function(error) {
+    response.error("something fucked up");
+  };
 });
 
 Parse.Cloud.define("determinePlayerRoles", function(request, response) {
@@ -34,6 +30,22 @@ Parse.Cloud.define("determinePlayerRoles", function(request, response) {
   console.log(consoleString);
   response.success();
 });
+
+/* finds an object 
+   [typeName] name of object type
+   [name] name of object 
+   [callBack] function to execute once the query finishes*/
+function findObject(typeName, name, callBack) {
+  var query = new Parse.Query(Parse.Object.extend(typeName));
+  query.equalTo("Name", name);
+  return query.first();
+}
+
+function addCloudToName(object) {
+  object.set("Name", "clouuuuuuud");
+  object.save();
+  console.log("changed player name");
+}
 
 /* function blatantly copied from stackOverflow: 
     http://stackoverflow.com/questions/8378870/generating-unique-random-numbers-integers-between-0-and-x */
