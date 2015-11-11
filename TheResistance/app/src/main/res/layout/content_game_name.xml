@@ -7,18 +7,27 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
     <com.resistance.theresistance.views.MyTextView
+        android:text="@string/hi_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hi_name"
+        android:textSize="26dp"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true" />
+    <com.resistance.theresistance.views.MyTextView
         android:text="@string/game_keyword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/game_keyword"
-        android:textSize="26dp"
+        android:textSize="22dp"
         android:layout_marginBottom="50dp"
         android:layout_above="@+id/enter_game_keyword"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
     <com.resistance.theresistance.views.MyEditTextView
         android:id="@+id/enter_game_keyword"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/game"
         android:inputType="text"

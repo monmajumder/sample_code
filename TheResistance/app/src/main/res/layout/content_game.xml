@@ -6,20 +6,131 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:id="@+id/content_game"
     android:background="@color/beige"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_game"
-    tools:context="com.resistance.theresistance.activities.GameActivity">
+    tools:context="com.resistance.theresistance.activities.GameWaitingActivity">
 
     <com.resistance.theresistance.views.MyTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/game_room_name"
         android:id="@+id/game_room_name"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp" />
+    <ru.biovamp.widget.CircleLayout
+        android:layout_width="270dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_height="290dp"
+        android:id="@+id/view">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/player_icon_pink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:id="@+id/player_pink" />
+        <com.resistance.theresistance.views.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/pink_player_label"
+            android:textSize="10sp"
+            android:layout_alignTop="@+id/player_icon_pink"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="44dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/player_icon_purp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:id="@+id/player_purp" />
+        <com.resistance.theresistance.views.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/player_purp_label"
+            android:textSize="10sp"
+            android:layout_alignTop="@+id/player_purp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="44dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/player_icon_yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:id="@+id/player_yellow" />
+        <com.resistance.theresistance.views.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/player_yellow_label"
+            android:textSize="10sp"
+            android:layout_alignTop="@+id/player_yellow"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="44dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/player_icon_orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:id="@+id/player_orange" />
+        <com.resistance.theresistance.views.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/player_orange_label"
+            android:textSize="10sp"
+            android:layout_alignTop="@+id/player_orange"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="44dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/player_icon_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:id="@+id/player_green" />
+        <com.resistance.theresistance.views.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/player_green_label"
+            android:textSize="10sp"
+            android:layout_alignTop="@+id/player_green"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="44dp" />
+    </RelativeLayout>
+        <!-- Add here any views you want -->
+
+    </ru.biovamp.widget.CircleLayout>
+
 
     <com.resistance.theresistance.views.MyTextView
         android:layout_width="wrap_content"
@@ -27,7 +138,9 @@
         android:text="@string/waiting_for_host"
         android:id="@+id/waiting_for_host"
         android:textSize="20sp"
-        android:layout_marginBottom="151dp"
+        android:layout_marginBottom="69dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+
 </RelativeLayout>

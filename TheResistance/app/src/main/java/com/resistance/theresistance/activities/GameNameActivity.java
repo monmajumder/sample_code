@@ -2,10 +2,7 @@ package com.resistance.theresistance.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -36,16 +33,21 @@ public class GameNameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game_name);
 
         // Get the message from the intent
         Intent intent = getIntent();
         String name = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String hiString = this.getResources().getString(R.string.hi_name);
 
+        hiString = hiString + " " + name + ".";
+
+        ((com.resistance.theresistance.views.MyTextView)findViewById(R.id.hi_name)).setText(hiString);
         // Create the text view
         TextView textView = new TextView(this);
         textView.setTextSize(40);
         textView.setText(name);
-        setContentView(R.layout.activity_game_name);
+
     }
 
     /**
@@ -55,7 +57,7 @@ public class GameNameActivity extends AppCompatActivity {
     public void createGame(View view) {
         existsView= (View) findViewById(R.id.sorry_use_another_name);
         secondView = (View) findViewById(R.id.name_doesnt_exist);
-        intent = new Intent(this, GameActivity.class);
+        intent = new Intent(this, GameWaitingActivity.class);
         EditText editText = (EditText) findViewById(R.id.enter_game_keyword);
         gameName = editText.getText().toString();
 
@@ -147,7 +149,7 @@ public class GameNameActivity extends AppCompatActivity {
      * @param gameName name of the game
      */
     public void createIntent(String gameName) {
-        Intent intent = new Intent(this, GameActivity.class);
+        Intent intent = new Intent(this, GameWaitingActivity.class);
         intent.putExtra(EXTRA_MESSAGE, gameName);
         startActivity(intent);
     }

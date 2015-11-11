@@ -2,19 +2,16 @@ package com.resistance.theresistance.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.resistance.theresistance.R;
 
 /**
  * Game Activity
  */
-public class GameActivity extends AppCompatActivity {
+public class GameWaitingActivity extends AppCompatActivity {
 
     /**
      * Called on create
@@ -23,14 +20,18 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_game);
         // Get the message from the intent
         Intent intent = getIntent();
         String gameName = intent.getStringExtra(GameNameActivity.EXTRA_MESSAGE);
+        String gameRoomStr = this.getResources().getString(R.string.game_room_name);
 
-        // Create the text view
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(gameName);
-        setContentView(textView);
+        gameRoomStr = gameRoomStr + " " + gameName;
+
+        ((com.resistance.theresistance.views.MyTextView)findViewById(R.id.game_room_name)).setText(gameRoomStr);
+
+        ImageView player1 = new ImageView(this);
+        player1.setVisibility(View.VISIBLE);
     }
 }
