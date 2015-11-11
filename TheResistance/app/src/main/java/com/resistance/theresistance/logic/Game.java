@@ -25,7 +25,7 @@ public class Game {
     public enum State {
         WAITING_FOR_PLAYERS, START, MISSION_LEADER_CHOOSING, MISSIONARIES_VOTING, RESISTANCE_WINS, SPIES_WIN
     }
-    State gameState;
+    private State gameState;
 
     /**
      * Creates Game object, with user-inputted keyword

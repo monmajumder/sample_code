@@ -42,16 +42,16 @@ public class GameTest {
    @Theory
    public void testGame(Fixture fix) {
       Game g = fix.init();
-      assertEquals(g.gameState, State.WAITING_FOR_PLAYERS);
+      assertEquals(g.getGameState().toString(), "WAITING_FOR_PLAYERS");
       //Games start with one player
-      assertEquals(g.numPlayers, 1);
+      assertEquals(g.getNumPlayers(), 1);
    }
    
    @Theory
    public void testAddPlayers(Fixture fix) {
       Game g = fix.init();
       //Games start with one player
-      assertEquals(g.numPlayers, 1);
+      assertEquals(g.getNumPlayers(), 1);
       Player p = new Player("Mindy");
       g.addPlayer(p);
       
