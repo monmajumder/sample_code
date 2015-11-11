@@ -30,7 +30,7 @@
                 android:value=".activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.GameActivity"
+            android:name=".activities.GameWaitingActivity"
             android:label="@string/title_activity_game"
             android:parentActivityName=".activities.GameNameActivity"
             android:theme="@style/AppTheme.NoActionBar" >

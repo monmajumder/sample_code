@@ -57,7 +57,7 @@ public class GameNameActivity extends AppCompatActivity {
     public void createGame(View view) {
         existsView= (View) findViewById(R.id.sorry_use_another_name);
         secondView = (View) findViewById(R.id.name_doesnt_exist);
-        intent = new Intent(this, GameActivity.class);
+        intent = new Intent(this, GameWaitingActivity.class);
         EditText editText = (EditText) findViewById(R.id.enter_game_keyword);
         gameName = editText.getText().toString();
 
@@ -149,7 +149,7 @@ public class GameNameActivity extends AppCompatActivity {
      * @param gameName name of the game
      */
     public void createIntent(String gameName) {
-        Intent intent = new Intent(this, GameActivity.class);
+        Intent intent = new Intent(this, GameWaitingActivity.class);
         intent.putExtra(EXTRA_MESSAGE, gameName);
         startActivity(intent);
     }

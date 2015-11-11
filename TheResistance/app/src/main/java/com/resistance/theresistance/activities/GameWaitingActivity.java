@@ -11,7 +11,7 @@ import com.resistance.theresistance.R;
 /**
  * Game Activity
  */
-public class GameActivity extends AppCompatActivity {
+public class GameWaitingActivity extends AppCompatActivity {
 
     /**
      * Called on create
