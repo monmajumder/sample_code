@@ -15,6 +15,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.resistance.theresistance.R;
+import com.resistance.theresistance.logic.Player;
 
 /**
  * Main Activity
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("NameObject");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayerObject");
         query.whereEqualTo("Name", playerName);
         query.countInBackground(new CountCallback() {
             @Override
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("name", "The retrieval succeeded");
                     if (count <= 0) {
-                        createNewParseNameObject(playerName);
+                        createNewParsePlayerObject(playerName);
                         createIntent(playerName);
                     } else {
                         alreadyExistsView.setVisibility(View.VISIBLE);
@@ -120,10 +121,10 @@ public class MainActivity extends AppCompatActivity {
      * Creates a new Parse object for player name.
      * @param playerName name of the player
      */
-    public void createNewParseNameObject(String playerName) {
-        ParseObject nameObject = new ParseObject("NameObject");
-        nameObject.put("Name", playerName);
-        nameObject.saveInBackground();
+    public void createNewParsePlayerObject(String playerName) {
+        Player object = new Player();
+        object.setUsername(playerName);
+        object.saveInBackground();
     }
 
     /**

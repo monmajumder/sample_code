@@ -1,5 +1,8 @@
 package com.resistance.theresistance.logic;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -11,7 +14,9 @@ import java.util.Random;
  * @author Group 11
  *
  */
-public class Game {
+
+@ParseClassName("GameObject")
+public class Game extends ParseObject {
 
     private String keyword;
     private int numPlayers;
@@ -26,6 +31,13 @@ public class Game {
         WAITING_FOR_PLAYERS, START, MISSION_LEADER_CHOOSING, MISSIONARIES_VOTING, RESISTANCE_WINS, SPIES_WIN
     }
     private State gameState;
+
+    /**
+     * Constructor
+     */
+    public Game() {
+        super();
+    }
 
     /**
      * Creates Game object, with user-inputted keyword
@@ -117,6 +129,8 @@ public class Game {
     //-----------------------------------------------
 
     public String getKeyword() {return this.keyword;}
+
+    public void setKeyword(String keyword) {put("Name", keyword);}
 
     public int getNumPlayers() {return this.numPlayers;}
 
