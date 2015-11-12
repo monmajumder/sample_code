@@ -14,6 +14,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.resistance.theresistance.R;
+import com.resistance.theresistance.logic.Game;
 
 /**
  * Game Name Activity
@@ -139,9 +140,9 @@ public class GameNameActivity extends AppCompatActivity {
      * @param gameName name of the game
      */
     public void createNewParseGameObject(String gameName) {
-        ParseObject nameObject = new ParseObject("GameObject");
-        nameObject.put("Name", gameName);
-        nameObject.saveInBackground();
+        Game object = new Game();
+        object.setKeyword(gameName);
+        object.saveInBackground();
     }
 
     /**
