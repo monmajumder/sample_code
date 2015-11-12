@@ -1,12 +1,17 @@
 package com.resistance.theresistance.logic;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 /**
  * Player class is responsible for creating the Player object,
  * and letting Players vote
  * @author Group 11
  *
  */
-public class Player {
+
+@ParseClassName("PlayerObject")
+public class Player extends ParseObject {
 
     private String username;
     private PlayerType playerType;
@@ -16,6 +21,13 @@ public class Player {
      */
     public enum PlayerType {
         SPY, RESISTOR
+    }
+
+    /**
+     * Constructor
+     */
+    public Player() {
+        super();
     }
 
     /**
@@ -64,11 +76,28 @@ public class Player {
         return this.username;
     }
 
+
+    /**
+     * Sets the user name
+     * @param playerName username of the player
+     */
+    public void setUsername(String playerName) {
+        put("Name", playerName);
+    }
+
     /**
      * Get the player type.
      * @return the type of the player
      */
     public PlayerType getPlayerType() {
         return this.playerType;
+    }
+
+    /**
+     * Sets the player type.
+     * @param type Either resistor or spy
+     */
+    public void setPlayerType(PlayerType type) {
+        put("Type", type);
     }
 }
