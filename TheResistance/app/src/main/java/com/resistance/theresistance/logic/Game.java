@@ -71,8 +71,13 @@ public class Game extends ParseObject {
      * @param player, the Player to add to the game
      */
     public void addPlayer(Player player){
+        if (numPlayers < 10){
         players.add(player);
         numPlayers++;
+        }
+        else{
+         throw new IndexOutOfBoundsException("Cannot have more than 10 players.");
+         }
     }
 
     /**
