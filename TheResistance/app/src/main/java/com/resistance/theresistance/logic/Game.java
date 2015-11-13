@@ -21,6 +21,9 @@ public class Game extends ParseObject {
     private String keyword;
     private int numPlayers;
     private Host gameHost;
+
+    //RELATION?
+    private Leader leader;
     private ArrayList<Player> players;
     private ArrayList<Mission> missions;
 
@@ -36,10 +39,23 @@ public class Game extends ParseObject {
      * Constructor
      */
     public Game() {
-        super();
+        setNumPlayers(1);
+        setGameState(State.WAITING_FOR_PLAYERS.toString());
     }
 
+
+
+
+
+    public ArrayList<String> getPlayerNames() {
+        ArrayList<String> allNames = new ArrayList<String>();
+        //for each player in the game, extract the game name and add to array
+        return allNames;
+    }
+
+
     /**
+     * DON'T REALLY NEED THIS I THINK. DELETE LATER?
      * Creates Game object, with user-inputted keyword
      * @param keyword, the unique identifier for a game
      */
@@ -130,13 +146,36 @@ public class Game extends ParseObject {
 
     public String getKeyword() {return this.keyword;}
 
-    public void setKeyword(String keyword) {put("Name", keyword);}
+    public void setKeyword(String keyword) {
+        put("Name", keyword);
+    }
 
-    public int getNumPlayers() {return this.numPlayers;}
+    public int getNumPlayers() {
+        return this.numPlayers;
+    }
 
+    public void setNumPlayers(int num) {
+        put("NumPlayers", num);
+    }
+
+    public State getGameState() {
+        return this.gameState;
+    }
+
+    public void setGameState(String state) {
+        put("State", state);
+    }
+
+    public Player getLeader() {
+        return this.leader.getLeader();
+    }
+
+    public void setLeader() {
+        put("Leader",leader.getLeader().getUsername());
+    }
+
+    /**Think about these**/
     public Host getGameHost(){return this.gameHost;}
 
     public ArrayList<Player> getPlayers() {return this.players;}
-
-    public State getGameState() {return gameState;}
 }

@@ -2,10 +2,9 @@ package com.resistance.theresistance.logic;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
+
 /**
- * Handles logic regarding the application that isn't related to a specific game room.
- * For now, initializes the Parse backend. Will add more methods later.
+ * Starts the application.
  * Created by andrewshiau on 10/26/15.
  */
 
