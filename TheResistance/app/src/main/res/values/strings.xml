@@ -17,4 +17,6 @@
     <string name="name_doesnt_exist">Sorry, a game with that name does not exist. \n Please use a different one.</string>
     <string name="game_room_name">Game room name: </string>
     <string name="waiting_for_host">Waiting for host to begin &#8230;</string>
+    <string name="title_activity_game_play">GamePlayActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
