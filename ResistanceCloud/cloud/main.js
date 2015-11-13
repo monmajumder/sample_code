@@ -14,23 +14,40 @@ Parse.Cloud.define("cloudifyNameObject", function(request, response) {
 });
 
 /* determines player roles
-   {"Name" : String} name of the game */
+   {"keyword" : String} keyword of the game */
 Parse.Cloud.define("setPlayerRoles", function(request, response) {
-  /* [query to find the player names] */
-  /* [check to make sure the roles haven't already been determined] */
-  /* [determine how many players there are] */
-  var numPlayers = 7; //change to take the right argument
-  var numSpies = ~~(numPlayers*.43);
-  var uniqueRandomNumbers = generateRandomNumbers(numSpies,1,numPlayers);
-  var consoleString = "";
-  consoleString += "spies are players with indices";
-  uniqueRandomNumbers.forEach(function(number) {
-    consoleString += (" " + number);
+  (function() {
+  return findObject("GameObject", request.params.keyword);
+  }()).then(function(game){
+    setPlayerRoles(game);
+  }).then(function() {
+    response.success();
+  }), function(error) {
+    response.error("something fucked up");
+  };
+});
+
+function setPlayerRoles(game) {
+  var players = game.get("Players"); //eventually fix to get("players")
+  var numPlayers = players.length;  
+  var numSpies = ~~(numPlayers*.43); //magically calculates the correct number of spies
+  var uniqueRandomNumbers = generateRandomNumbers(numSpies,0,numPlayers - 1);
+  consoleString = "spies are players with indices";
+  var roles = {};
+  uniqueRandomNumbers.forEach(function(spyIndex) {
+    roles[spyIndex] = 1;
+    consoleString += " " + spyIndex;
   });
+  for (i = 0; i < numPlayers; i++) {
+    if (roles[i] == null)
+      players[i].set("PlayerType", "RESISTOR");
+    else
+      players[i].set("PlayerType", "SPY");
+    players[i].save();
+  }
   consoleString += ".";
   console.log(consoleString);
-  response.success();
-});
+}
 
 /* chooses the first mission leader
    {"Name" : String} name of the game */
@@ -118,19 +135,19 @@ function addCloudToName(object) {
 /* function blatantly copied from stackOverflow: 
     http://stackoverflow.com/questions/8378870/generating-unique-random-numbers-integers-between-0-and-x */
 function generateRandomNumbers(amount, lowerBound, upperBound) {
-	var limit = upperBound - lowerBound + 1;
-	var uniqueRandomNumbers = [];
+  var limit = upperBound - lowerBound + 1;
+  var uniqueRandomNumbers = [];
 
-	if (amount > limit) amount = limit;  // prevent infinite loop
+  if (amount > limit) amount = limit;  // prevent infinite loop
 
-	while (uniqueRandomNumbers.length < amount) {
-	    var randomNumber = Math.round(Math.random()*(upperBound - lowerBound) + lowerBound);
-	    if (uniqueRandomNumbers.indexOf(randomNumber) == -1) {
-	        uniqueRandomNumbers.push(randomNumber);
-	    }
-	}
-	// unique_random_numbers is an array containing 3 unique numbers in the given range
-	return uniqueRandomNumbers;
+  while (uniqueRandomNumbers.length < amount) {
+      var randomNumber = Math.round(Math.random()*(upperBound - lowerBound) + lowerBound);
+      if (uniqueRandomNumbers.indexOf(randomNumber) == -1) {
+          uniqueRandomNumbers.push(randomNumber);
+      }
+  }
+  // unique_random_numbers is an array containing 3 unique numbers in the given range
+  return uniqueRandomNumbers;
 }
 
 
