@@ -1,30 +1,24 @@
 package com.resistance.theresistance.activities;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.CountCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.resistance.theresistance.R;
-import com.resistance.theresistance.logic.Player;
+import com.resistance.theresistance.logic.PlayerNameHandler;
 
 /**
- * Main Activity
+ * Main Activity. First screen that asks for username.
  */
 public class MainActivity extends AppCompatActivity {
 
-    public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     private static String playerName;
-    private static View alreadyExistsView;
+    public static Context mContext;
 
     /**
      * Called on create
@@ -34,8 +28,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mContext = getBaseContext();
+
         //This comment is here to fix issue.
         setContentView(R.layout.activity_main);
+    }
+
+    /**
+     * Get context
+     * @return context
+     */
+    public static Context getContext() {
+        return mContext;
     }
 
     /**
@@ -72,10 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Called when user clicks the Enter button after typing name
-     * @param view view that is called
      */
     public void enterName(View view) {
-        alreadyExistsView= (View) findViewById(R.id.sorry_use_another_name);
         EditText editText = (EditText) findViewById(R.id.enter_name);
         playerName = editText.getText().toString();
 
@@ -83,24 +85,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayerObject");
-        query.whereEqualTo("Name", playerName);
-        query.countInBackground(new CountCallback() {
-            @Override
-            public void done(int count, ParseException e) {
-                if (e == null) {
-                    Log.d("name", "The retrieval succeeded");
-                    if (count <= 0) {
-                        createNewParsePlayerObject(playerName);
-                        createIntent(playerName);
-                    } else {
-                        alreadyExistsView.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    Log.d("name", "The retrieval failed");
-                }
-            }
-        });
+        PlayerNameHandler.handleUsername(this, playerName);
     }
 
     /**
@@ -114,25 +99,5 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Creates a new Parse object for player name.
-     * @param playerName name of the player
-     */
-    public void createNewParsePlayerObject(String playerName) {
-        Player object = new Player();
-        object.setUsername(playerName);
-        object.saveInBackground();
-    }
-
-    /**
-     * Create an intent
-     * @param playerName name of the user
-     */
-    public void createIntent(String playerName) {
-        Intent intent = new Intent(this, GameNameActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, playerName);
-        startActivity(intent);
     }
 }
