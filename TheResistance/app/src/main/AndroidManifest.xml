@@ -39,7 +39,7 @@
                 android:value="com.resistance.theresistance.activities.GameNameActivity" />
         </activity>
         <activity
-            android:name=".views.GamePlayActivity"
+            android:name=".activities.GamePlayActivity"
             android:label="@string/title_activity_game_play"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>

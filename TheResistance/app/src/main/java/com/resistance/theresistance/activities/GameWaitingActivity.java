@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.resistance.theresistance.R;
-import com.resistance.theresistance.views.GamePlayActivity;
 
 /**
  * Game Activity
