@@ -11,7 +11,10 @@ android:
 
     # get emulator
     - sys-img-armeabi-v7a-android-21
-    
+
+licenses:
+  - android-sdk-license-5be876d5    
+
 # because we mention this section, Travis no longer builds our
 # project automagestically. We have to explicitly call our build commands.
 script:
