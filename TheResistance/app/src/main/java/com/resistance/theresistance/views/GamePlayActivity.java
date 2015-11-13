@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.activities.GameWaitingActivity;
@@ -37,6 +38,7 @@ public class GamePlayActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    public static int layoutId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +128,10 @@ public class GamePlayActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
+                    layoutId = R.layout.activity_game_play;
                     return "SECTION 1";
                 case 1:
+                    layoutId = R.layout.activity_main;
                     return "SECTION 2";
             }
             return null;
@@ -162,9 +166,9 @@ public class GamePlayActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.content_game, container, false);
-           // TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            View rootView = inflater.inflate(R.layout.fragment_game_play, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }
