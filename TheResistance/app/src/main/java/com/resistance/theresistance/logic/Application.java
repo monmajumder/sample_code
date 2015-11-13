@@ -6,7 +6,6 @@ import com.parse.ParseUser;
 /**
  * Handles logic regarding the application that isn't related to a specific game room.
  * For now, initializes the Parse backend. Will add more methods later.
- * Created by andrewshiau on 10/26/15.
  */
 
 public class Application extends android.app.Application {
