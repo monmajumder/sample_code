@@ -100,7 +100,7 @@ public class GameTest {
     public void testRestartSetState(Fixture fix){
         Game g = fix.init();
         assertEquals(g.getGameState().toString(), "WAITING_FOR_PLAYERS");
-        g.setGameState("START");
+        g.setGameState(Game.State.START);
         //assertEquals(g.getGameState().toString(), "START");
         //g.restart();
         //assertEquals(g.getGameState().toString(), "WAITING_FOR_PLAYERS");
