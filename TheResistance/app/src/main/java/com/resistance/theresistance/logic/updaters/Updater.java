@@ -2,6 +2,7 @@ package com.resistance.theresistance.logic.updaters;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -11,10 +12,23 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class Updater {
 
+    private ScheduledExecutorService executor;
+    private ScheduledFuture<?> update;
+
     public Updater() {
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(getRunnable(), 0, 5, TimeUnit.SECONDS);
+        executor = Executors.newScheduledThreadPool(1);
     }
 
     protected abstract Runnable getRunnable();
+
+    public void start() {
+        if (update != null && !update.isCancelled())
+            System.err.println("Already updating");
+        else
+            update = executor.scheduleAtFixedRate(getRunnable(), 0, 5, TimeUnit.SECONDS);
+    }
+    public void stop() {
+        if (update != null)
+            update.cancel(true);
+    }
 }
