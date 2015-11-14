@@ -1,7 +1,7 @@
 package com.resistance.theresistance.logic.updaters;
 
 /**
- * Updates Game
+ * Updates Game.
  */
 public class GameUpdater extends Updater {
     protected Runnable getRunnable() {
