@@ -1,6 +1,9 @@
 before_install: cd TheResistance
 language: android
 
+notifications:
+  email:
+    - andrew-s@comcast.net
 android:
   components:
     - android-23
