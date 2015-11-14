@@ -19,7 +19,7 @@ public class GameController {
     private Player thisPlayer;
     private Game thisGame;
 
-    //DON'T NEED THIS!!!!
+    //DON'T NEED THIS!!!! DELETE.
     //Temporarily stores the games, will eventually be replaced by Parse
     ArrayList<Game> games = new ArrayList<Game>();
 
@@ -30,13 +30,12 @@ public class GameController {
     }
 
 
-
     /**
      * Check if the game started.
      */
     public void checkStartedGame(String gameName) {
         //EVERY FEW SECONDS, QUERY FOR STATE OF GAME. HAS THE GAME STARTED?
-        //ABSTRACT THIS METHOD
+        //ABSTRACT THIS METHOD TO DIFFERENT CLASS?
         //NEED TO ADD TIME INTERVAL COMPONENT
         ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
         query.whereEqualTo("Name", gameName);
@@ -62,6 +61,22 @@ public class GameController {
         });
     }
 
+    public void getMyRole(String playerName) {
+        ParseQuery<Player> query = ParseQuery.getQuery(Player.class);
+        query.whereEqualTo("Name", playerName);
+        query.getFirstInBackground(new GetCallback<Player>() {
+            @Override
+            public void done(Player player, ParseException e) {
+                if (e == null) {
+                    Log.d("game", "The retrieval succeeded");
+                    Player.PlayerType type = player.getPlayerType();
+                } else {
+                    Log.d("game", "The retrieval failed");
+                }
+            }
+        });
+    }
+
     public void chooseMissionaries() {
 
     }
@@ -69,6 +84,13 @@ public class GameController {
     public void waitForMissionLeader() {
 
     }
+
+
+
+
+
+
+
 
 
 

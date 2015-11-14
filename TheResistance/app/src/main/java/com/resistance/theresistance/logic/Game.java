@@ -40,7 +40,7 @@ public class Game extends ParseObject {
      */
     public Game() {
         setNumPlayers(1);
-        setGameState(State.WAITING_FOR_PLAYERS.toString());
+        setGameState(State.WAITING_FOR_PLAYERS);
     }
 
 
@@ -149,14 +149,16 @@ public class Game extends ParseObject {
     // Getter and Setter Methods
     //-----------------------------------------------
 
-    public String getKeyword() {return this.keyword;}
+    public String getKeyword() {
+        return getString("Name");
+    }
 
     public void setKeyword(String keyword) {
         put("Name", keyword);
     }
 
     public int getNumPlayers() {
-        return this.numPlayers;
+        return getInt("NumPlayers");
     }
 
     public void setNumPlayers(int num) {
@@ -164,13 +166,14 @@ public class Game extends ParseObject {
     }
 
     public State getGameState() {
-        return this.gameState;
+        return State.valueOf(getString("State"));
     }
 
-    public void setGameState(String state) {
-        put("State", state);
+    public void setGameState(State state) {
+        put("State", state.toString());
     }
 
+    //Fix this
     public Player getLeader() {
         return this.leader.getLeader();
     }

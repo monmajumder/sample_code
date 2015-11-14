@@ -41,6 +41,7 @@ public class Player extends ParseObject {
     }
 
     /**
+     * DON'T NEED THIS. DONE BY PARSE CLOUD CODE.
      * Sets the player's type
      *
      * @param type, "Spy" or "Resistor" for type
@@ -73,7 +74,7 @@ public class Player extends ParseObject {
      * @return the username of the player
      */
     public String getUsername() {
-        return this.username;
+        return getString("Name");
     }
 
 
@@ -90,7 +91,7 @@ public class Player extends ParseObject {
      * @return the type of the player
      */
     public PlayerType getPlayerType() {
-        return this.playerType;
+        return PlayerType.valueOf(getString("PlayerType"));
     }
 
     /**
@@ -98,6 +99,6 @@ public class Player extends ParseObject {
      * @param type Either resistor or spy
      */
     public void setPlayerType(PlayerType type) {
-        put("Type", type);
+        put("Type", type.toString());
     }
 }
