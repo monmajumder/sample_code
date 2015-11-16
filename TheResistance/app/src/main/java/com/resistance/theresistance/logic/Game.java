@@ -1,5 +1,8 @@
 package com.resistance.theresistance.logic;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -11,11 +14,16 @@ import java.util.Random;
  * @author Group 11
  *
  */
-public class Game {
+
+@ParseClassName("GameObject")
+public class Game extends ParseObject {
 
     private String keyword;
     private int numPlayers;
     private Host gameHost;
+
+    //RELATION?
+    private Leader leader;
     private ArrayList<Player> players;
     private ArrayList<Mission> missions;
 
@@ -25,9 +33,29 @@ public class Game {
     public enum State {
         WAITING_FOR_PLAYERS, START, MISSION_LEADER_CHOOSING, MISSIONARIES_VOTING, RESISTANCE_WINS, SPIES_WIN
     }
-    State gameState;
+    private State gameState;
 
     /**
+     * Constructor
+     */
+    public Game() {
+        setNumPlayers(1);
+        setGameState(State.WAITING_FOR_PLAYERS);
+    }
+
+
+
+
+
+    public ArrayList<String> getPlayerNames() {
+        ArrayList<String> allNames = new ArrayList<String>();
+        //for each player in the game, extract the game name and add to array
+        return allNames;
+    }
+
+
+    /**
+     * DON'T REALLY NEED THIS I THINK. DELETE LATER?
      * Creates Game object, with user-inputted keyword
      * @param keyword, the unique identifier for a game
      */
@@ -43,8 +71,13 @@ public class Game {
      * @param player, the Player to add to the game
      */
     public void addPlayer(Player player){
+        if (numPlayers < 10){
         players.add(player);
         numPlayers++;
+        }
+        else{
+         throw new IndexOutOfBoundsException("Cannot have more than 10 players.");
+         }
     }
 
     /**
@@ -116,13 +149,41 @@ public class Game {
     // Getter and Setter Methods
     //-----------------------------------------------
 
-    public String getKeyword() {return this.keyword;}
+    public String getKeyword() {
+        return getString("Name");
+    }
 
-    public int getNumPlayers() {return this.numPlayers;}
+    public void setKeyword(String keyword) {
+        put("Name", keyword);
+    }
 
+    public int getNumPlayers() {
+        return getInt("NumPlayers");
+    }
+
+    public void setNumPlayers(int num) {
+        put("NumPlayers", num);
+    }
+
+    public State getGameState() {
+        return State.valueOf(getString("State"));
+    }
+
+    public void setGameState(State state) {
+        put("State", state.toString());
+    }
+
+    //Fix this
+    public Player getLeader() {
+        return this.leader.getLeader();
+    }
+
+    public void setLeader() {
+        put("Leader",leader.getLeader().getUsername());
+    }
+
+    /**Think about these**/
     public Host getGameHost(){return this.gameHost;}
 
     public ArrayList<Player> getPlayers() {return this.players;}
-
-    public State getGameState() {return gameState;}
 }

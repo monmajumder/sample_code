@@ -1,6 +1,9 @@
 before_install: cd TheResistance
 language: android
 
+notifications:
+  email:
+    - andrew-s@comcast.net
 android:
   components:
     - android-23
@@ -11,7 +14,8 @@ android:
 
     # get emulator
     - sys-img-armeabi-v7a-android-21
-    
+
+
 # because we mention this section, Travis no longer builds our
 # project automagestically. We have to explicitly call our build commands.
 script:

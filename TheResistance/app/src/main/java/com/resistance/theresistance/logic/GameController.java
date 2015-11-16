@@ -1,11 +1,11 @@
 package com.resistance.theresistance.logic;
 
-//Will import these when Parse is used
-//import com.parse.GetCallback;
-//import com.parse.Parse;
-//import com.parse.ParseObject;
-//import com.parse.ParseQuery;
-//import java.text.ParseException;
+import android.util.Log;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 import java.util.ArrayList;
 
 /**
@@ -16,6 +16,10 @@ import java.util.ArrayList;
  */
 public class GameController {
 
+    private Player thisPlayer;
+    private Game thisGame;
+
+    //DON'T NEED THIS!!!! DELETE.
     //Temporarily stores the games, will eventually be replaced by Parse
     ArrayList<Game> games = new ArrayList<Game>();
 
@@ -25,7 +29,75 @@ public class GameController {
     public GameController(){
     }
 
+
     /**
+     * Check if the game started.
+     */
+    public void checkStartedGame(String gameName) {
+        //EVERY FEW SECONDS, QUERY FOR STATE OF GAME. HAS THE GAME STARTED?
+        //ABSTRACT THIS METHOD TO DIFFERENT CLASS?
+        //NEED TO ADD TIME INTERVAL COMPONENT
+        ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
+        query.whereEqualTo("Name", gameName);
+        query.getFirstInBackground(new GetCallback<Game>() {
+            @Override
+            public void done(Game game, ParseException e) {
+                if (e == null) {
+                    Log.d("game", "The retrieval succeeded");
+                    if (game.getGameState().equals("MISSION_LEADER_CHOOSING")) {
+                        if (game.getLeader().equals(thisPlayer)) {
+                            chooseMissionaries();
+                        } else {
+                            waitForMissionLeader();
+                        }
+                    } else if (game.getGameState().equals("WAITING_FOR_PLAYERS")) {
+                        ArrayList<String> playersInGame = game.getPlayerNames();
+                        //DO SOMETHING HERE TO CHANGE THE VIEW ON THE ACTIVITY
+                    }
+                } else {
+                    Log.d("game", "The retrieval failed");
+                }
+            }
+        });
+    }
+
+    public void getMyRole(String playerName) {
+        ParseQuery<Player> query = ParseQuery.getQuery(Player.class);
+        query.whereEqualTo("Name", playerName);
+        query.getFirstInBackground(new GetCallback<Player>() {
+            @Override
+            public void done(Player player, ParseException e) {
+                if (e == null) {
+                    Log.d("game", "The retrieval succeeded");
+                    Player.PlayerType type = player.getPlayerType();
+                } else {
+                    Log.d("game", "The retrieval failed");
+                }
+            }
+        });
+    }
+
+    public void chooseMissionaries() {
+
+    }
+
+    public void waitForMissionLeader() {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /**NOT MINE!!!! **/
+    /**
+     * DON'T NEED THIS.
      * Creates a game.
      * @param hostName Name of the host
      * @param keyword Keyword of the game
