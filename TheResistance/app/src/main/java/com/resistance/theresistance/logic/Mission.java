@@ -1,5 +1,8 @@
 package com.resistance.theresistance.logic;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,28 +13,34 @@ import java.util.Random;
  * @author Group 11
  *
  */
+@ParseClassName("MissionObject")
+public class Mission extends ParseObject {
 
-public class Mission{
-
-    private Leader missionLeader;
+    private Leader missionLeader; //should be Player
     private int missionNum;
-    private boolean success;//if the players voted yes/no for the mission
-    private boolean approved;//if the mission is approved
-    private ArrayList<Round> stateHistory;
-    private ArrayList<Missionary> missionaries;
+    private boolean succeeded;//if the players voted yes/no for the mission
+    private ArrayList<Round> rounds;
+    private int yes; //number of players who voted yes
+    private int no; //number of players who voted no
+
+    /**
+     * Constructor.
+     */
+    public Mission() {
+        super();
+    }
 
    /**
     * Creates a mission object
     * @param missionLeader the object for the leader of the mission, in charge of choosing missionaries
     * @param missionNum the mission number
-    * @param stateHistory keeps track of all players votes
+    * @param rounds keeps track of all players votes
     */
-   public Mission(Leader missionLeader, int missionNum, ArrayList<Round> stateHistory){
+   public Mission(Leader missionLeader, int missionNum, ArrayList<Round> rounds){
        this.missionLeader = missionLeader;
        this.missionNum = missionNum;
-       this.stateHistory = stateHistory;
-       this.approved = false;
-       this.success = false;
+       this.rounds = rounds;
+       this.succeeded = false;
    }
 
     /**
@@ -40,14 +49,6 @@ public class Mission{
      */
     public int getMissionNumber(){
         return missionNum;
-    }
-
-    /**
-     * Checks if the mission is approved
-     * @return approved is true if the mission is approved, false if not
-     */
-    public boolean isApproved(){
-        return approved;
     }
 
     /**
