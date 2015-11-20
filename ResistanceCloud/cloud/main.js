@@ -1,4 +1,10 @@
 
+/* Unit Testing Mock */
+var message = require('cloud/message.js');
+Parse.Cloud.define("get_message", function (request, response) {
+  message.getMessage(request, response);
+});
+
 /*  adds "clouuuuuuud" to "Name" field of object
     {"Name" : String} Name to be cloudified*/
 Parse.Cloud.define("cloudifyNameObject", function(request, response) {
