@@ -20,10 +20,12 @@ public class Game extends ParseObject {
 
     private String keyword;
     private int numPlayers;
-    private Host gameHost;
+    private int numResistanceWins;
+    private int numSpiesWins;
 
-    //RELATION?
-    private Leader leader;
+    //Relation arrays/points
+    private Leader leader; //actually needs to be Player, not leader
+    private Host gameHost; //actually needs to be Player, not host
     private ArrayList<Player> players;
     private ArrayList<Mission> missions;
 
@@ -31,7 +33,7 @@ public class Game extends ParseObject {
      * Defines the states that a game can be in
      */
     public enum State {
-        WAITING_FOR_PLAYERS, START, MISSION_LEADER_CHOOSING, MISSIONARIES_VOTING, RESISTANCE_WINS, SPIES_WIN
+        WAITING_FOR_PLAYERS, MISSION_LEADER_CHOOSING, VOTE_FOR_MISSIONARIES, MISSIONARIES_VOTING, RESISTANCE_WINS, SPIES_WIN
     }
     private State gameState;
 
@@ -115,7 +117,7 @@ public class Game extends ParseObject {
        if (numPlayers < 5 || numPlayers > 10) {
            throw new IllegalGameException("The number of players is insufficient for gameplay.");
        }
-       return gameState == State.START;
+       return gameState == State.MISSION_LEADER_CHOOSING;
    }
 
    /**
