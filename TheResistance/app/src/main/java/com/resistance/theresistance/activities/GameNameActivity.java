@@ -2,8 +2,11 @@ package com.resistance.theresistance.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,6 +14,7 @@ import android.widget.Toast;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.GameNameHandler;
+import com.resistance.theresistance.logic.PlayerNameHandler;
 
 /**
  * Game Name Activity
@@ -66,6 +70,7 @@ public class GameNameActivity extends AppCompatActivity {
             return;
         }
         GameNameHandler.createGameHandler(this,gameName);
+        saveInPreferences(gameName);
     }
 
     /**
@@ -80,6 +85,7 @@ public class GameNameActivity extends AppCompatActivity {
             return;
         }
         GameNameHandler.joinGameHandler(this, gameName);
+        saveInPreferences(gameName);
     }
 
     /**
@@ -87,11 +93,23 @@ public class GameNameActivity extends AppCompatActivity {
      * @param gameName name of game
      * @return true if entered, false if not
      */
-    public boolean nameEntered(String gameName) {
+    private boolean nameEntered(String gameName) {
         if (gameName.matches("")) {
             Toast.makeText(this, "You did not enter a game name.", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
+    }
+
+    private void saveInPreferences(String gameName) {
+        //Store name in shared preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("gameName", gameName);
+        editor.commit();
+
+        //Check if gameName stored
+        //String storedPreference = preferences.getString("gameName","none");
+        //Log.d("checkGameName", storedPreference);
     }
 }
