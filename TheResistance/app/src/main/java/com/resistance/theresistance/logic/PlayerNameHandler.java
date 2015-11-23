@@ -50,6 +50,7 @@ public class PlayerNameHandler {
                     Log.d("name", "The retrieval succeeded");
                     if (count <= 0) {
                         createNewParsePlayerObject(playerName);
+                        changePlayerNameInController(playerName);
                         startActivity();
                     } else {
                         changeNameExistsView(activity);
@@ -62,9 +63,29 @@ public class PlayerNameHandler {
     }
 
     /**
+     * Creates a new Parse object for player name.
+     * @param playerName name of the player
+     */
+    private static void createNewParsePlayerObject(String playerName) {
+        Player object = new Player();
+        object.setUsername(playerName);
+        object.saveInBackground();
+    }
+
+    /**
+     * Changes name in GameController object
+     * @param playerName
+     */
+    private static void changePlayerNameInController(String playerName) {
+        //Application myApplication = (Application)getApplicationContext();
+        //GameController controller = myApplication.getController();
+        //controller.setThisPlayerName(playerName);
+    }
+
+    /**
      * Starts the new activity after user enters a unique name.
      */
-    public static void startActivity() {
+    private static void startActivity() {
         Intent intent = new Intent(MainActivity.getContext(), GameNameActivity.class);
         intent.putExtra(EXTRA_MESSAGE, playerName);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -75,18 +96,8 @@ public class PlayerNameHandler {
      * Called when a username already exists. Displays already exists message.
      * @param activity MainActivity
      */
-    public static void changeNameExistsView(MainActivity activity) {
+    private static void changeNameExistsView(MainActivity activity) {
         View alreadyExistsView= (View) activity.findViewById(R.id.sorry_use_another_name);
         alreadyExistsView.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * Creates a new Parse object for player name.
-     * @param playerName name of the player
-     */
-    public static void createNewParsePlayerObject(String playerName) {
-        Player object = new Player();
-        object.setUsername(playerName);
-        object.saveInBackground();
     }
 }

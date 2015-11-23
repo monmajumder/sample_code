@@ -77,7 +77,6 @@ public class Player extends ParseObject {
         return getString("Name");
     }
 
-
     /**
      * Sets the user name
      * @param playerName username of the player
