@@ -3,7 +3,6 @@ package com.resistance.theresistance.logic;
 import android.util.Log;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
@@ -16,8 +15,8 @@ import java.util.ArrayList;
  */
 public class GameController {
 
-    private Player thisPlayer;
-    private Game thisGame;
+    private String thisPlayerName;
+    private String thisGameName;
 
     //DON'T NEED THIS!!!! DELETE.
     //Temporarily stores the games, will eventually be replaced by Parse
@@ -45,7 +44,7 @@ public class GameController {
                 if (e == null) {
                     Log.d("game", "The retrieval succeeded");
                     if (game.getGameState().equals("MISSION_LEADER_CHOOSING")) {
-                        if (game.getLeader().equals(thisPlayer)) {
+                        if (game.getLeader().getUsername().equals(thisPlayerName)) {
                             chooseMissionaries();
                         } else {
                             waitForMissionLeader();
@@ -87,7 +86,25 @@ public class GameController {
 
 
 
+    //-----------------------------------------------
+    // Getter and Setter Methods
+    //-----------------------------------------------
 
+    public void setThisPlayerName(String name) {
+        this.thisPlayerName = name;
+    }
+
+    public String getThisPlayerName() {
+        return this.thisPlayerName;
+    }
+
+    public void setThisGameName(String name) {
+        this.thisGameName = name;
+    }
+
+    public String getThisGameName() {
+        return this.thisGameName;
+    }
 
 
 
