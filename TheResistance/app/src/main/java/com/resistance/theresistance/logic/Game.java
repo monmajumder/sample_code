@@ -1,10 +1,15 @@
 package com.resistance.theresistance.logic;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -22,10 +27,7 @@ public class Game extends ParseObject {
     private int numPlayers;
     private int numResistanceWins;
     private int numSpiesWins;
-
-    //Relation arrays/points
-    private Leader leader; //actually needs to be Player, not leader
-    private Host gameHost; //actually needs to be Player, not host
+    private Player host;
     private ArrayList<Player> players;
     private ArrayList<Mission> missions;
 
@@ -41,9 +43,62 @@ public class Game extends ParseObject {
      * Constructor
      */
     public Game() {
-        setNumPlayers(1);
-        setGameState(State.WAITING_FOR_PLAYERS);
+        super();
     }
+
+    public void addPlayer(Player player) {
+        int newNumPlayers = getNumPlayers() + 1;
+        put("NumPlayers", newNumPlayers);
+        List<Player> playerList = getPlayers();
+        if (playerList == null) {
+            players = new ArrayList<Player>();
+        } else {
+            players = new ArrayList<Player>(getPlayers());
+        }
+        players.add(player);
+        put("Player",this.players);
+    }
+
+    //-----------------------------------------------
+    // Getter and Setter Methods
+    //-----------------------------------------------
+    public String getKeyword() {
+        return getString("Name");
+    }
+
+    public void setKeyword(String keyword) {
+        put("Name", keyword);
+    }
+
+    public int getNumPlayers() {
+        return getInt("NumPlayers");
+    }
+
+    public void setNumPlayers(int num) {
+        put("NumPlayers", num);
+    }
+
+    public State getGameState() {
+        return State.valueOf(getString("State"));
+    }
+
+    public void setGameState(State state) {
+        put("State", state.toString());
+    }
+
+    public void setHost(Player player) {
+        put("Host",player);
+    }
+
+    public List<Player> getPlayers() {
+        return getList("Player");
+    }
+
+
+
+
+
+
 
 
 
@@ -69,9 +124,6 @@ public class Game extends ParseObject {
     }
 
     /**
-     * Adds a Player to the game
-     * @param player, the Player to add to the game
-     */
     public void addPlayer(Player player){
         if (numPlayers < 10){
         players.add(player);
@@ -80,7 +132,7 @@ public class Game extends ParseObject {
         else{
          throw new IndexOutOfBoundsException("Cannot have more than 10 players.");
          }
-    }
+    }**/
 
     /**
     * Assigns all players the role of Resistor or Spy
@@ -127,12 +179,6 @@ public class Game extends ParseObject {
       gameState = State.WAITING_FOR_PLAYERS;
    }
 
-   /**
-    * Changes the Game's host
-    */
-   public void changeHost(){
-       gameHost.setHost(players.get(0)); //If host leaves, the longest tenured player becomes host.
-   }
 
     //-----------------------------------------------
     // Helper Methods
@@ -151,41 +197,14 @@ public class Game extends ParseObject {
     // Getter and Setter Methods
     //-----------------------------------------------
 
-    public String getKeyword() {
-        return getString("Name");
-    }
-
-    public void setKeyword(String keyword) {
-        put("Name", keyword);
-    }
-
-    public int getNumPlayers() {
-        return getInt("NumPlayers");
-    }
-
-    public void setNumPlayers(int num) {
-        put("NumPlayers", num);
-    }
-
-    public State getGameState() {
-        return State.valueOf(getString("State"));
-    }
-
-    public void setGameState(State state) {
-        put("State", state.toString());
-    }
 
     //Fix this
+    /**
     public Player getLeader() {
         return this.leader.getLeader();
     }
 
     public void setLeader() {
         put("Leader",leader.getLeader().getUsername());
-    }
-
-    /**Think about these**/
-    public Host getGameHost(){return this.gameHost;}
-
-    public ArrayList<Player> getPlayers() {return this.players;}
+    }**/
 }

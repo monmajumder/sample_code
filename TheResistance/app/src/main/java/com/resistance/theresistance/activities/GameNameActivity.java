@@ -69,7 +69,7 @@ public class GameNameActivity extends AppCompatActivity {
         if (!nameEntered(gameName)) {
             return;
         }
-        GameNameHandler.createGameHandler(this,gameName);
+        GameNameHandler.createGameHandler(this,gameName, getPlayerName());
         saveInPreferences(gameName);
     }
 
@@ -84,7 +84,7 @@ public class GameNameActivity extends AppCompatActivity {
         if (!nameEntered(gameName)) {
             return;
         }
-        GameNameHandler.joinGameHandler(this, gameName);
+        GameNameHandler.joinGameHandler(this, gameName, getPlayerName());
         saveInPreferences(gameName);
     }
 
@@ -111,5 +111,11 @@ public class GameNameActivity extends AppCompatActivity {
         //Check if gameName stored
         //String storedPreference = preferences.getString("gameName","none");
         //Log.d("checkGameName", storedPreference);
+    }
+
+    private String getPlayerName() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String storedName = preferences.getString("playerName","none");
+        return storedName;
     }
 }
