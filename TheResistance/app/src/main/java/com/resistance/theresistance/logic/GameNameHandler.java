@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.parse.CountCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -19,6 +20,7 @@ import com.resistance.theresistance.activities.GameNameActivity;
 public class GameNameHandler {
 
     private static String gameName;
+    private static String playerName;
     public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     protected GameNameActivity context;
     private static GameNameActivity activity;
@@ -35,10 +37,11 @@ public class GameNameHandler {
     /**
      * Called when a user wants to create a game
      * @param thisActivity GameNameActivity
-     * @param name name of the new game room
+     * @param gName name of the new game room
      */
-    public static void createGameHandler(GameNameActivity thisActivity, String name) {
-        gameName = name;
+    public static void createGameHandler(GameNameActivity thisActivity, String gName, String pName) {
+        gameName = gName;
+        playerName = pName;
         activity = thisActivity;
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
@@ -49,7 +52,7 @@ public class GameNameHandler {
                 if (e == null) {
                     Log.d("gameName", "The retrieval succeeded");
                     if (count <= 0) {
-                        createNewParseGameObject(gameName);
+                        createNewGame(gameName, playerName);
                         startActivity();
                     } else {
                         changeGameNameExistsView(activity, "create");
@@ -62,29 +65,77 @@ public class GameNameHandler {
     }
 
     /**
-     * Called when a user wants to create a game
+     * Called when a user wants to join a game
      * @param thisActivity GameNameActivity
-     * @param name name of the game room to be joined
+     * @param gName name of the game room to be joined
      */
-    public static void joinGameHandler(GameNameActivity thisActivity, String name) {
-        gameName = name;
+    public static void joinGameHandler(GameNameActivity thisActivity, String gName, String pName) {
+        gameName = gName;
+        playerName = pName;
         activity = thisActivity;
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
-        query.countInBackground(new CountCallback() {
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("gameName", "The retrieval succeeded");
+            addPlayerToGame(object, playerName);
+            object.saveInBackground();
+            startActivity();
+        } catch (ParseException e) {
+            Log.d("gameName", "The retrieval failed");
+            changeGameNameExistsView(activity, "join");
+        }
+    }
+
+    /**
+     * Creates a new game.
+     * @param gameName Name of the game
+     * @param playerName Name of player creating the game
+     */
+    private static void createNewGame(String gameName, String playerName) {
+        final String keyword = gameName;
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayerObject");
+        query.whereEqualTo("Name", playerName);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
-            public void done(int count, ParseException e) {
-                if (e == null) {
-                    Log.d("gameName", "The retrieval succeeded");
-                    if (count > 0) {
-                        createNewParseGameObject(gameName);
-                        startActivity();
-                    } else {
-                        changeGameNameExistsView(activity, "join");
-                    }
+            public void done(ParseObject object, ParseException e) {
+                if (object == null) {
+                    Log.d("player", "The retrieval failed");
                 } else {
-                    Log.d("gameName", "The retrieval failed");
+                    Log.d("player", "The retrieval succeeded");
+                    Game newGame = new Game();
+                    newGame.setNumPlayers(1);
+                    newGame.setGameState(Game.State.WAITING_FOR_PLAYERS);
+                    newGame.setKeyword(keyword);
+                    newGame.setHost((Player) object);
+                    newGame.addPlayer((Player) object);
+                    newGame.saveInBackground();
+                }
+            }
+        });
+    }
+
+    /**
+     * Adds a player to the game.
+     * @param parseObject The game object
+     * @param playerName The name of the player
+     */
+    private static void addPlayerToGame(ParseObject parseObject, String playerName) {
+        final Game gameObject = (Game) parseObject;
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayerObject");
+        query.whereEqualTo("Name", playerName);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (object == null) {
+                    Log.d("player", "The retrieval failed");
+                } else {
+                    Log.d("player", "The retrieval succeeded");
+                    gameObject.addPlayer((Player) object);
+                    gameObject.saveInBackground();
                 }
             }
         });
@@ -115,18 +166,6 @@ public class GameNameHandler {
             secondView.setVisibility(View.INVISIBLE);
             existsView.setVisibility(View.VISIBLE);
         }
-    }
-
-    /**
-     * Creates a new Parse object for game name.
-     *
-     * @param gameName name of the game
-     */
-    public static void createNewParseGameObject(String gameName) {
-        Game object = new Game();
-        object.setKeyword(gameName);
-        /*ADD RELATION TO PLAYER */
-        object.saveInBackground();
     }
 
 }

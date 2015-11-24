@@ -28,10 +28,7 @@ public class GameController {
     public GameController(){
     }
 
-
     /**
-     * Check if the game started.
-     */
     public void checkStartedGame(String gameName) {
         //EVERY FEW SECONDS, QUERY FOR STATE OF GAME. HAS THE GAME STARTED?
         //ABSTRACT THIS METHOD TO DIFFERENT CLASS?
@@ -59,6 +56,7 @@ public class GameController {
             }
         });
     }
+    **/
 
     public void getMyRole(String playerName) {
         ParseQuery<Player> query = ParseQuery.getQuery(Player.class);

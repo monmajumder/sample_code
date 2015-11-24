@@ -50,7 +50,6 @@ public class PlayerNameHandler {
                     Log.d("name", "The retrieval succeeded");
                     if (count <= 0) {
                         createNewParsePlayerObject(playerName);
-                        changePlayerNameInController(playerName);
                         startActivity();
                     } else {
                         changeNameExistsView(activity);
@@ -70,16 +69,6 @@ public class PlayerNameHandler {
         Player object = new Player();
         object.setUsername(playerName);
         object.saveInBackground();
-    }
-
-    /**
-     * Changes name in GameController object
-     * @param playerName
-     */
-    private static void changePlayerNameInController(String playerName) {
-        //Application myApplication = (Application)getApplicationContext();
-        //GameController controller = myApplication.getController();
-        //controller.setThisPlayerName(playerName);
     }
 
     /**
