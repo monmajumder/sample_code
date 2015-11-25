@@ -86,8 +86,12 @@ public class Game extends ParseObject {
         put("State", state.toString());
     }
 
-    public void setHost(Player player) {
-        put("Host",player);
+    public void setHost(String hostName) {
+        put("Host",hostName);
+    }
+
+    public String getHost() {
+        return getString("Host");
     }
 
     public List<Player> getPlayers() {

@@ -65,7 +65,7 @@ public class GameNameHandler {
     }
 
     /**
-     * Called when a user wants to join a game
+     * Called when a user wants to join a game.
      * @param thisActivity GameNameActivity
      * @param gName name of the game room to be joined
      */
@@ -95,6 +95,7 @@ public class GameNameHandler {
      */
     private static void createNewGame(String gameName, String playerName) {
         final String keyword = gameName;
+        final String player = playerName;
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayerObject");
         query.whereEqualTo("Name", playerName);
@@ -106,10 +107,10 @@ public class GameNameHandler {
                 } else {
                     Log.d("player", "The retrieval succeeded");
                     Game newGame = new Game();
-                    newGame.setNumPlayers(1);
+                    newGame.setNumPlayers(0);
                     newGame.setGameState(Game.State.WAITING_FOR_PLAYERS);
                     newGame.setKeyword(keyword);
-                    newGame.setHost((Player) object);
+                    newGame.setHost(player);
                     newGame.addPlayer((Player) object);
                     newGame.saveInBackground();
                 }
@@ -167,5 +168,4 @@ public class GameNameHandler {
             existsView.setVisibility(View.VISIBLE);
         }
     }
-
 }
