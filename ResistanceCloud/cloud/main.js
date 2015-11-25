@@ -34,7 +34,7 @@ Parse.Cloud.define("setPlayerRoles", function(request, response) {
 });
 
 function setPlayerRoles(game) {
-  var players = game.get("Players"); //eventually fix to get("players")
+  var players = game.get("Player"); //eventually fix to get("players")
   var numPlayers = players.length;  
   var numSpies = ~~(numPlayers*.43); //magically calculates the correct number of spies
   var uniqueRandomNumbers = generateRandomNumbers(numSpies,0,numPlayers - 1);
