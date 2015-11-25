@@ -3,6 +3,7 @@ package com.resistance.theresistance.logic;
 import android.util.Log;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
@@ -26,6 +27,34 @@ public class GameController {
      * Constructor for GameController.
      */
     public GameController(){
+    }
+
+    /**
+     * Checks whether or not a player is the host.
+     * @param gameName Name of the game
+     * @param playerName Name of the player
+     * @return True if player is the host, false otherwise
+     */
+    public static boolean checkHost(String gameName, String playerName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
+        query.whereEqualTo("Name", gameName);
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("gameName", "The retrieval succeeded");
+            Game gameObject = (Game)object;
+            if (gameObject.getHost().equals(playerName)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            Log.d("gameName", "The retrieval failed");
+            return false;
+        }
+    }
+
+    public void hostStartGame() {
+
     }
 
     /**
