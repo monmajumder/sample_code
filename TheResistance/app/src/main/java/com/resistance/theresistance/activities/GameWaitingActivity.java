@@ -10,19 +10,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.resistance.theresistance.R;
+import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
+import com.resistance.theresistance.logic.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Game Activity
  */
 public class GameWaitingActivity extends AppCompatActivity {
+
     public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     public final static String ANOTHER_EXTRA_MESSAGE = "";
     private static Intent intent;
     Button startButton;
     String gameName;
     String gameRoomStr;
+
     /**
      * Called on create
      * @param savedInstanceState state of instance
@@ -53,15 +63,32 @@ public class GameWaitingActivity extends AppCompatActivity {
                 startGame();
             }
         });
+
+
+        //Abstract this method
+        //Add some sort of timer, do this every second or so
+        //Do it until the host presses start button
+        //Check if game started
+        if (!GameController.checkStarted(gameName)) {
+            ArrayList<String> players = GameController.updatePlayers(gameName);
+            //Use the array list to update UI
+        } else {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String playerName = preferences.getString("playerName", "none");
+            if (GameController.isResistance(playerName)) {
+                //Go to GamePlayActivity with certain layout for Resistance?
+            } else {
+                //Go to GamePlayActivity with certain layout for Spies?
+            }
+        }
     }
 
     /**
      * Checks if player is host and if player is host, player can see "Start" button.
      */
-    public void handleHost() {
+    private void handleHost() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String storedPlayer = preferences.getString("playerName","none");
-        Log.d("checkPlayerName", storedPlayer);
 
         //If player is host, change visibilities for host
         if (GameController.checkHost(gameName, storedPlayer)) {
@@ -69,10 +96,13 @@ public class GameWaitingActivity extends AppCompatActivity {
         }
     }
 
-    public void startGame() {
+    private void startGame() {
+        //When host clicks start Game, run Cloud code.
+        //Starting the new activity should be elsewhere
         intent = new Intent(this, GamePlayActivity.class);
         intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
         startActivity(intent);
+
 
         /**
         //TEST IF CHECKHOST WORKS. DELETE.
@@ -83,6 +113,26 @@ public class GameWaitingActivity extends AppCompatActivity {
             Log.d("CHECKING", "YES. THIS PLAYER IS HOST.");
         } else {
             Log.d("CHECKING", "NO. THIS PLAYER IS NOT HOST.");
+        }
+
+         //TEST IF CHECK STATE WORKS. DELETE.
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String storedPlayer = preferences.getString("playerName","none");
+        Log.d("checkPlayerName", storedPlayer);
+        if (GameController.checkStarted(gameName)) {
+            Log.d("CHECKING", "YES. GAME HAS STARTED.");
+        } else {
+            Log.d("CHECKING", "NO. GAME HAS NOT STARTED.");
+        }
+
+        //TEST IF UPDATE PLAYERS WORKS. DELETE.
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String storedPlayer = preferences.getString("playerName","none");
+        Log.d("checkPlayerName", storedPlayer);
+        ArrayList<String> testPlayers = new ArrayList<>();
+        testPlayers = GameController.updatePlayers(gameName);
+        for (String name : testPlayers) {
+            Log.d("Player name", name);
         } **/
     }
 
