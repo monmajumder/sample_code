@@ -30,6 +30,21 @@ public class Player extends ParseObject {
         super();
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Creates a Player object
      *
