@@ -39,16 +39,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mContext = getBaseContext();
-        HashMap<String,Object> arguments = new HashMap<>();
-        arguments.put("Name", "newgame");
-        ParseCloud.callFunctionInBackground("startGame", arguments,
-                new FunctionCallback<Map<String, Object>>() {
-                    @Override
-                    public void done(Map<String, Object> mapObject, ParseException e) {
-                        if (e == null) {
-                        }
-                    }
-                });
         //This comment is here to fix issue.
         setContentView(R.layout.activity_main);
     }
