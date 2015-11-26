@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = getBaseContext();
         HashMap<String,Object> arguments = new HashMap<>();
-        arguments.put("Name", "test");
-        ParseCloud.callFunctionInBackground("setPlayerRoles", arguments,
+        arguments.put("Name", "newgame");
+        ParseCloud.callFunctionInBackground("startGame", arguments,
                 new FunctionCallback<Map<String, Object>>() {
                     @Override
                     public void done(Map<String, Object> mapObject, ParseException e) {
