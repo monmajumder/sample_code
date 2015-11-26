@@ -1,9 +1,5 @@
 package com.resistance.theresistance.logic;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
-
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -27,7 +23,7 @@ public class Game extends ParseObject {
     private int numPlayers;
     private int numResistanceWins;
     private int numSpiesWins;
-    private Player host;
+    private String host;
     private ArrayList<Player> players;
     private ArrayList<Mission> missions;
 
@@ -46,6 +42,10 @@ public class Game extends ParseObject {
         super();
     }
 
+    /**
+     * Adds a Player to a Game's Player array and increments number counter
+     * @param player Player object to be added
+     */
     public void addPlayer(Player player) {
         int newNumPlayers = getNumPlayers() + 1;
         put("NumPlayers", newNumPlayers);
@@ -56,7 +56,7 @@ public class Game extends ParseObject {
             players = new ArrayList<Player>(getPlayers());
         }
         players.add(player);
-        put("Player",this.players);
+        put("Players",this.players);
     }
 
     //-----------------------------------------------
@@ -95,7 +95,11 @@ public class Game extends ParseObject {
     }
 
     public List<Player> getPlayers() {
-        return getList("Player");
+        return getList("Players");
+    }
+
+    public List<Mission> getMissions() {
+        return getList("Missions");
     }
 
 
@@ -106,8 +110,7 @@ public class Game extends ParseObject {
 
 
 
-
-
+    /** DON'T NEED THESE. I THINK. **/
     public ArrayList<String> getPlayerNames() {
         ArrayList<String> allNames = new ArrayList<String>();
         //for each player in the game, extract the game name and add to array

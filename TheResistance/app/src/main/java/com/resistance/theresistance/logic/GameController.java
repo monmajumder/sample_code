@@ -1,12 +1,12 @@
 package com.resistance.theresistance.logic;
 
 import android.util.Log;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * GameController class is in charge of controlling the Game.
@@ -16,9 +16,6 @@ import java.util.ArrayList;
  */
 public class GameController {
 
-    private String thisPlayerName;
-    private String thisGameName;
-
     //DON'T NEED THIS!!!! DELETE.
     //Temporarily stores the games, will eventually be replaced by Parse
     ArrayList<Game> games = new ArrayList<Game>();
@@ -27,6 +24,7 @@ public class GameController {
      * Constructor for GameController.
      */
     public GameController(){
+        super();
     }
 
     /**
@@ -40,7 +38,7 @@ public class GameController {
         query.whereEqualTo("Name", gameName);
         try {
             ParseObject object = query.getFirst();
-            Log.d("gameName", "The retrieval succeeded");
+            Log.d("checkHost game", "The retrieval succeeded");
             Game gameObject = (Game)object;
             if (gameObject.getHost().equals(playerName)) {
                 return true;
@@ -48,60 +46,80 @@ public class GameController {
                 return false;
             }
         } catch (ParseException e) {
-            Log.d("gameName", "The retrieval failed");
+            Log.d("checkHost game", "The retrieval failed");
             return false;
         }
     }
 
-    public void hostStartGame() {
+    /**
+     * Extracts the name of the players currently in a game.
+     * @param gameName Name of the game
+     * @return ArrayList containing the names of the Players in a game
+     */
+    public static ArrayList<String> updatePlayers(String gameName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
+        query.whereEqualTo("Name", gameName);
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("updatePlayers game", "The retrieval succeeded");
+            Game gameObject = (Game) object;
+            ArrayList<String> allPlayers = new ArrayList<>();
 
+            List<Player> listOfPlayers = gameObject.fetchIfNeeded().getList("Players");
+            for (Player player : listOfPlayers) {
+                allPlayers.add(player.fetchIfNeeded().getString("Name"));
+            }
+            return allPlayers;
+        } catch (ParseException e) {
+            Log.d("updatePlayers game", "The retrieval failed");
+            return null;
+        }
     }
 
     /**
-    public void checkStartedGame(String gameName) {
-        //EVERY FEW SECONDS, QUERY FOR STATE OF GAME. HAS THE GAME STARTED?
-        //ABSTRACT THIS METHOD TO DIFFERENT CLASS?
-        //NEED TO ADD TIME INTERVAL COMPONENT
-        ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
+     * Checks whether a game is started.
+     * @param gameName Name of the game
+     * @return True if game has started, false otherwise
+     */
+    public static boolean checkStarted(String gameName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
-        query.getFirstInBackground(new GetCallback<Game>() {
-            @Override
-            public void done(Game game, ParseException e) {
-                if (e == null) {
-                    Log.d("game", "The retrieval succeeded");
-                    if (game.getGameState().equals("MISSION_LEADER_CHOOSING")) {
-                        if (game.getLeader().getUsername().equals(thisPlayerName)) {
-                            chooseMissionaries();
-                        } else {
-                            waitForMissionLeader();
-                        }
-                    } else if (game.getGameState().equals("WAITING_FOR_PLAYERS")) {
-                        ArrayList<String> playersInGame = game.getPlayerNames();
-                        //DO SOMETHING HERE TO CHANGE THE VIEW ON THE ACTIVITY
-                    }
-                } else {
-                    Log.d("game", "The retrieval failed");
-                }
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("checkStarted game", "The retrieval succeeded");
+            Game gameObject = (Game) object;
+            if (gameObject.getGameState() == Game.State.WAITING_FOR_PLAYERS) {
+                return false;
             }
-        });
+            return true;
+        } catch (ParseException e) {
+            Log.d("checkStarted game", "The retrieval failed");
+            return false;
+        }
     }
-    **/
 
-    public void getMyRole(String playerName) {
-        ParseQuery<Player> query = ParseQuery.getQuery(Player.class);
+    /**
+     * Checks whether a certain player is Resistance.
+     * @param playerName Name of player
+     * @return True if player is Resistor, false otherwise
+     */
+    public static boolean isResistance(String playerName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayerObject");
         query.whereEqualTo("Name", playerName);
-        query.getFirstInBackground(new GetCallback<Player>() {
-            @Override
-            public void done(Player player, ParseException e) {
-                if (e == null) {
-                    Log.d("game", "The retrieval succeeded");
-                    Player.PlayerType type = player.getPlayerType();
-                } else {
-                    Log.d("game", "The retrieval failed");
-                }
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("isResistance player", "The retrieval succeeded");
+            Player playerObject = (Player) object;
+            if (playerObject.getPlayerType() == Player.PlayerType.RESISTOR) {
+                return true;
             }
-        });
+            return false;
+        } catch (ParseException e) {
+            Log.d("isResistance player", "The retrieval failed");
+            return false;
+        }
     }
+
 
     public void chooseMissionaries() {
 
@@ -113,25 +131,6 @@ public class GameController {
 
 
 
-    //-----------------------------------------------
-    // Getter and Setter Methods
-    //-----------------------------------------------
-
-    public void setThisPlayerName(String name) {
-        this.thisPlayerName = name;
-    }
-
-    public String getThisPlayerName() {
-        return this.thisPlayerName;
-    }
-
-    public void setThisGameName(String name) {
-        this.thisGameName = name;
-    }
-
-    public String getThisGameName() {
-        return this.thisGameName;
-    }
 
 
 
@@ -139,7 +138,8 @@ public class GameController {
 
 
 
-    /**NOT MINE!!!! **/
+
+    /**DELETE?**/
     /**
      * DON'T NEED THIS.
      * Creates a game.

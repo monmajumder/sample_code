@@ -145,7 +145,7 @@ public class GameNameHandler {
     /**
      * Starts the new activity after user enters a unique name for the game room.
      */
-    public static void startActivity() {
+    private static void startActivity() {
         Intent intent = new Intent(GameNameActivity.getContext(), GameWaitingActivity.class);
         intent.putExtra(EXTRA_MESSAGE, gameName);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -157,7 +157,7 @@ public class GameNameHandler {
      * @param activity MainActivity
      * @param type either create or join
      */
-    public static void changeGameNameExistsView(GameNameActivity activity, String type) {
+    private static void changeGameNameExistsView(GameNameActivity activity, String type) {
         View existsView= (View) activity.findViewById(R.id.sorry_use_another_name);
         View secondView = (View) activity.findViewById(R.id.name_doesnt_exist);
         if (type.equals("join")) {
