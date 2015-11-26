@@ -12,9 +12,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.MyApplication;
 import com.resistance.theresistance.logic.PlayerNameHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Main Activity. First screen that asks for username.
@@ -33,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mContext = getBaseContext();
-
         //This comment is here to fix issue.
         setContentView(R.layout.activity_main);
     }

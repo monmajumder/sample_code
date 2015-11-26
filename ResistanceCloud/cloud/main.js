@@ -19,22 +19,73 @@ Parse.Cloud.define("cloudifyNameObject", function(request, response) {
   };
 });
 
-/* determines player roles
-   {"keyword" : String} keyword of the game */
-Parse.Cloud.define("setPlayerRoles", function(request, response) {
+/* executes all the setup code to start the game
+   {"Name" : String} Name of the game */
+Parse.Cloud.define("startGame", function(request, response) {
+  startGame(request,response);
+});
+
+var startGame = function(request, response) {
   (function() {
-  return findObject("GameObject", request.params.keyword);
+  return findObject("GameObject", request.params.Name);
   }()).then(function(game){
-    setPlayerRoles(game);
+    // only use promise for assumed slowest function.
+    // should probably be parallel promises
+    actuallySetPlayerRoles(game);
+    //set pointer in mission object to player object for mission leader
+    //update game state
+    return makeFirstMission(game);
+  }).then(function() {
+    console.log("response sucess");
+    response.success();
+  }), function(error) {
+    response.error("something fucked up");
+  };
+}
+
+// makes the first round.
+// makes the first mission and adds the first round to it.
+// adds the mission to the game
+var makeFirstMission = function(game) {
+  var promise = new Parse.Promise();
+  var RoundObject = Parse.Object.extend("RoundObject");
+  var firstRound = new RoundObject();
+  firstRound.save().then(function(firstRound) {
+    var MissionObject = Parse.Object.extend("MissionObject");
+    var firstMission = new MissionObject();
+    firstMission.add("Rounds",firstRound);
+    return firstMission.save();
+  }).then(function(firstMission) {
+    game.add("Missions", firstMission);
+    game.save();
+  }).then(function() {
+    promise.resolve();
+  }), function(error){
+    response.error("fuck");
+  };
+  return promise;
+}
+
+/* determines player roles
+   {"Name" : String} Name of the game */
+Parse.Cloud.define("setPlayerRoles", function(request, response) {
+  setPlayerRoles(request,response);
+});
+
+var setPlayerRoles = function(request,response) {
+  (function() {
+  return findObject("GameObject", request.params.Name);
+  }()).then(function(game){
+    actuallySetPlayerRoles(game);
   }).then(function() {
     response.success();
   }), function(error) {
     response.error("something fucked up");
   };
-});
+}
 
-function setPlayerRoles(game) {
-  var players = game.get("Players"); //eventually fix to get("players")
+function actuallySetPlayerRoles(game) {
+  var players = game.get("Player");
   var numPlayers = players.length;  
   var numSpies = ~~(numPlayers*.43); //magically calculates the correct number of spies
   var uniqueRandomNumbers = generateRandomNumbers(numSpies,0,numPlayers - 1);
