@@ -5,22 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.FunctionCallback;
-import com.parse.ParseCloud;
-import com.parse.ParseException;
 import com.resistance.theresistance.R;
-import com.resistance.theresistance.logic.MyApplication;
 import com.resistance.theresistance.logic.PlayerNameHandler;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Main Activity. First screen that asks for username.

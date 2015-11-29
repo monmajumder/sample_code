@@ -120,19 +120,34 @@ public class GameController {
         }
     }
 
-
-    public void chooseMissionaries() {
-
+    /**
+     * Checks whether a certain player is the Mission Leader.
+     * @param gameName Name of the game
+     * @param playerName Name of the player
+     * @return True if yes, false otherwise
+     */
+    public static boolean checkLeader(String gameName, String playerName) {
+        return false;
     }
 
-    public void waitForMissionLeader() {
-
+    /**
+     * Checks whether a certain player is a Missionary.
+     * @param gameName Name of the game
+     * @param playerName Name of the player
+     * @return True if yes, false otherwise
+     */
+    public static boolean checkMissionary(String gameName, String playerName) {
+        return false;
     }
 
-
-
-
-
+    /**
+     * Checks whether a Mission Leader has finished choosing Missionary Team.
+     * @param gameName Name of the game
+     * @return True if Mission Leader is finished choosing, false otherwise
+     */
+    public static boolean checkMissionLeaderDoneChoosing(String gameName) {
+        return false;
+    }
 
 
 
@@ -140,57 +155,6 @@ public class GameController {
 
 
     /**DELETE?**/
-    /**
-     * DON'T NEED THIS.
-     * Creates a game.
-     * @param hostName Name of the host
-     * @param keyword Keyword of the game
-     */
-    public void createGame (String hostName, String keyword){
-       //Will eventually add Parse stuff to access and store GameObjects
-
-        Player creator = new Player(hostName);
-        Host host = new Host(creator);
-
-        Game newGame = new Game(keyword);
-        newGame.addPlayer(creator);
-
-        //Temporarily add game to the arraylist of games before Parse is included in code
-        games.add(newGame);
-    }
-
-    /**
-     * Returns games arraylist for testing purposes before Parse is added
-     * @return games Arraylist of all games
-     */
-    public ArrayList<Game> getGames () {
-        return this.games;
-    }
-
-   /**
-    * Adds a player to an existing game.
-    * @param keyword, the keyword that is associated with
-    * an existing game
-    */
-   public void joinGame(String keyword){
-       Game game = new Game("temp");
-       //Query Parse to retrieve GameObject using keyword
-
-       //Temporary method that finds the game in Arraylist of games (replace with Parse query)
-       for(Game oneGame: games) {
-           if (oneGame.getKeyword().equals(keyword)) {
-               game = oneGame;
-               break;
-           }
-       }
-
-       //Create a player object for new game joiner
-       //Get player's username from Parse
-       String username = "temp"; // get rid of this - for compilation purposes only
-       Player newPlayer = new Player (username);
-       game.addPlayer(newPlayer);
-   }
-
    /**
     * Plays the game
     * @param game the game to be played

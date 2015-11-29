@@ -30,46 +30,6 @@ public class Player extends ParseObject {
         super();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Creates a Player object
-     *
-     * @param username, the player's username
-     */
-    public Player(String username) {
-        this.username = username;
-        //playerType is based on randomizer, is decided later
-    }
-
-    /**
-     * DON'T NEED THIS. DONE BY PARSE CLOUD CODE.
-     * Sets the player's type
-     *
-     * @param type, "Spy" or "Resistor" for type
-     */
-    public void setType(PlayerType type) {
-
-        if (type != PlayerType.SPY && type != PlayerType.RESISTOR) {
-            //throw some illegal exception here
-        }
-        this.playerType = type;
-    }
-
-
     /**
      * Player votes for missionaries
      * @param vote yes/no (true or false respectively)

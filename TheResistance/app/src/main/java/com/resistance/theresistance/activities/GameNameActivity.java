@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.GameNameHandler;
-import com.resistance.theresistance.logic.PlayerNameHandler;
 
 /**
  * Game Name Activity

@@ -5,21 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.resistance.theresistance.R;
-import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
-import com.resistance.theresistance.logic.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Game Activity
@@ -67,7 +60,7 @@ public class GameWaitingActivity extends AppCompatActivity {
 
         //Abstract this method
         //Add some sort of timer, do this every second or so
-        //Do it until the host presses start button
+        //Do it until the game is started (game state changes after host presses start)
         //Check if game started
         if (!GameController.checkStarted(gameName)) {
             ArrayList<String> players = GameController.updatePlayers(gameName);
