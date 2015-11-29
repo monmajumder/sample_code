@@ -16,7 +16,6 @@ import java.util.Random;
 @ParseClassName("MissionObject")
 public class Mission extends ParseObject {
 
-    private Leader missionLeader; //should be Player
     private int missionNum;
     private boolean succeeded;//if the players voted yes/no for the mission
     private ArrayList<Round> rounds;
@@ -32,12 +31,10 @@ public class Mission extends ParseObject {
 
    /**
     * Creates a mission object
-    * @param missionLeader the object for the leader of the mission, in charge of choosing missionaries
     * @param missionNum the mission number
     * @param rounds keeps track of all players votes
     */
-   public Mission(Leader missionLeader, int missionNum, ArrayList<Round> rounds){
-       this.missionLeader = missionLeader;
+   public Mission(int missionNum, ArrayList<Round> rounds){
        this.missionNum = missionNum;
        this.rounds = rounds;
        this.succeeded = false;
@@ -62,12 +59,5 @@ public class Mission extends ParseObject {
         return newLeader;
     }
 
-    /**
-     * Changes the mission leader to a new player.
-     * @param newLeader player that is the new mission leader
-     */
-    public void changeLeader(Leader newLeader){
-        this.missionLeader = newLeader;
-    }
 
 }
