@@ -5,6 +5,7 @@ import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Round class is in charge of storing each Round of
@@ -33,16 +34,36 @@ public class Round extends ParseObject {
         super();
     }
 
+    public void addYesVote(String playerName) {
+        yes = new ArrayList<>(getYes());
+        yes.add(playerName);
+        setYes(yes);
+    }
+
+    public void addNoVote(String playerName) {
+        no = new ArrayList<>(getNo());
+        no.add(playerName);
+        setNo(no);
+    }
+
     //-----------------------------------------------
     // Getter and Setter Methods
     //-----------------------------------------------
+
+    /**
+     * Gets the name of the leader of the round.
+     * @return Name of the player who is the leader
+     */
+    public String getLeader() {
+        return getString("Leader");
+    }
 
     /**
      * Sets the new leader for the mission
      * @param newLeader the name of the new leader
      */
     public void setLeader(String newLeader){
-        put("leader", newLeader);
+        put("Leader", newLeader);
     }
 
     /**
@@ -50,24 +71,39 @@ public class Round extends ParseObject {
      * @param missionaries the new chosen missionaries to be set
      */
     public void setMissionaries(ArrayList<String> missionaries){
-        put("missionaries", missionaries);
+        put("Missionaries", missionaries);
     }
 
     /**
-     * Saves the player's names who voted yes
+     * Gets the players' names who voted yes
+     * @return List of names
+     */
+    public List<String> getYes() {
+        return getList("Yes");
+    }
+
+    /**
+     * Saves the players' names who voted yes
      * @param yesVotes player's names who voted yes
      */
     public void setYes(ArrayList<String> yesVotes){
-       put("yes", yesVotes);
+       put("Yes", yesVotes);
     }
 
     /**
-     * Saves the player's names who voted no
+     * Gets the players' names who voted no
+     * @return List of names
+     */
+    public List<String> getNo() {
+        return getList("No");
+    }
+
+    /**
+     * Saves the players' names who voted no
      * @param noVotes player's names who voted no
      */
     public void setNo(ArrayList<String> noVotes){
-        put("yes", noVotes);
+        put("No", noVotes);
     }
 
 }
-

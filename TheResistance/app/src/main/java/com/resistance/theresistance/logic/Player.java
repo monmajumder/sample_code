@@ -30,22 +30,12 @@ public class Player extends ParseObject {
         super();
     }
 
-    /**
-     * Player votes for missionaries
-     * @param vote yes/no (true or false respectively)
-     * @return vote the casted vote
-     */
-    public boolean voteForMissionaries(boolean vote) {
-        return vote;
-    }
-
-
     //-----------------------------------------------
     // Getter and Setter Methods
     //-----------------------------------------------
 
     /**
-     * Returns the user name
+     * Gets the user name
      * @return the username of the player
      */
     public String getUsername() {
@@ -61,7 +51,7 @@ public class Player extends ParseObject {
     }
 
     /**
-     * Get the player type.
+     * Gets the player type.
      * @return the type of the player
      */
     public PlayerType getPlayerType() {

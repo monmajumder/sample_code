@@ -31,7 +31,7 @@ public class Game extends ParseObject {
      * Defines the states that a game can be in
      */
     public enum State {
-        WAITING_FOR_PLAYERS, MISSION_LEADER_CHOOSING, VOTE_FOR_MISSIONARIES, MISSIONARIES_VOTING, RESISTANCE_WINS, SPIES_WIN
+        WAITING_FOR_PLAYERS, MISSION_LEADER_CHOOSING, VOTE_FOR_MISSIONARIES, MISSIONARIES_VOTING, MISSION_PASSED, MISSION_FAILED, RESISTANCE_WINS, SPIES_WIN
     }
     private State gameState;
 
@@ -48,170 +48,116 @@ public class Game extends ParseObject {
      */
     public void addPlayer(Player player) {
         int newNumPlayers = getNumPlayers() + 1;
-        put("NumPlayers", newNumPlayers);
+        setNumPlayers(newNumPlayers);
         List<Player> playerList = getPlayers();
         if (playerList == null) {
-            players = new ArrayList<Player>();
+            players = new ArrayList<>();
         } else {
-            players = new ArrayList<Player>(getPlayers());
+            players = new ArrayList<>(getPlayers());
         }
         players.add(player);
-        put("Players",this.players);
+        setPlayers(players);
+    }
+
+    /**
+     * Gets the current mission.
+     * @return Mission object that is the current mission
+     */
+    public Mission getCurrMission() {
+        missions = new ArrayList<>(getMissions());
+        return missions.get(missions.size()-1);
     }
 
     //-----------------------------------------------
     // Getter and Setter Methods
     //-----------------------------------------------
+
+    /**
+     * Gets the keyword for the game
+     * @return Keyword
+     */
     public String getKeyword() {
         return getString("Name");
     }
 
+    /**
+     * Sets the keyword for the game
+     * @param keyword Unique keyword for the game
+     */
     public void setKeyword(String keyword) {
         put("Name", keyword);
     }
 
+    /**
+     * Gets the number of players
+     * @return Number of players
+     */
     public int getNumPlayers() {
         return getInt("NumPlayers");
     }
 
+    /**
+     * Sets the number of players
+     * @param num Number of players
+     */
     public void setNumPlayers(int num) {
         put("NumPlayers", num);
     }
 
+    /**
+     * Gets the game state
+     * @return Enum for game state
+     */
     public State getGameState() {
         return State.valueOf(getString("State"));
     }
 
+    /**
+     * Sets the game state
+     * @param state Enum for game state
+     */
     public void setGameState(State state) {
         put("State", state.toString());
     }
 
+    /**
+     * Sets the host
+     * @param hostName Name of player
+     */
     public void setHost(String hostName) {
         put("Host",hostName);
     }
 
+    /**
+     * Gets the host
+     * @return Name of player
+     */
     public String getHost() {
         return getString("Host");
     }
 
+    /**
+     * Gets list of all players
+     * @return List of player objects
+     */
     public List<Player> getPlayers() {
         return getList("Players");
     }
 
+    /**
+     * Sets the list of players
+     * @param players List of player objects
+     */
+    public void setPlayers(List<Player> players) {
+        put("Players",players);
+    }
+
+    /**
+     * Gets the list of missions
+     * @return List of mission objects
+     */
     public List<Mission> getMissions() {
         return getList("Missions");
     }
 
-
-
-
-
-
-
-
-
-    /** DON'T NEED THESE. I THINK. **/
-    public ArrayList<String> getPlayerNames() {
-        ArrayList<String> allNames = new ArrayList<String>();
-        //for each player in the game, extract the game name and add to array
-        return allNames;
-    }
-
-
-    /**
-     * DON'T REALLY NEED THIS I THINK. DELETE LATER?
-     * Creates Game object, with user-inputted keyword
-     * @param keyword, the unique identifier for a game
-     */
-    public Game(String keyword) {
-        this.keyword = keyword;
-        this.numPlayers = 1;
-        this.players = new ArrayList<Player>();
-        this.gameState = State.WAITING_FOR_PLAYERS;
-    }
-
-    /**
-    public void addPlayer(Player player){
-        if (numPlayers < 10){
-        players.add(player);
-        numPlayers++;
-        }
-        else{
-         throw new IndexOutOfBoundsException("Cannot have more than 10 players.");
-         }
-    }**/
-
-    /**
-    * Assigns all players the role of Resistor or Spy
-    */
-    public void setPlayerType(){
-
-        int res, spy;
-        //number of resistors and spies for the game
-        // setting resistance
-        // setting spy
-    }
-
-    /**
-     * Returns number of missionaries that need to be chosen in the current mission
-     * @return numMissionaries
-     */
-    public int getNumMissionaries() {
-        int temp = 1;
-        return temp;
-    }
-
-   /**
-    * Gets all of the mission's vote history
-    */
-   public void getHistory(){
-   }
-
-    /**
-     * Checks if the Game is ready to start
-     * @return true if game is ready, false otherwise
-     * @throws IllegalGameException if number of players is wrong
-     */
-   public boolean start() throws IllegalGameException {
-       if (numPlayers < 5 || numPlayers > 10) {
-           throw new IllegalGameException("The number of players is insufficient for gameplay.");
-       }
-       return gameState == State.MISSION_LEADER_CHOOSING;
-   }
-
-   /**
-    * Restarts the game.
-    */
-   public void restart(){
-      gameState = State.WAITING_FOR_PLAYERS;
-   }
-
-
-    //-----------------------------------------------
-    // Helper Methods
-    //-----------------------------------------------
-
-    /**
-     * Illegal Game Exception - throws an exception when the preconditions
-     */
-    public static class IllegalGameException extends Exception {
-        public IllegalGameException(String message) {
-            super (message);
-        }
-    }
-
-    //-----------------------------------------------
-    // Getter and Setter Methods
-    //-----------------------------------------------
-
-
-    //Fix this
-    /**
-    public Player getLeader() {
-        return this.leader.getLeader();
-    }
-
-    public void setLeader() {
-        put("Leader",leader.getLeader().getUsername());
-    }**/
 }

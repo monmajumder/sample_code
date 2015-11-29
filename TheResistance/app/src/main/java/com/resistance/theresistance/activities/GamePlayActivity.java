@@ -10,10 +10,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.resistance.theresistance.R;
+import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
+import com.resistance.theresistance.logic.Round;
 import com.resistance.theresistance.views.GamePlayFragment;
 
+import java.util.ArrayList;
+
 public class GamePlayActivity extends FragmentActivity {
+
+    String gameName;
+    String playerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +29,15 @@ public class GamePlayActivity extends FragmentActivity {
         ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        gameName = preferences.getString("gameName", "none");
+        playerName = preferences.getString("playerName", "none");
+
         handleLeader();
 
         //Abstract this method
         //Add some sort of timer, do this every second or so
         //Do it until the game state changes (mission leader presses choose)
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String gameName = preferences.getString("gameName", "none");
-
         if (GameController.checkMissionLeaderDoneChoosing(gameName)) {
             //change visibilities for VOTING FOR MISSIONARIES
         }
@@ -61,12 +69,10 @@ public class GamePlayActivity extends FragmentActivity {
      * Checks if player is a Mission Leader and changes visibilities if so.
      */
     private void handleLeader() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String playerName = preferences.getString("playerName", "none");
-        String gameName = preferences.getString("gameName","none");
-
         if (GameController.checkLeader(gameName, playerName)) {
             //Change visibilities for Mission Leader
+        } else {
+            //Change visibilities
         }
     }
 
@@ -74,41 +80,57 @@ public class GamePlayActivity extends FragmentActivity {
      * Checks if a player is a Missionary and handles visibilities if so.
      */
     private void handleMissionary() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String playerName = preferences.getString("playerName", "none");
-        String gameName = preferences.getString("gameName","none");
-
-        if (GameController.checkLeader(gameName, playerName)) {
-            //Change visibilities for Mission Leader
+        if (GameController.checkMissionary(gameName, playerName)) {
+            //Change visibilities for Missionary
+        } else {
+            //change visibilities
         }
+    }
+
+    /**
+     * Called when a Mission Leader is choosing missionaries.
+     */
+    public void leaderChoosingMissionaries() {
+        //somehow take in clicks for players who the leader chooses
+        ArrayList<String> chosenMissionaries = new ArrayList<>();
+        GameController.addChosenMissionaries(gameName, chosenMissionaries);
+        GameController.changeState(gameName, Game.State.VOTE_FOR_MISSIONARIES);
     }
 
     /**
      * Called when a player clicks "YES" when voting for a Missionary team.
      */
     public void yesMissionaryTeam() {
-
+        GameController.getCurrentMission(gameName).getCurrentRound().addYesVote(playerName);
+        // switch to visibilities for waiting for everyone to finish voting
+        // check if everyone done voting
     }
 
     /**
      * Called when a player clicks "NO" when voting for a Missionary team.
      */
     public void noMissionaryTeam() {
-
+        GameController.getCurrentMission(gameName).getCurrentRound().addNoVote(playerName);
+        // switch to visibilities for waiting for everyone to finish voting
+        // check if everyone done voting
     }
 
     /**
      * Called when a Missionary clicks "PASS" when going on a Mission.
      */
     public void passMission() {
-
+        GameController.getCurrentMission(gameName).addPassVote();
+        // switch to visibilities for waiting for other missionaries
+        // check if missionaries done voting
     }
 
     /**
      * Called when a Missionary clicks "FAIL" when going on a Mission.
      */
     public void failMission() {
-
+        GameController.getCurrentMission(gameName).addFailVote();
+        // switch to visibilities for waiting for other missionaries
+        // check if missionaries done voting
     }
 
 }
