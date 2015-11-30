@@ -29,12 +29,15 @@ var startGame = function(request, response) {
   (function() {
   return findObject("GameObject", request.params.Name);
   }()).then(function(game){
-    // only use promise for assumed slowest function.
-    // should probably be parallel promises
-    actuallySetPlayerRoles(game);
-    //set pointer in mission object to player object for mission leader
+    // only uses promise for assumed slowest function.
+    // should probably be parallel promises, but I'm too lazy to do it
+    actuallySetPlayerRoles(game);  
     //update game state
     return makeFirstMission(game);
+  }).then(function(game){
+    return actuallySetRandomMissionLeader(game);
+  }).then(function(game){
+    return changeGameStatus(game,"MISSION_LEADER_CHOOSING");
   }).then(function() {
     console.log("response sucess");
     response.success();
@@ -43,6 +46,10 @@ var startGame = function(request, response) {
   };
 }
 
+var changeGameStatus = function(game, status) {
+  game.set("State", status);
+  return game.save();
+}
 // makes the first round.
 // makes the first mission and adds the first round to it.
 // adds the mission to the game
@@ -59,7 +66,7 @@ var makeFirstMission = function(game) {
     game.add("Missions", firstMission);
     game.save();
   }).then(function() {
-    promise.resolve();
+    promise.resolve(game);
   }), function(error){
     response.error("fuck");
   };
@@ -85,7 +92,7 @@ var setPlayerRoles = function(request,response) {
 }
 
 function actuallySetPlayerRoles(game) {
-  var players = game.get("Player");
+  var players = game.get("Players");
   var numPlayers = players.length;  
   var numSpies = ~~(numPlayers*.43); //magically calculates the correct number of spies
   var uniqueRandomNumbers = generateRandomNumbers(numSpies,0,numPlayers - 1);
@@ -109,16 +116,43 @@ function actuallySetPlayerRoles(game) {
 /* chooses the first mission leader
    {"Name" : String} name of the game */
 Parse.Cloud.define("setRandomMissionLeader", function(request, response) {
-  /* [query to find the player names] */
-  /* [check to make sure the leader hasn't already been chosen] */
-  /* [determine how many players there are] */
-  var numPlayers = 7; //change to take the right argument
-  var uniqueRandomNumbers = generateRandomNumbers(1,1,numPlayers);
-  console.log("first mission leader has index " + uniqueRandomNumbers.pop());
-  response.success();
+  setRandomMissionLeader(request,response);
 });
 
-/* use a beforeSave on vote objects to start the mission outcome calculation
+var setRandomMissionLeader = function(request,response) {
+  (function() {
+  return findObject("GameObject", request.params.Name);
+  }()).then(function(game){
+    return actuallySetRandomMissionLeader(game);
+  }).then(function() {
+    response.success();
+  }), function(error) {
+    response.error("something fucked up");
+  };
+}
+
+var actuallySetRandomMissionLeader = function(game) {
+  var promise = new Parse.Promise();
+  var players = game.get("Players");
+  var numPlayers = players.length;
+  var uniqueRandomNumbers = generateRandomNumbers(1,1,numPlayers);
+  missionLeaderIndex = uniqueRandomNumbers.pop() - 1;
+  console.log("first mission leader has index " + missionLeaderIndex);
+  var missions = game.get("Missions");
+  var PlayerObject = Parse.Object.extend("PlayerObject");
+  var mockPlayer = new PlayerObject();
+  //sets the first mission for the first mission. maybe not a good assumption
+  //cant figure out how to use fields of type 'object', using the id for now
+  missions[0].set("Leader", players[missionLeaderIndex].id);
+  missions[0].save().then(function() {
+    promise.resolve(game);
+  }), function(error) {
+    promise.reject();
+  };
+  return promise;
+}
+
+/* tbd: use a beforeSave on vote objects to start the mission outcome calculation
    at the right time */
 
 /* determines whether the mission succeeds or fails 
