@@ -19,7 +19,11 @@ Parse.Cloud.define("cloudifyNameObject", function(request, response) {
   };
 });
 
-/* executes all the setup code to start the game
+/* Updates all players with roles.  
+   Creates the first mission and first round.  
+   Sets the first mission leader at random.  
+   Updates the game state to MISSION_LEADER_CHOOSING.
+
    {"Name" : String} Name of the game */
 Parse.Cloud.define("startGame", function(request, response) {
   startGame(request,response);
