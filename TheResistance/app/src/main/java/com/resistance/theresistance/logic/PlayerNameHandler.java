@@ -47,7 +47,7 @@ public class PlayerNameHandler {
             @Override
             public void done(int count, ParseException e) {
                 if (e == null) {
-                    Log.d("name", "The retrieval succeeded");
+                    Log.d("handleUsername name", "The retrieval succeeded");
                     if (count <= 0) {
                         createNewParsePlayerObject(playerName);
                         startActivity();
@@ -55,7 +55,7 @@ public class PlayerNameHandler {
                         changeNameExistsView(activity);
                     }
                 } else {
-                    Log.d("name", "The retrieval failed");
+                    Log.d("handleUsername name", "The retrieval failed");
                 }
             }
         });
