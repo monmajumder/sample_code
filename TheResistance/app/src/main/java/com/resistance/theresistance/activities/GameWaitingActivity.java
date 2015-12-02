@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -116,7 +117,7 @@ public class GameWaitingActivity extends AppCompatActivity {
             Log.d("CHECKING", "YES. GAME HAS STARTED.");
         } else {
             Log.d("CHECKING", "NO. GAME HAS NOT STARTED.");
-        }
+        } **/
 
         //TEST IF UPDATE PLAYERS WORKS. DELETE.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -126,7 +127,7 @@ public class GameWaitingActivity extends AppCompatActivity {
         testPlayers = GameController.updatePlayers(gameName);
         for (String name : testPlayers) {
             Log.d("Player name", name);
-        } **/
+        }
     }
 
 //        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
@@ -150,3 +151,4 @@ public class GameWaitingActivity extends AppCompatActivity {
 //        });
 
 }
+
