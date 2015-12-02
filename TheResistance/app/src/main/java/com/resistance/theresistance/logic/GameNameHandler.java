@@ -46,22 +46,18 @@ public class GameNameHandler {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
-        query.countInBackground(new CountCallback() {
-            @Override
-            public void done(int count, ParseException e) {
-                if (e == null) {
-                    Log.d("gameName", "The retrieval succeeded");
-                    if (count <= 0) {
-                        createNewGame(gameName, playerName);
-                        startActivity();
-                    } else {
-                        changeGameNameExistsView(activity, "create");
-                    }
-                } else {
-                    Log.d("gameName", "The retrieval failed");
-                }
+        try {
+            int count = query.count();
+            Log.d("createGameHandler game", "The retrieval succeeded");
+            if (count <= 0) {
+                createNewGame(gameName, playerName);
+                startActivity();
+            } else {
+                changeGameNameExistsView(activity, "create");
             }
-        });
+        } catch (ParseException e) {
+            Log.d("createGameHandler game", "The retrieval failed");
+        }
     }
 
     /**
@@ -78,12 +74,12 @@ public class GameNameHandler {
         query.whereEqualTo("Name", gameName);
         try {
             ParseObject object = query.getFirst();
-            Log.d("gameName", "The retrieval succeeded");
+            Log.d("joinGameHandler game", "The retrieval succeeded");
             addPlayerToGame(object, playerName);
             object.saveInBackground();
             startActivity();
         } catch (ParseException e) {
-            Log.d("gameName", "The retrieval failed");
+            Log.d("joinGameHandler game", "The retrieval failed");
             changeGameNameExistsView(activity, "join");
         }
     }
@@ -99,23 +95,20 @@ public class GameNameHandler {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayerObject");
         query.whereEqualTo("Name", playerName);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object == null) {
-                    Log.d("player", "The retrieval failed");
-                } else {
-                    Log.d("player", "The retrieval succeeded");
-                    Game newGame = new Game();
-                    newGame.setNumPlayers(0);
-                    newGame.setGameState(Game.State.WAITING_FOR_PLAYERS);
-                    newGame.setKeyword(keyword);
-                    newGame.setHost(player);
-                    newGame.addPlayer((Player) object);
-                    newGame.saveInBackground();
-                }
-            }
-        });
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("createNewGame player", "The retrieval succeeded");
+            Game newGame = new Game();
+            newGame.setNumPlayers(0);
+            newGame.setGameState(Game.State.WAITING_FOR_PLAYERS);
+            newGame.setKeyword(keyword);
+            newGame.setHost(player);
+            newGame.addPlayer((Player) object);
+            newGame.saveInBackground();
+
+        } catch (ParseException e) {
+            Log.d("createNewGame player", "The retrieval failed");
+        }
     }
 
     /**
@@ -128,18 +121,14 @@ public class GameNameHandler {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("PlayerObject");
         query.whereEqualTo("Name", playerName);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object == null) {
-                    Log.d("player", "The retrieval failed");
-                } else {
-                    Log.d("player", "The retrieval succeeded");
-                    gameObject.addPlayer((Player) object);
-                    gameObject.saveInBackground();
-                }
-            }
-        });
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("addPlayerToGame player", "The retrieval succeeded");
+            gameObject.addPlayer((Player) object);
+            gameObject.saveInBackground();
+        } catch (ParseException e) {
+            Log.d("addPlayerToGame player", "The retrieval failed");
+        }
     }
 
     /**
