@@ -5,12 +5,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.GameController;
+import com.resistance.theresistance.views.MyTextView;
 
 import java.util.ArrayList;
 
@@ -44,8 +45,8 @@ public class GameWaitingActivity extends AppCompatActivity {
 
         ((com.resistance.theresistance.views.MyTextView)findViewById(R.id.game_room_name)).setText(gameRoomStr);
 
-        ImageView player1 = new ImageView(this);
-        player1.setVisibility(View.VISIBLE);
+//        ImageView player1 = new ImageView(this);
+//        player1.setVisibility(View.VISIBLE);
 
         //Start GameActivity on start button click
         startButton = (Button) findViewById(R.id.button);
@@ -64,7 +65,10 @@ public class GameWaitingActivity extends AppCompatActivity {
         //Check if game started
         if (!GameController.checkStarted(gameName)) {
             ArrayList<String> players = GameController.updatePlayers(gameName);
-            //Use the array list to update UI
+            if (players == null) {
+                Log.d("Players array", "IS NULL");
+            }
+            setPlayerNames(players);
         } else {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             String playerName = preferences.getString("playerName", "none");
@@ -74,6 +78,11 @@ public class GameWaitingActivity extends AppCompatActivity {
                 //Go to GamePlayActivity with certain layout for Spies?
             }
         }
+    }
+
+    private void setPlayerNames(ArrayList<String> players){
+        MyTextView player1 = (MyTextView)findViewById(R.id.pink_player_label);
+        player1.setText(players.get(0));
     }
 
     /**
