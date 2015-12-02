@@ -97,7 +97,7 @@ function failMission(currentMission,game) {
 //changes game state to MISSION_LEADER_CHOOSING
 function failMissionaries(currentRound, currentMission, game) {
   var promise = new Parse.Promise();
-  if (currentMission.get("Rounds").length >= 2) {
+  if (currentMission.get("Rounds").length >= 5) {
     console.log("todo: mission should fail because " + game.get("Missions")[0].get("Rounds").length + " rounds were rejected.");
     failMission(currentMission,game);
   }
