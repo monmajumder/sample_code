@@ -53,7 +53,8 @@ var actuallyAddVoteForMissionaries = function(game, playerName, vote) {
   var rounds = currentMission.get("Rounds");
   var currentRound = rounds[rounds.length-1];
   //add vote
-  if (vote) currentRound.add("Assentors", playerName);
+  if (vote) 
+    currentRound.add("Assentors", playerName);
   else {
     currentRound.add("Dissentors", playerName);
     console.log("added dissentors to current round:" + currentRound.id);
@@ -66,8 +67,10 @@ var actuallyAddVoteForMissionaries = function(game, playerName, vote) {
 
   if (numVotes >= numPlayers) { //voting finished. update round
     (function() {
-      if (numAssentors > numDissentors) return passMission(currentRound,game);
-      else return failMission(currentRound,currentMission,game);
+      if (numAssentors > numDissentors) 
+        return passMissionaries(currentRound,game);
+      else 
+        return failMissionaries(currentRound,currentMission,game);
     }()).then(function() {
       promise.resolve(game);
     }), function(error) {
@@ -82,17 +85,25 @@ var actuallyAddVoteForMissionaries = function(game, playerName, vote) {
 }
 
 //fails the mission
+//tbd: check if 5 missions have passed and the game should be over
+function failMission(currentMission,game) {
+  currentMission.set("Passed", false);
+  currentMission.save();
+  addMission(game);
+}
+
+//fails the missionary vote
 //creates a new round object, adds it to the rounds array in mission object
 //changes game state to MISSION_LEADER_CHOOSING
-function failMission(currentRound, currentMission, game) {
+function failMissionaries(currentRound, currentMission, game) {
   var promise = new Parse.Promise();
-  if (currentMission.get("Rounds").length >= 2) {
+  if (currentMission.get("Rounds").length >= 5) {
     console.log("todo: mission should fail because " + game.get("Missions")[0].get("Rounds").length + " rounds were rejected.");
+    failMission(currentMission,game);
   }
   currentRound.set("MissionariesAccepted", false);
   currentRound.save(); //assuming things, trololol
   var RoundObject = Parse.Object.extend("RoundObject");
-  //tbd: check if there were 5 rounds and the spies should win
   var nextRound = new RoundObject();
   nextRound.save().then(function(nextRound) {
     currentMission.add("Rounds",nextRound);
@@ -107,9 +118,9 @@ function failMission(currentRound, currentMission, game) {
   return promise;
 }
 
-//passes the mission
+//passes the missionary vote
 //changes the game state to MISSIONARIES_VOTE
-function passMission(currentRound, game) {
+function passMissionaries(currentRound, game) {
   var promise = new Parse.Promise();
 
   currentRound.set("MissionariesAccepted", true);
@@ -139,8 +150,7 @@ var startGame = function(request, response) {
     // only uses promise for assumed slowest function.
     // should probably be parallel promises, but I'm too lazy to do it
     actuallySetPlayerRoles(game);  
-    //update game state
-    return makeFirstMission(game);
+    return addMission(game);
   }).then(function(game){
     return actuallySetRandomMissionLeader(game);
   }).then(function(game){
@@ -157,22 +167,22 @@ var changeGameStatus = function(game, status) {
   game.set("State", status);
   return game.save();
 }
-// makes the first round.
-// makes the first mission and adds the first round to it.
+// makes the first round for a mission.
+// makes the mission and adds the first round to it.
 // adds the mission to the game
-var makeFirstMission = function(game) {
+function addMission(game) {
   var promise = new Parse.Promise();
   var RoundObject = Parse.Object.extend("RoundObject");
   var firstRound = new RoundObject();
   firstRound.save().then(function(firstRound) {
     var MissionObject = Parse.Object.extend("MissionObject");
-    var firstMission = new MissionObject();
-    firstMission.add("Rounds",firstRound);
-    firstMission.set("Pass",0);
-    firstMission.set("Fail",0);
-    return firstMission.save();
-  }).then(function(firstMission) {
-    game.add("Missions", firstMission);
+    var mission = new MissionObject();
+    mission.add("Rounds",firstRound);
+    mission.set("Pass",0);
+    mission.set("Fail",0);
+    return mission.save();
+  }).then(function(mission) {
+    game.add("Missions", mission);
     game.save();
   }).then(function() {
     promise.resolve(game);
