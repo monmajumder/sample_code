@@ -31,7 +31,7 @@ public class GameTest {
    public static final Fixture playerObject = 
       new Fixture() {
          public Game init() {
-            return new Game("abc");
+            return new Game();
          }
       };
 
@@ -57,7 +57,7 @@ public class GameTest {
       //Games start with one player
       assertEquals(g.getNumPlayers(), 1);
       //Adding a player
-      Player p = new Player("Mindy");
+      Player p = new Player();//"Mindy");
       g.addPlayer(p);
       assertEquals(g.getNumPlayers(), 2);
       int mindy = g.getPlayers().indexOf(p);
@@ -74,11 +74,11 @@ public class GameTest {
       Game g = fix.init();
       //Adding 9 more players
       for(int i = 0; i < 9; i++){
-         Player p = new Player("Player" + i);
+         Player p = new Player();//"Player" + i);
          g.addPlayer(p);
       }
       assertEquals(g.getNumPlayers(), 10);
-      Player n = new Player("Player11");
+      Player n = new Player();//"Player11");
       g.addPlayer(n);
    }
 
@@ -100,7 +100,7 @@ public class GameTest {
     public void testRestartSetState(Fixture fix){
         Game g = fix.init();
         assertEquals(g.getGameState().toString(), "WAITING_FOR_PLAYERS");
-        g.setGameState(Game.State.START);
+      //  g.setGameState(Game.State.START);
         //assertEquals(g.getGameState().toString(), "START");
         //g.restart();
         //assertEquals(g.getGameState().toString(), "WAITING_FOR_PLAYERS");
