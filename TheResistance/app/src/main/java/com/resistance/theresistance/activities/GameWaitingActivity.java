@@ -10,10 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.GameController;
 
+import com.parse.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Game Activity
@@ -97,6 +102,17 @@ public class GameWaitingActivity extends AppCompatActivity {
         intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
         startActivity(intent);
 
+        HashMap<String,Object> arguments = new HashMap<>();
+        arguments.put("Name", gameName);
+        ParseCloud.callFunctionInBackground("startGame", arguments,
+                new FunctionCallback<Map<String, Object>>() {
+                    @Override
+                    public void done(Map<String, Object> mapObject, ParseException e) {
+                        if (e == null) {
+                        }
+                    }
+                });
+
 
         /**
         //TEST IF CHECKHOST WORKS. DELETE.
@@ -117,7 +133,7 @@ public class GameWaitingActivity extends AppCompatActivity {
             Log.d("CHECKING", "YES. GAME HAS STARTED.");
         } else {
             Log.d("CHECKING", "NO. GAME HAS NOT STARTED.");
-        } **/
+        }
 
         //TEST IF UPDATE PLAYERS WORKS. DELETE.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -127,28 +143,8 @@ public class GameWaitingActivity extends AppCompatActivity {
         testPlayers = GameController.updatePlayers(gameName);
         for (String name : testPlayers) {
             Log.d("Player name", name);
-        }
+        } **/
     }
-
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
-//        query.whereEqualTo("Name", gameName);
-//        query.countInBackground(new CountCallback() {
-//            @Override
-//            public void done(int count, ParseException e) {
-//                if (e == null) {
-//                    Log.d("gameName", "The retrieval succeeded");
-//                    if (count <= 0) {
-//                        createNewParseGameObject(gameName);
-//                        createIntent(gameName);
-//                    } else {
-//                        secondView.setVisibility(View.INVISIBLE);
-//                        existsView.setVisibility(View.VISIBLE);
-//                    }
-//                } else {
-//                    Log.d("gameName", "The retrieval failed");
-//                }
-//            }
-//        });
 
 }
 
