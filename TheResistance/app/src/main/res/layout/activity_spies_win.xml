@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
@@ -11,14 +11,17 @@
         android:text="SPIES WIN."
         android:id="@+id/swinning"
         android:layout_gravity="center"
-        android:layout_marginTop="120dp"
         android:autoText="false"
         android:textColor="@color/darkred"
         android:textIsSelectable="false"
         android:textSize="65dp"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:gravity="center_vertical|bottom|center|center_horizontal" />
+        android:gravity="center_vertical|center|center_horizontal"
+        android:typeface="sans"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:layout_above="@+id/playagain"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="316dp"
@@ -28,25 +31,36 @@
         android:id="@+id/playagain"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.15"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/darkblue"
+        android:textColor="@color/darkgrey"
         android:textSize="50dp"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:gravity="center_vertical|center_horizontal" />
-
-    <Button
-        android:layout_width="126dp"
-        android:layout_height="wrap_content"
-        android:text="Play"
-        android:id="@+id/playbutton"
-        android:layout_weight="0.05"
-        android:layout_gravity="left|bottom" />
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quit"
         android:id="@+id/quitbutton"
-        android:layout_gravity="bottom|right" />
-</LinearLayout>
+        android:layout_gravity="bottom|right"
+        android:layout_below="@+id/playagain"
+        android:layout_alignRight="@+id/playagain"
+        android:layout_alignEnd="@+id/playagain"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="50dp"
+        android:onClick="endGame"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:id="@+id/play"
+        android:layout_gravity="bottom|right"
+        android:layout_alignTop="@+id/quitbutton"
+        android:layout_alignLeft="@+id/playagain"
+        android:layout_alignStart="@+id/playagain"
+        android:layout_marginLeft="50dp"
+        android:onClick = "playNewGame"/>
+</RelativeLayout>
