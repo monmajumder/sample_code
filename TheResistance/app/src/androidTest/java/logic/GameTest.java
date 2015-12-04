@@ -42,9 +42,9 @@ public class GameTest {
    @Theory
    public void testGame(Fixture fix) {
       Game g = fix.init();
-      assertEquals(g.getGameState().toString(), "WAITING_FOR_PLAYERS");
-      //Games start with one player
-      assertEquals(g.getNumPlayers(), 1);
+      //Games start with no players
+      assertEquals(g.getNumPlayers(), 0);
+       //MAYBE ADD AN ASSERTION FOR GAME STATE
    }
 
    /**
@@ -54,14 +54,14 @@ public class GameTest {
    @Theory
    public void testAddPlayers(Fixture fix) {
       Game g = fix.init();
-      //Games start with one player
-      assertEquals(g.getNumPlayers(), 1);
+      //Games start with zero players
+      assertEquals(g.getNumPlayers(), 0);
       //Adding a player
-      Player p = new Player();//"Mindy");
-      g.addPlayer(p);
-      assertEquals(g.getNumPlayers(), 2);
-      int mindy = g.getPlayers().indexOf(p);
-      assertEquals(g.getPlayers().get(mindy), p);
+       Player p = new Player();
+       g.addPlayer(p);
+       assertEquals(g.getNumPlayers(), 1);
+       int mindy = g.getPlayers().indexOf(p);
+       assertEquals(g.getPlayers().get(mindy), p);
    }
 
    /**
@@ -72,57 +72,39 @@ public class GameTest {
    @Theory @Test (expected = IndexOutOfBoundsException.class)
    public void testAddPlayersMax(Fixture fix) {
       Game g = fix.init();
-      //Adding 9 more players
-      for(int i = 0; i < 9; i++){
-         Player p = new Player();//"Player" + i);
+      //Adding 10 players
+      for(int i = 0; i < 10; i++){
+         Player p = new Player();
          g.addPlayer(p);
       }
       assertEquals(g.getNumPlayers(), 10);
-      Player n = new Player();//"Player11");
+       //Adding 11th player
+      Player n = new Player();
       g.addPlayer(n);
    }
 
+
     /**
-     * Checks the starting game method.
+     * Verifying and exception is thrown when trying to get
+     * the current mission of a game that has just been
+     * initalized and hasn't started.
      * @param fix Fixture to test
      */
-    @Theory //@Test (expected = Game.IllegalGameException.class)
-    public void testStart(Fixture fix) {
+    @Theory @Test (expected = NullPointerException.class)
+    public void testGetCurrMiss(Fixture fix){
         Game g = fix.init();
-        //g.start();
+        g.getCurrMission();
     }
 
     /**
-     * Testing Restart and setGameState
+     * Testing setHost and getHost
      * @param fix Fixture to test
      */
     @Theory
-    public void testRestartSetState(Fixture fix){
+    public void testSetHost(Fixture fix){
         Game g = fix.init();
-        assertEquals(g.getGameState().toString(), "WAITING_FOR_PLAYERS");
-      //  g.setGameState(Game.State.START);
-        //assertEquals(g.getGameState().toString(), "START");
-        //g.restart();
-        //assertEquals(g.getGameState().toString(), "WAITING_FOR_PLAYERS");
+        g.setHost("Mindy");
+        assertEquals(g.getHost(), "Mindy");
     }
 
-    /**
-     * Testing setNumPlayers
-     * @param fix Fixture to test
-     */
-    @Theory
-    public void testSetNumPlayers(Fixture fix){
-        Game g = fix.init();
-        //assertEquals(g.getGameState().toString(), "START");
-    }
-
-    /**
-     * Testing setKeyword
-     * @param fix Fixture to test
-     */
-    @Theory
-    public void testSetKeyword(Fixture fix){
-        Game g = fix.init();
-        //assertEquals(g.getGameState().toString(), "START");
-    }
 }
