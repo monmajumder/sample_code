@@ -2,6 +2,7 @@ package logic;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.resistance.theresistance.activities.GameNameActivity;
@@ -26,64 +27,49 @@ public class GameNameHandlerTest extends ActivityInstrumentationTestCase2<GameNa
         super(GameNameActivity.class);
     }
 
-   /* public static GameNameActivity testActivityExists(){
-        GameNameActivity activity = getActivity();
-        assertNotNull(activity);
-        return activity;
+    public GameNameHandler data(){
+        return new GameNameHandler(getActivity());
     }
 
-    static GameNameActivity act = testActivityExists();*/
-
-    /**
-     * Fixture initialization (common initialization for all tests)
-     */
- /*   private interface Fixture {
-        GameNameHandler init();
-    }
     /**
      * Creates GameNameHandler
      */
-   /* @DataPoint
-    public static final Fixture gnhObject =
-            new Fixture() {
-                public GameNameHandler init() {
-                    return new GameNameHandler();
-                }*/
-            //};
+    @DataPoint
+    public static GameNameHandler dataP(){
+        GameNameHandlerTest g = new GameNameHandlerTest();
+        return g.data();
+    }
+
 
 /**
- * Verifying that the Game constuctor works
+ * Verifying that the createGame works
  *
  */
     @Theory
-    public void createGameHandlerTest(){
-        GameNameActivity activity = getActivity();
-        GameNameHandler gnh = new GameNameHandler(activity);
+    public static void createGameHandlerTest(GameNameHandler gnh){
+        //GameNameActivity activity = getActivity();
+        //GameNameHandler gnh = new GameNameHandler(activity);
         String gameName = "Mindy's Game";
-        gnh.createGameHandler(activity, gameName, "Mindy");
-       // assertEquals(m, "success");
-       // ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
-       // query.whereEqualTo("Name", gameName);
-        //int count = query.count();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
+        query.whereEqualTo("Name", gameName);
+        boolean exception;
+        try {
+            ParseObject object = query.getFirst();
+            exception = false;
+        }catch (ParseException e) {
+            exception = true;
+        }
+        assertFalse(exception);
+        assertEquals(1, 2);
+      /*  gnh.createGameHandler(getActivity(), gameName, "Mindy");
+        try {
+            ParseObject object = query.getFirst();
+            exception = false;
+        }catch (ParseException e) {
+            exception = true;
+        }
+        assertFalse(exception);*/
+     }
 
-    }
-
-    public void joinGameHandlerTest(){
-        GameNameActivity activity = getActivity();
-        GameNameHandler gnh = new GameNameHandler(activity);
-        String gameName = "Mindy's Game";
-        gnh.createGameHandler(activity, gameName, "Mindy");
-        gnh.joinGameHandler(activity, gameName, "Mindy");
-    }
-
-
-
-    /**
-     * Verifying that the Player constuctor works
-     * @param fix Fixture to test
-     */
-   // @Theory
-   // public void testPlayer(Fixture fix) {
-   // }
 
 }
