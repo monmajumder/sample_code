@@ -1,7 +1,9 @@
 package com.resistance.theresistance.activities;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mContext = getBaseContext();
-
         //This comment is here to fix issue.
         setContentView(R.layout.activity_main);
     }
@@ -86,6 +87,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         PlayerNameHandler.handleUsername(this, playerName);
+
+        //Store name in shared preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("playerName", playerName);
+        editor.commit();
+
+        //Check if playerName stored
+        //String storedPreference = preferences.getString("playerName","none");
+        //Log.d("check",storedPreference);
     }
 
     /**
@@ -93,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
      * @param playerName name of player
      * @return true if entered, false if not
      */
-    public boolean nameEntered(String playerName) {
+    private boolean nameEntered(String playerName) {
         if (playerName.matches("")) {
             Toast.makeText(this, "You did not enter a name.", Toast.LENGTH_SHORT).show();
             return false;

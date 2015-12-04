@@ -5,6 +5,7 @@ import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -20,10 +21,9 @@ public class Game extends ParseObject {
 
     private String keyword;
     private int numPlayers;
-    private Host gameHost;
-
-    //RELATION?
-    private Leader leader;
+    private int numResistanceWins;
+    private int numSpiesWins;
+    private String host;
     private ArrayList<Player> players;
     private ArrayList<Mission> missions;
 
@@ -31,7 +31,7 @@ public class Game extends ParseObject {
      * Defines the states that a game can be in
      */
     public enum State {
-        WAITING_FOR_PLAYERS, START, MISSION_LEADER_CHOOSING, MISSIONARIES_VOTING, RESISTANCE_WINS, SPIES_WIN
+        WAITING_FOR_PLAYERS, MISSION_LEADER_CHOOSING, VOTE_FOR_MISSIONARIES, MISSIONARIES_VOTING, MISSION_PASSED, MISSION_FAILED, RESISTANCE_WINS, SPIES_WIN
     }
     private State gameState;
 
@@ -39,151 +39,125 @@ public class Game extends ParseObject {
      * Constructor
      */
     public Game() {
-        setNumPlayers(1);
-        setGameState(State.WAITING_FOR_PLAYERS);
-    }
-
-
-
-
-
-    public ArrayList<String> getPlayerNames() {
-        ArrayList<String> allNames = new ArrayList<String>();
-        //for each player in the game, extract the game name and add to array
-        return allNames;
-    }
-
-
-    /**
-     * DON'T REALLY NEED THIS I THINK. DELETE LATER?
-     * Creates Game object, with user-inputted keyword
-     * @param keyword, the unique identifier for a game
-     */
-    public Game(String keyword) {
-        this.keyword = keyword;
-        this.numPlayers = 1;
-        this.players = new ArrayList<Player>();
-        this.gameState = State.WAITING_FOR_PLAYERS;
+        super();
     }
 
     /**
-     * Adds a Player to the game
-     * @param player, the Player to add to the game
+     * Adds a Player to a Game's Player array and increments number counter
+     * @param player Player object to be added
      */
-    public void addPlayer(Player player){
-        if (numPlayers < 10){
+    public void addPlayer(Player player) {
+        int newNumPlayers = getNumPlayers() + 1;
+        setNumPlayers(newNumPlayers);
+        List<Player> playerList = getPlayers();
+        if (playerList == null) {
+            players = new ArrayList<>();
+        } else {
+            players = new ArrayList<>(getPlayers());
+        }
         players.add(player);
-        numPlayers++;
-        }
-        else{
-         throw new IndexOutOfBoundsException("Cannot have more than 10 players.");
-         }
+        setPlayers(players);
     }
 
     /**
-    * Assigns all players the role of Resistor or Spy
-    */
-    public void setPlayerType(){
-
-        int res, spy;
-        //number of resistors and spies for the game
-        // setting resistance
-        // setting spy
-    }
-
-    /**
-     * Returns number of missionaries that need to be chosen in the current mission
-     * @return numMissionaries
+     * Gets the current mission.
+     * @return Mission object that is the current mission
      */
-    public int getNumMissionaries() {
-        int temp = 1;
-        return temp;
-    }
-
-   /**
-    * Gets all of the mission's vote history
-    */
-   public void getHistory(){
-   }
-
-    /**
-     * Checks if the Game is ready to start
-     * @return true if game is ready, false otherwise
-     * @throws IllegalGameException if number of players is wrong
-     */
-   public boolean start() throws IllegalGameException {
-       if (numPlayers < 5 || numPlayers > 10) {
-           throw new IllegalGameException("The number of players is insufficient for gameplay.");
-       }
-       return gameState == State.START;
-   }
-
-   /**
-    * Restarts the game.
-    */
-   public void restart(){
-      gameState = State.WAITING_FOR_PLAYERS;
-   }
-
-   /**
-    * Changes the Game's host
-    */
-   public void changeHost(){
-       gameHost.setHost(players.get(0)); //If host leaves, the longest tenured player becomes host.
-   }
-
-    //-----------------------------------------------
-    // Helper Methods
-    //-----------------------------------------------
-
-    /**
-     * Illegal Game Exception - throws an exception when the preconditions
-     */
-    public static class IllegalGameException extends Exception {
-        public IllegalGameException(String message) {
-            super (message);
-        }
+    public Mission getCurrMission() {
+        missions = new ArrayList<>(getMissions());
+        return missions.get(missions.size()-1);
     }
 
     //-----------------------------------------------
     // Getter and Setter Methods
     //-----------------------------------------------
 
+    /**
+     * Gets the keyword for the game
+     * @return Keyword
+     */
     public String getKeyword() {
         return getString("Name");
     }
 
+    /**
+     * Sets the keyword for the game
+     * @param keyword Unique keyword for the game
+     */
     public void setKeyword(String keyword) {
         put("Name", keyword);
     }
 
+    /**
+     * Gets the number of players
+     * @return Number of players
+     */
     public int getNumPlayers() {
         return getInt("NumPlayers");
     }
 
+    /**
+     * Sets the number of players
+     * @param num Number of players
+     */
     public void setNumPlayers(int num) {
         put("NumPlayers", num);
     }
 
+    /**
+     * Gets the game state
+     * @return Enum for game state
+     */
     public State getGameState() {
         return State.valueOf(getString("State"));
     }
 
+    /**
+     * Sets the game state
+     * @param state Enum for game state
+     */
     public void setGameState(State state) {
         put("State", state.toString());
     }
 
-    //Fix this
-    public Player getLeader() {
-        return this.leader.getLeader();
+    /**
+     * Sets the host
+     * @param hostName Name of player
+     */
+    public void setHost(String hostName) {
+        put("Host",hostName);
     }
 
-    public void setLeader() {
-        put("Leader",leader.getLeader().getUsername());
+    /**
+     * Gets the host
+     * @return Name of player
+     */
+    public String getHost() {
+        return getString("Host");
     }
 
-    /**Think about these**/
-    public Host getGameHost(){return this.gameHost;}
+    /**
+     * Gets list of all players
+     * @return List of player objects
+     */
+    public List<Player> getPlayers() {
+        return getList("Players");
+    }
 
-    public ArrayList<Player> getPlayers() {return this.players;}
+    /**
+     * Sets the list of players
+     * @param players List of player objects
+     */
+    public void setPlayers(List<Player> players) {
+        put("Players",players);
+    }
+
+    /**
+     * Gets the list of missions
+     * @return List of mission objects
+     */
+    public List<Mission> getMissions() {
+        return getList("Missions");
+    }
+
 }

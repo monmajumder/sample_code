@@ -2,7 +2,9 @@ package com.resistance.theresistance.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -65,7 +67,8 @@ public class GameNameActivity extends AppCompatActivity {
         if (!nameEntered(gameName)) {
             return;
         }
-        GameNameHandler.createGameHandler(this,gameName);
+        GameNameHandler.createGameHandler(this,gameName, getPlayerName());
+        saveInPreferences(gameName);
     }
 
     /**
@@ -79,7 +82,8 @@ public class GameNameActivity extends AppCompatActivity {
         if (!nameEntered(gameName)) {
             return;
         }
-        GameNameHandler.joinGameHandler(this, gameName);
+        GameNameHandler.joinGameHandler(this, gameName, getPlayerName());
+        saveInPreferences(gameName);
     }
 
     /**
@@ -87,11 +91,29 @@ public class GameNameActivity extends AppCompatActivity {
      * @param gameName name of game
      * @return true if entered, false if not
      */
-    public boolean nameEntered(String gameName) {
+    private boolean nameEntered(String gameName) {
         if (gameName.matches("")) {
             Toast.makeText(this, "You did not enter a game name.", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
+    }
+
+    private void saveInPreferences(String gameName) {
+        //Store name in shared preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("gameName", gameName);
+        editor.commit();
+
+        //Check if gameName stored
+        //String storedPreference = preferences.getString("gameName","none");
+        //Log.d("checkGameName", storedPreference);
+    }
+
+    private String getPlayerName() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String storedName = preferences.getString("playerName","none");
+        return storedName;
     }
 }

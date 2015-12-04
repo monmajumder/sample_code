@@ -1,0 +1,36 @@
+#+TITLE: Object-Oriented Software Engineering - Project Overview Presentation Evaluation
+
+| *Course*      | Object-Oriented Software Engineering   |
+| *Semester*    | Fall 2015                              |
+|---------------+----------------------------------------|
+| *Group*       | 11                                     |
+| *Project*     | The Resistance                         |
+|---------------+----------------------------------------|
+| *Reviewer*    | Leandro Facchinetti <lfacchi2@jhu.edu> |
+| *Reviewed on* | 2015-11-09                             |
+|---------------+----------------------------------------|
+| *Grade*       | 98 points out of 100                   |
+
+* Background / Purpose
+
+  Clearly explained and understandable.
+
+* Architecture
+
+  General structure of code at this point explained.
+
+* Presentation organization
+
+  - Properly taking turns.
+
+  - Demo went smoothly.
+
+* Things to improve
+
+  - Too much text on the slides makes it hard to follow the presentation. Too
+    small fonts both on slides and UI Sketches were hard to read.
+
+    /(-2 points)/
+
+  - One of the presenters was in front of the TV, blocking what the other
+    presenter was trying to point.
