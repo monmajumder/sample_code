@@ -40,15 +40,12 @@ public class GameNameHandlerTest extends ActivityInstrumentationTestCase2<GameNa
         return g.data();
     }
 
-
 /**
  * Verifying that the createGame works
- *
+ *@param gnh the GameNameHandler to be tested
  */
-    @Theory
-    public static void createGameHandlerTest(GameNameHandler gnh){
-        //GameNameActivity activity = getActivity();
-        //GameNameHandler gnh = new GameNameHandler(activity);
+    @Theory @Test
+    public void createGameHandlerTest(GameNameHandler gnh){
         String gameName = "Mindy's Game";
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
@@ -59,17 +56,29 @@ public class GameNameHandlerTest extends ActivityInstrumentationTestCase2<GameNa
         }catch (ParseException e) {
             exception = true;
         }
-        assertFalse(exception);
-        assertEquals(1, 2);
-      /*  gnh.createGameHandler(getActivity(), gameName, "Mindy");
+        assertTrue(exception);
+        gnh.createGameHandler(getActivity(), gameName, "Mindy");
         try {
             ParseObject object = query.getFirst();
             exception = false;
         }catch (ParseException e) {
             exception = true;
         }
-        assertFalse(exception);*/
+        assertFalse(exception);
      }
+
+    /**
+     * Verifying join game works
+     * @param gnh the GameNameHandler to be tested
+     */
+    @Theory
+    public void joinGameHandlerTest(GameNameHandler gnh){
+        String gameName = "Mindy's Game";
+        String pName = "Mindy";
+        gnh.createGameHandler(getActivity(), gameName, pName);
+        gnh.joinGameHandler(getActivity(), gameName, pName);
+        //changeGameNameExistsView(getActivity(), "join");
+    }
 
 
 }
