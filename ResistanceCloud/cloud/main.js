@@ -145,11 +145,10 @@ Parse.Cloud.define("startGame", function(request, response) {
 
 var startGame = function(request, response) {
   (function() {
-  return findObject("GameObject", request.params.Name);
+    return findGameWithPlayers(request.params.Name);
   }()).then(function(game){
-    // only uses promise for assumed slowest function.
-    // should probably be parallel promises, but I'm too lazy to do it
-    actuallySetPlayerRoles(game);  
+    return actuallySetPlayerRoles(game);
+  }).then(function(game){
     return addMission(game);
   }).then(function(game){
     return actuallySetRandomMissionLeader(game);
@@ -211,25 +210,30 @@ var setPlayerRoles = function(request,response) {
 }
 
 function actuallySetPlayerRoles(game) {
+  var promises = [];
+  console.log("in set player roles");
+  promises.push(Parse.Promise.as(game)); //push the game onto the stack of promises so we have it later in the stack of function calls
   var players = game.get("Players");
   var numPlayers = players.length;  
+  console.log("numPlayers " + numPlayers);
   var numSpies = ~~(numPlayers*.43); //magically calculates the correct number of spies
   var uniqueRandomNumbers = generateRandomNumbers(numSpies,0,numPlayers - 1);
+  console.log("uniqueRandomNumbers " + uniqueRandomNumbers);
   consoleString = "spies are players with indices";
   var roles = {};
   uniqueRandomNumbers.forEach(function(spyIndex) {
     roles[spyIndex] = 1;
     consoleString += " " + spyIndex;
   });
+  console.log(consoleString + ".");
   for (i = 0; i < numPlayers; i++) {
     if (roles[i] == null)
       players[i].set("PlayerType", "RESISTOR");
     else
       players[i].set("PlayerType", "SPY");
-    players[i].save();
+    promises.push(players[i].save());
   }
-  consoleString += ".";
-  console.log(consoleString);
+  return Parse.Promise.when(promises);
 }
 
 /* chooses the first mission leader
@@ -239,15 +243,17 @@ Parse.Cloud.define("setRandomMissionLeader", function(request, response) {
 });
 
 var setRandomMissionLeader = function(request,response) {
+  var promise = new Parse.Promise(); 
   (function() {
   return findObject("GameObject", request.params.Name);
   }()).then(function(game){
     return actuallySetRandomMissionLeader(game);
   }).then(function() {
-    response.success();
+    promise.resolve(game);
   }), function(error) {
-    response.error("something fucked up");
+    promise.reject();
   };
+  return promise;
 }
 
 var actuallySetRandomMissionLeader = function(game) {
@@ -262,7 +268,7 @@ var actuallySetRandomMissionLeader = function(game) {
   var mockPlayer = new PlayerObject();
   //sets the first mission for the first mission. maybe not a good assumption
   //cant figure out how to use fields of type 'object', using the id for now
-  missions[0].set("Leader", players[missionLeaderIndex].id); //tbd: this line is broken
+  missions[0].set("Leader", players[missionLeaderIndex].get("Name")); //tbd: this line is broken
   missions[0].save().then(function() {
     promise.resolve(game);
   }), function(error) {
@@ -298,35 +304,6 @@ Parse.Cloud.define("determineMissionOutcome", function(request, response) {
   response.success();
 });
 
-/* use a beforeSave on vote objects to start the missionary engagement 
-calculation at the right time */
-
-/* determines whether the missionary team has been approved or rejected
-   tbd: either pass the game name and query, or pass the object from
-   before save reference */
-function determineMissionaryEngagement() {
-  /* [query to find the amount of yes and no votes] */
-  var uniqueRandomNumbers = generateRandomNumbers(1,0,10);
-  var approveVotes = uniqueRandomNumbers.pop();
-  var rejectVotes = 10 - approveVotes;
-  console.log("Mocking missionary engagement voting with " 
-    + approveVotes + " players voting to approve the team, and "
-    + rejectVotes + " players voting to reject the team.");
-  if (approveVotes > rejectVotes) {
-    /* tbd: edit the mission object to approve the team */
-    console.log("the team was approved.");
-  }
-  else {
-    /* tbd: edit the mission object to reject the team */
-    console.log("the team was rejected.");
-  }
-}
-/* temporary public method for testing */
-Parse.Cloud.define("determineMissionaryEngagement", function(request, response) {
-  determineMissionaryEngagement();
-  response.success();
-});
-
 /* finds an object 
    [typeName] name of object type
    [name] name of object 
@@ -344,6 +321,13 @@ function findGameWithMissionsAndRounds(name) {
   query.include('Missions.Rounds');
   query.include('Missions.Rounds.Assentors');
   query.include('Missions.Rounds.Dissentors');
+  return query.first();
+}
+
+function findGameWithPlayers(name) {
+  var query = new Parse.Query(Parse.Object.extend("GameObject"));
+  query.equalTo("Name", name);
+  query.include('Players');
   return query.first();
 }
 
