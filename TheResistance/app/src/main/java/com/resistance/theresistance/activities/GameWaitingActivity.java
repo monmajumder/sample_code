@@ -96,23 +96,19 @@ public class GameWaitingActivity extends AppCompatActivity {
     }
 
     private void startGame() {
-        //When host clicks start Game, run Cloud code.
         //Starting the new activity should be elsewhere
         intent = new Intent(this, GamePlayActivity.class);
         intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
         startActivity(intent);
 
+        //Call Cloud function
         HashMap<String,Object> arguments = new HashMap<>();
         arguments.put("Name", gameName);
-        ParseCloud.callFunctionInBackground("startGame", arguments,
-                new FunctionCallback<Map<String, Object>>() {
-                    @Override
-                    public void done(Map<String, Object> mapObject, ParseException e) {
-                        if (e == null) {
-                        }
-                    }
-                });
-
+        try {
+            ParseCloud.callFunction("startGame", arguments);
+        } catch (ParseException e) {
+            Log.d("startGame", "Cloud function did not call successfully");
+        }
 
         /**
         //TEST IF CHECKHOST WORKS. DELETE.
@@ -143,8 +139,17 @@ public class GameWaitingActivity extends AppCompatActivity {
         testPlayers = GameController.updatePlayers(gameName);
         for (String name : testPlayers) {
             Log.d("Player name", name);
+        }
+
+        //TEST IF ISRESISTANCE WORKS. DELETE.
+        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //String storedPlayer = preferences.getString("playerName","none");
+        Log.d("checkPlayerName", storedPlayer);
+        if (GameController.isResistance(storedPlayer)) {
+            Log.d("IsResistance", storedPlayer);
+        } else {
+            Log.d("IsNotResistance",storedPlayer);
         } **/
     }
-
 }
 
