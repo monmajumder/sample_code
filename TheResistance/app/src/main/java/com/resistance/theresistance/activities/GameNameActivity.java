@@ -100,6 +100,10 @@ public class GameNameActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Save the game name in preferences, so name can be accessed across activities.
+     * @param gameName name of the game
+     */
     private void saveInPreferences(String gameName) {
         //Store name in shared preferences
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -112,6 +116,10 @@ public class GameNameActivity extends AppCompatActivity {
         //Log.d("checkGameName", storedPreference);
     }
 
+    /**
+     * Retrieves the name of the player from the shared preferences.
+     * @return Name of the player
+     */
     private String getPlayerName() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String storedName = preferences.getString("playerName","none");

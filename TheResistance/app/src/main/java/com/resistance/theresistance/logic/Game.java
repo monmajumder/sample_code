@@ -4,9 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Game class where players will be able to join a game
@@ -63,9 +61,17 @@ public class Game extends ParseObject {
      * Gets the current mission.
      * @return Mission object that is the current mission
      */
-    public Mission getCurrMission() {
+    public Mission getCurrentMission() {
         missions = new ArrayList<>(getMissions());
         return missions.get(missions.size()-1);
+    }
+
+    /**
+     * Gets the name of the current mission leader.
+     * @return Name of the current mission leader.
+     */
+    public String getCurrentLeader() {
+        return getCurrentMission().getCurrentMissionLeader();
     }
 
     //-----------------------------------------------

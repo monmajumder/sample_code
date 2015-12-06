@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.Game;
@@ -33,7 +34,8 @@ public class GamePlayActivity extends FragmentActivity {
         gameName = preferences.getString("gameName", "none");
         playerName = preferences.getString("playerName", "none");
 
-        handleLeader();
+        //handleResistanceOrSpy();
+        //handleLeader();
 
         //Abstract this method
         //Add some sort of timer, do this every second or so
@@ -62,6 +64,17 @@ public class GamePlayActivity extends FragmentActivity {
         @Override
         public int getCount() {
             return 5;
+        }
+    }
+
+    /**
+     * Checks if a player is Resistance or Spy and changes visibilities if so.
+     */
+    private void handleResistanceOrSpy() {
+        if (GameController.isResistance(playerName)) {
+            //Go to GamePlayActivity with certain layout for Resistance?
+        } else {
+            //Go to GamePlayActivity with certain layout for Spies?
         }
     }
 
@@ -103,7 +116,7 @@ public class GamePlayActivity extends FragmentActivity {
     public void yesMissionaryTeam() {
         GameController.getCurrentMission(gameName).getCurrentRound().addYesVote(playerName);
         // switch to visibilities for waiting for everyone to finish voting
-        // check if everyone done voting
+        GameController.ifEveryoneDoneVoting(gameName);
     }
 
     /**
@@ -112,7 +125,7 @@ public class GamePlayActivity extends FragmentActivity {
     public void noMissionaryTeam() {
         GameController.getCurrentMission(gameName).getCurrentRound().addNoVote(playerName);
         // switch to visibilities for waiting for everyone to finish voting
-        // check if everyone done voting
+        GameController.ifEveryoneDoneVoting(gameName);
     }
 
     /**
@@ -121,7 +134,7 @@ public class GamePlayActivity extends FragmentActivity {
     public void passMission() {
         GameController.getCurrentMission(gameName).addPassVote();
         // switch to visibilities for waiting for other missionaries
-        // check if missionaries done voting
+        GameController.ifMissionariesDoneVoting(gameName);
     }
 
     /**
@@ -130,7 +143,23 @@ public class GamePlayActivity extends FragmentActivity {
     public void failMission() {
         GameController.getCurrentMission(gameName).addFailVote();
         // switch to visibilities for waiting for other missionaries
-        // check if missionaries done voting
+        GameController.ifMissionariesDoneVoting(gameName);
+    }
+
+    /**
+     * DELETE!!!!!!!!!!
+     * Test game.
+     */
+    public void testGame() {
+        //TEST IF ISRESISTANCE WORKS. DELETE.
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String storedPlayer = preferences.getString("playerName","none");
+        Log.d("checkPlayerName", storedPlayer);
+        if (GameController.isResistance(storedPlayer)) {
+            Log.d("IsResistance", storedPlayer);
+        } else {
+            Log.d("IsNotResistance",storedPlayer);
+        }
     }
 
 }
