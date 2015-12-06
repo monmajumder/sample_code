@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Game Activity
+ * Game Waiting Activity
  */
 public class GameWaitingActivity extends AppCompatActivity {
 
@@ -53,16 +53,16 @@ public class GameWaitingActivity extends AppCompatActivity {
 //        ImageView player1 = new ImageView(this);
 //        player1.setVisibility(View.VISIBLE);
 
-        //Start GameActivity on start button click
+        //Start GamePlayActivity on start button click
         startButton = (Button) findViewById(R.id.button);
         // Capture button clicks
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View button) {
-
                 startGame();
             }
         });
 
+        handleHost();
 
         //Abstract this method
         //Add some sort of timer, do this every second or so
@@ -75,13 +75,7 @@ public class GameWaitingActivity extends AppCompatActivity {
             }
             setPlayerNames(players);
         } else {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String playerName = preferences.getString("playerName", "none");
-            if (GameController.isResistance(playerName)) {
-                //Go to GamePlayActivity with certain layout for Resistance?
-            } else {
-                //Go to GamePlayActivity with certain layout for Spies?
-            }
+            //START THE GAMEPLAY ACTIVITY
         }
     }
 
@@ -92,6 +86,7 @@ public class GameWaitingActivity extends AppCompatActivity {
 
     /**
      * Checks if player is host and if player is host, player can see "Start" button.
+     * If player is not host, displays "Waiting for host to begin"
      */
     private void handleHost() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -100,11 +95,16 @@ public class GameWaitingActivity extends AppCompatActivity {
         //If player is host, change visibilities for host
         if (GameController.checkHost(gameName, storedPlayer)) {
             //Make Start button visible
+        } else {
+            //Display "Waiting for host to begin" message
         }
     }
 
+    /**
+     * Called when a Host presses the "Start" button. Calls Cloud function to take care of starting a game.
+     */
     private void startGame() {
-        //Starting the new activity should be elsewhere
+        //STARTING THE NEW ACTIVITY SHOULD BE SOMEWHERE ELSE.
         intent = new Intent(this, GamePlayActivity.class);
         intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
         startActivity(intent);
@@ -147,17 +147,6 @@ public class GameWaitingActivity extends AppCompatActivity {
         testPlayers = GameController.updatePlayers(gameName);
         for (String name : testPlayers) {
             Log.d("Player name", name);
-        }
-
-        //TEST IF ISRESISTANCE WORKS. DELETE.
-        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        //String storedPlayer = preferences.getString("playerName","none");
-        Log.d("checkPlayerName", storedPlayer);
-        if (GameController.isResistance(storedPlayer)) {
-            Log.d("IsResistance", storedPlayer);
-        } else {
-            Log.d("IsNotResistance",storedPlayer);
         } **/
     }
 }
-

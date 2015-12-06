@@ -27,7 +27,6 @@ public class GameNameHandler {
 
     /**
      * Constructor
-     *
      * @param context to access the application
      */
     public GameNameHandler(GameNameActivity context) {
