@@ -11,6 +11,8 @@ import com.resistance.theresistance.activities.GamePlayActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * GameController class is in charge of controlling the Game.
@@ -167,6 +169,28 @@ public class GameController {
     }
 
     /**
+     * Runs the Timer task for checking when a Mission Leader has finished choosing the team.
+     * @param gameName Name of the game
+     */
+    public static void missionLeaderDoneChoosing(String gameName) {
+        final GameController timerController = new GameController();
+        final String game = gameName;
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (timerController.checkMissionLeaderDoneChoosing(game)) {
+                    timer.cancel();
+                    Log.d("TIMER CHECK", "I AM DONE");
+                } /**else {
+                    Log.d("TIMER CHECK", "ONE TIME");
+                }**/
+            }
+
+        }, 0, 1000);
+    }
+
+    /**
      * Checks whether a Mission Leader has finished choosing Missionary Team.
      * @param gameName Name of the game
      * @return True if Mission Leader is finished choosing, false otherwise
@@ -178,9 +202,10 @@ public class GameController {
             ParseObject object = query.getFirst();
             Log.d("checkStarted game", "The retrieval succeeded");
             Game gameObject = (Game) object;
-            if (gameObject.getGameState() == Game.State.WAITING_FOR_PLAYERS) {
+            if (gameObject.getGameState() == Game.State.MISSION_LEADER_CHOOSING) {
                 return false;
             }
+            //add exceptions for wrong state
             return true;
         } catch (ParseException e) {
             Log.d("checkStarted game", "The retrieval failed");

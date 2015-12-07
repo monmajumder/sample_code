@@ -148,5 +148,11 @@ public class GameWaitingActivity extends AppCompatActivity {
         for (String name : testPlayers) {
             Log.d("Player name", name);
         } **/
+
+        //TEST IF CHECK MISSION LEADER DONE CHOOSING WORKS. DELETE.
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String storedGame = preferences.getString("gameName","none");
+        Log.d("checkGameName", storedGame);
+        GameController.missionLeaderDoneChoosing(storedGame);
     }
 }
