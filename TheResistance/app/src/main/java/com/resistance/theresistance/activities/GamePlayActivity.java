@@ -114,36 +114,75 @@ public class GamePlayActivity extends FragmentActivity {
      * Called when a player clicks "YES" when voting for a Missionary team.
      */
     public void yesMissionaryTeam() {
-        GameController.getCurrentMission(gameName).getCurrentRound().addYesVote(playerName);
         // switch to visibilities for waiting for everyone to finish voting
-        GameController.ifEveryoneDoneVoting(gameName);
+        boolean vote = true;
+        GameController.addVoteForMissionaries(vote, gameName, playerName);
+        afterVotingForMissionaryTeam();
     }
 
     /**
      * Called when a player clicks "NO" when voting for a Missionary team.
      */
     public void noMissionaryTeam() {
-        GameController.getCurrentMission(gameName).getCurrentRound().addNoVote(playerName);
         // switch to visibilities for waiting for everyone to finish voting
-        GameController.ifEveryoneDoneVoting(gameName);
+        boolean vote = false;
+        GameController.addVoteForMissionaries(vote, gameName, playerName);
+        afterVotingForMissionaryTeam();
+    }
+
+    /**
+     * Runs after a player votes "Yes" or "No" for a missionary team.
+     */
+    private void afterVotingForMissionaryTeam() {
+        Game.State result = GameController.ifEveryoneDoneVoting(gameName);
+        if (result == Game.State.MISSION_LEADER_CHOOSING) {
+            if (GameController.checkLeader(gameName, playerName)) {
+                //mission leader voting visibility
+            } else {
+                //waiting for mission leader voting visibility
+            }
+        } else if (result == Game.State.MISSIONARIES_VOTING) {
+            if (GameController.checkMissionary(gameName, playerName)) {
+                //missionary voting visibility
+            } else {
+                //voting for missionary voting visibility
+            }
+        }
     }
 
     /**
      * Called when a Missionary clicks "PASS" when going on a Mission.
      */
     public void passMission() {
-        GameController.getCurrentMission(gameName).addPassVote();
         // switch to visibilities for waiting for other missionaries
-        GameController.ifMissionariesDoneVoting(gameName);
+        boolean vote = true;
+        GameController.addPassFailForMission(true, gameName);
+        waitingForVotingForMission();
     }
 
     /**
      * Called when a Missionary clicks "FAIL" when going on a Mission.
      */
     public void failMission() {
-        GameController.getCurrentMission(gameName).addFailVote();
         // switch to visibilities for waiting for other missionaries
-        GameController.ifMissionariesDoneVoting(gameName);
+        boolean vote = false;
+        GameController.addPassFailForMission(false, gameName);
+        waitingForVotingForMission();
+    }
+
+    private void waitingForVotingForMission() {
+        Game.State result = GameController.ifMissionariesDoneVoting(gameName);
+        if (result == Game.State.SPIES_WIN) {
+            //change visibilities for spies win
+        } else if (result == Game.State.RESISTANCE_WINS) {
+            //change visibilities for resistance wins
+        } else if (result == Game.State.MISSION_PASSED) {
+            // change visibilities for mission passed
+            //Cloud code
+        } else if (result == Game.State.MISSION_FAILED) {
+            // change visibilities for mission failed
+            //Cloud code
+        }
     }
 
     /**
