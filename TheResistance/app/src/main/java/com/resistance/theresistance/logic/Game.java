@@ -45,7 +45,8 @@ public class Game extends ParseObject {
      * @param player Player object to be added
      */
     public void addPlayer(Player player) {
-        if (getNumPlayers() < 10) {
+        //ADD TOAST? For making sure no more than 10 players
+       // if (getNumPlayers() < 10) {
             int newNumPlayers = getNumPlayers() + 1;
             setNumPlayers(newNumPlayers);
             List<Player> playerList = getPlayers();
@@ -56,10 +57,10 @@ public class Game extends ParseObject {
             }
             players.add(player);
             setPlayers(players);
-        }
-        else{
-            throw new IndexOutOfBoundsException();
-        }
+        //}
+       // else{
+        //    throw new IndexOutOfBoundsException();
+        //}
     }
 
     /**
