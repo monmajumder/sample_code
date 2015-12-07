@@ -45,16 +45,21 @@ public class Game extends ParseObject {
      * @param player Player object to be added
      */
     public void addPlayer(Player player) {
-        int newNumPlayers = getNumPlayers() + 1;
-        setNumPlayers(newNumPlayers);
-        List<Player> playerList = getPlayers();
-        if (playerList == null) {
-            players = new ArrayList<>();
-        } else {
-            players = new ArrayList<>(getPlayers());
+        if (getNumPlayers() < 10) {
+            int newNumPlayers = getNumPlayers() + 1;
+            setNumPlayers(newNumPlayers);
+            List<Player> playerList = getPlayers();
+            if (playerList == null) {
+                players = new ArrayList<>();
+            } else {
+                players = new ArrayList<>(getPlayers());
+            }
+            players.add(player);
+            setPlayers(players);
         }
-        players.add(player);
-        setPlayers(players);
+        else{
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     /**
