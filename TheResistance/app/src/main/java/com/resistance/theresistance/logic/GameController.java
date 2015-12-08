@@ -1,5 +1,6 @@
 package com.resistance.theresistance.logic;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.parse.ParseCloud;
@@ -21,6 +22,8 @@ import java.util.TimerTask;
  *
  */
 public class GameController {
+
+    public static Context mContext;
 
     /**
      * Constructor for GameController.
@@ -169,28 +172,6 @@ public class GameController {
     }
 
     /**
-     * Runs the Timer task for checking when a Mission Leader has finished choosing the team.
-     * @param gameName Name of the game
-     */
-    public static void missionLeaderDoneChoosing(String gameName) {
-        final GameController timerController = new GameController();
-        final String game = gameName;
-        final Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (timerController.checkMissionLeaderDoneChoosing(game)) {
-                    timer.cancel();
-                    Log.d("TIMER CHECK", "I AM DONE");
-                } /**else {
-                    Log.d("TIMER CHECK", "ONE TIME");
-                }**/
-            }
-
-        }, 0, 1000);
-    }
-
-    /**
      * Checks whether a Mission Leader has finished choosing Missionary Team.
      * @param gameName Name of the game
      * @return True if Mission Leader is finished choosing, false otherwise
@@ -202,7 +183,7 @@ public class GameController {
             ParseObject object = query.getFirst();
             Log.d("checkStarted game", "The retrieval succeeded");
             Game gameObject = (Game) object;
-            if (gameObject.getGameState() == Game.State.MISSION_LEADER_CHOOSING) {
+            if (gameObject.getGameState() == Game.State.WAITING_FOR_PLAYERS) { //CHANGE BACK TO MISSION_LEADER_CHOOSING. TESTING!!!!
                 return false;
             }
             //add exceptions for wrong state
