@@ -13,6 +13,7 @@ import android.util.Log;
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
+import com.resistance.theresistance.logic.GameTimer;
 import com.resistance.theresistance.logic.Round;
 import com.resistance.theresistance.views.GamePlayFragment;
 
@@ -37,12 +38,7 @@ public class GamePlayActivity extends FragmentActivity {
         //handleResistanceOrSpy();
         //handleLeader();
 
-        //Abstract this method
-        //Add some sort of timer, do this every second or so
-        //Do it until the game state changes (mission leader presses choose)
-        if (GameController.checkMissionLeaderDoneChoosing(gameName)) {
-            //change visibilities for VOTING FOR MISSIONARIES
-        }
+        //GameTimer.missionLeaderDoneChoosing(this, gameName);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {

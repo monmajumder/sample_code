@@ -1,5 +1,6 @@
 package com.resistance.theresistance.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.GameController;
+import com.resistance.theresistance.logic.GameTimer;
 import com.resistance.theresistance.views.MyTextView;
 
 import com.parse.ParseException;
@@ -31,6 +33,15 @@ public class GameWaitingActivity extends AppCompatActivity {
     Button startButton;
     String gameName;
     String gameRoomStr;
+    public static Context mContext;
+
+    /**
+     * Get context
+     * @return context
+     */
+    public static Context getContext() {
+        return mContext;
+    }
 
     /**
      * Called on create
@@ -53,14 +64,6 @@ public class GameWaitingActivity extends AppCompatActivity {
 //        ImageView player1 = new ImageView(this);
 //        player1.setVisibility(View.VISIBLE);
 
-        //Start GamePlayActivity on start button click
-        startButton = (Button) findViewById(R.id.button);
-        // Capture button clicks
-        startButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View button) {
-                startGame();
-            }
-        });
 
         handleHost();
 
@@ -103,7 +106,7 @@ public class GameWaitingActivity extends AppCompatActivity {
     /**
      * Called when a Host presses the "Start" button. Calls Cloud function to take care of starting a game.
      */
-    private void startGame() {
+    public void startGame(View view) {
         //STARTING THE NEW ACTIVITY SHOULD BE SOMEWHERE ELSE.
         intent = new Intent(this, GamePlayActivity.class);
         intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
@@ -137,7 +140,7 @@ public class GameWaitingActivity extends AppCompatActivity {
             Log.d("CHECKING", "YES. GAME HAS STARTED.");
         } else {
             Log.d("CHECKING", "NO. GAME HAS NOT STARTED.");
-        }
+        } **/
 
         //TEST IF UPDATE PLAYERS WORKS. DELETE.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -147,12 +150,12 @@ public class GameWaitingActivity extends AppCompatActivity {
         testPlayers = GameController.updatePlayers(gameName);
         for (String name : testPlayers) {
             Log.d("Player name", name);
-        } **/
-
+        }
+/**
         //TEST IF CHECK MISSION LEADER DONE CHOOSING WORKS. DELETE.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String storedGame = preferences.getString("gameName","none");
         Log.d("checkGameName", storedGame);
-        GameController.missionLeaderDoneChoosing(storedGame);
+        GameController.missionLeaderDoneChoosing(storedGame); **/
     }
 }
