@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="player_ids_ints">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </array>
+    <array name="player_imgs">
+        <item>@drawable/player_icon_green</item>
+        <item>@drawable/player_icon_pink</item>
+        <item>@drawable/player_icon_purp</item>
+        <item>@drawable/player_icon_orange</item>
+        <item>@drawable/player_icon_yellow</item>
+        <item>@drawable/player_icon_blue</item>
+        <item>@drawable/player_icon_gray</item>
+    </array>
+</resources>
