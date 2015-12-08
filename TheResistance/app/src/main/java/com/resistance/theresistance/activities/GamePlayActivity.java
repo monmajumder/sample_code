@@ -181,20 +181,4 @@ public class GamePlayActivity extends FragmentActivity {
         }
     }
 
-    /**
-     * DELETE!!!!!!!!!!
-     * Test game.
-     */
-    public void testGame() {
-        //TEST IF ISRESISTANCE WORKS. DELETE.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String storedPlayer = preferences.getString("playerName","none");
-        Log.d("checkPlayerName", storedPlayer);
-        if (GameController.isResistance(storedPlayer)) {
-            Log.d("IsResistance", storedPlayer);
-        } else {
-            Log.d("IsNotResistance",storedPlayer);
-        }
-    }
-
 }

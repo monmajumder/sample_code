@@ -50,6 +50,7 @@ public class GameWaitingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getBaseContext();
 
         setContentView(R.layout.activity_game);
         // Get the message from the intent
@@ -66,11 +67,14 @@ public class GameWaitingActivity extends AppCompatActivity {
 
 
         handleHost();
+        GameTimer.gameStarted(this, gameName);
 
+        /**
         //Abstract this method
         //Add some sort of timer, do this every second or so
         //Do it until the game is started (game state changes after host presses start)
         //Check if game started
+
         if (!GameController.checkStarted(gameName)) {
             ArrayList<String> players = GameController.updatePlayers(gameName);
             if (players == null) {
@@ -79,13 +83,14 @@ public class GameWaitingActivity extends AppCompatActivity {
             setPlayerNames(players);
         } else {
             //START THE GAMEPLAY ACTIVITY
-        }
+        } **/
     }
 
+    /** DELETE! DON'T NEED THIS. NOW IN GAME TIMER.
     private void setPlayerNames(ArrayList<String> players){
         MyTextView player1 = (MyTextView)findViewById(R.id.pink_player_label);
         player1.setText(players.get(0));
-    }
+    } **/
 
     /**
      * Checks if player is host and if player is host, player can see "Start" button.
@@ -140,7 +145,7 @@ public class GameWaitingActivity extends AppCompatActivity {
             Log.d("CHECKING", "YES. GAME HAS STARTED.");
         } else {
             Log.d("CHECKING", "NO. GAME HAS NOT STARTED.");
-        } **/
+        }
 
         //TEST IF UPDATE PLAYERS WORKS. DELETE.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -151,7 +156,7 @@ public class GameWaitingActivity extends AppCompatActivity {
         for (String name : testPlayers) {
             Log.d("Player name", name);
         }
-/**
+
         //TEST IF CHECK MISSION LEADER DONE CHOOSING WORKS. DELETE.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String storedGame = preferences.getString("gameName","none");
