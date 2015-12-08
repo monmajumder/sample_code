@@ -4,9 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Game class where players will be able to join a game
@@ -47,25 +45,39 @@ public class Game extends ParseObject {
      * @param player Player object to be added
      */
     public void addPlayer(Player player) {
-        int newNumPlayers = getNumPlayers() + 1;
-        setNumPlayers(newNumPlayers);
-        List<Player> playerList = getPlayers();
-        if (playerList == null) {
-            players = new ArrayList<>();
-        } else {
-            players = new ArrayList<>(getPlayers());
-        }
-        players.add(player);
-        setPlayers(players);
+        //ADD TOAST? For making sure no more than 10 players
+       // if (getNumPlayers() < 10) {
+            int newNumPlayers = getNumPlayers() + 1;
+            setNumPlayers(newNumPlayers);
+            List<Player> playerList = getPlayers();
+            if (playerList == null) {
+                players = new ArrayList<>();
+            } else {
+                players = new ArrayList<>(getPlayers());
+            }
+            players.add(player);
+            setPlayers(players);
+        //}
+       // else{
+        //    throw new IndexOutOfBoundsException();
+        //}
     }
 
     /**
      * Gets the current mission.
      * @return Mission object that is the current mission
      */
-    public Mission getCurrMission() {
+    public Mission getCurrentMission() {
         missions = new ArrayList<>(getMissions());
         return missions.get(missions.size()-1);
+    }
+
+    /**
+     * Gets the name of the current mission leader.
+     * @return Name of the current mission leader.
+     */
+    public String getCurrentLeader() {
+        return getCurrentMission().getCurrentMissionLeader();
     }
 
     //-----------------------------------------------

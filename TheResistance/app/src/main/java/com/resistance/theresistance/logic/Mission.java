@@ -27,8 +27,7 @@ public class Mission extends ParseObject {
      * Constructor.
      */
     public Mission() {
-        setPass(0);
-        setFail(0);
+        super();
     }
 
     /**

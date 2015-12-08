@@ -8,10 +8,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
+import com.resistance.theresistance.logic.GameTimer;
 import com.resistance.theresistance.logic.Round;
 import com.resistance.theresistance.views.GamePlayFragment;
 
@@ -33,14 +35,10 @@ public class GamePlayActivity extends FragmentActivity {
         gameName = preferences.getString("gameName", "none");
         playerName = preferences.getString("playerName", "none");
 
-        handleLeader();
+        //handleResistanceOrSpy();
+        //handleLeader();
 
-        //Abstract this method
-        //Add some sort of timer, do this every second or so
-        //Do it until the game state changes (mission leader presses choose)
-        if (GameController.checkMissionLeaderDoneChoosing(gameName)) {
-            //change visibilities for VOTING FOR MISSIONARIES
-        }
+        //GameTimer.missionLeaderDoneChoosing(this, gameName);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -62,6 +60,17 @@ public class GamePlayActivity extends FragmentActivity {
         @Override
         public int getCount() {
             return 5;
+        }
+    }
+
+    /**
+     * Checks if a player is Resistance or Spy and changes visibilities if so.
+     */
+    private void handleResistanceOrSpy() {
+        if (GameController.isResistance(playerName)) {
+            //Go to GamePlayActivity with certain layout for Resistance?
+        } else {
+            //Go to GamePlayActivity with certain layout for Spies?
         }
     }
 
@@ -101,36 +110,91 @@ public class GamePlayActivity extends FragmentActivity {
      * Called when a player clicks "YES" when voting for a Missionary team.
      */
     public void yesMissionaryTeam() {
-        GameController.getCurrentMission(gameName).getCurrentRound().addYesVote(playerName);
         // switch to visibilities for waiting for everyone to finish voting
-        // check if everyone done voting
+        boolean vote = true;
+        GameController.addVoteForMissionaries(vote, gameName, playerName);
+        afterVotingForMissionaryTeam();
     }
 
     /**
      * Called when a player clicks "NO" when voting for a Missionary team.
      */
     public void noMissionaryTeam() {
-        GameController.getCurrentMission(gameName).getCurrentRound().addNoVote(playerName);
         // switch to visibilities for waiting for everyone to finish voting
-        // check if everyone done voting
+        boolean vote = false;
+        GameController.addVoteForMissionaries(vote, gameName, playerName);
+        afterVotingForMissionaryTeam();
+    }
+
+    /**
+     * Runs after a player votes "Yes" or "No" for a missionary team.
+     */
+    private void afterVotingForMissionaryTeam() {
+        Game.State result = GameController.ifEveryoneDoneVoting(gameName);
+        if (result == Game.State.MISSION_LEADER_CHOOSING) {
+            if (GameController.checkLeader(gameName, playerName)) {
+                //mission leader voting visibility
+            } else {
+                //waiting for mission leader voting visibility
+            }
+        } else if (result == Game.State.MISSIONARIES_VOTING) {
+            if (GameController.checkMissionary(gameName, playerName)) {
+                //missionary voting visibility
+            } else {
+                //voting for missionary voting visibility
+            }
+        }
     }
 
     /**
      * Called when a Missionary clicks "PASS" when going on a Mission.
      */
     public void passMission() {
-        GameController.getCurrentMission(gameName).addPassVote();
         // switch to visibilities for waiting for other missionaries
-        // check if missionaries done voting
+        boolean vote = true;
+        GameController.addPassFailForMission(true, gameName);
+        waitingForVotingForMission();
     }
 
     /**
      * Called when a Missionary clicks "FAIL" when going on a Mission.
      */
     public void failMission() {
-        GameController.getCurrentMission(gameName).addFailVote();
         // switch to visibilities for waiting for other missionaries
-        // check if missionaries done voting
+        boolean vote = false;
+        GameController.addPassFailForMission(false, gameName);
+        waitingForVotingForMission();
+    }
+
+    private void waitingForVotingForMission() {
+        Game.State result = GameController.ifMissionariesDoneVoting(gameName);
+        if (result == Game.State.SPIES_WIN) {
+            //change visibilities for spies win
+        } else if (result == Game.State.RESISTANCE_WINS) {
+            //change visibilities for resistance wins
+        } else if (result == Game.State.MISSION_PASSED) {
+            // change visibilities for mission passed
+            //Cloud code
+        } else if (result == Game.State.MISSION_FAILED) {
+            // change visibilities for mission failed
+            //Cloud code
+        }
+    }
+
+    /**
+     * DELETE!!!!!!!!!!
+     * Test game.
+     */
+    public void testGame() {
+        //TEST IF ISRESISTANCE WORKS. DELETE.
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String storedPlayer = preferences.getString("playerName","none");
+        Log.d("checkPlayerName", storedPlayer);
+        if (GameController.isResistance(storedPlayer)) {
+            Log.d("IsResistance", storedPlayer);
+        } else {
+            Log.d("IsNotResistance",storedPlayer);
+        }
     }
 
 }

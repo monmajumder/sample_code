@@ -75,6 +75,14 @@ public class Round extends ParseObject {
     }
 
     /**
+     * Gets the list of missionaries for a round
+     * @return List of missionaries for a round
+     */
+    public List<String> getMissionaries() {
+        return getList("Missionaries");
+    }
+
+    /**
      * Gets the players' names who voted yes
      * @return List of names
      */

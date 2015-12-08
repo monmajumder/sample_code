@@ -3,6 +3,7 @@ package com.resistance.theresistance.logic;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.parse.CountCallback;
 import com.parse.GetCallback;
@@ -22,16 +23,14 @@ public class GameNameHandler {
     private static String gameName;
     private static String playerName;
     public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
-    protected GameNameActivity context;
     private static GameNameActivity activity;
 
     /**
      * Constructor
-     *
      * @param context to access the application
      */
     public GameNameHandler(GameNameActivity context) {
-        this.context = context;
+        this.activity = context;
     }
 
     /**
@@ -75,9 +74,13 @@ public class GameNameHandler {
         try {
             ParseObject object = query.getFirst();
             Log.d("joinGameHandler game", "The retrieval succeeded");
-            addPlayerToGame(object, playerName);
-            object.saveInBackground();
-            startActivity();
+            if (GameController.checkStarted(gameName)) {
+                gameHasAlreadyStarted(activity);
+            } else {
+                addPlayerToGame(object, playerName);
+                object.saveInBackground();
+                startActivity();
+            }
         } catch (ParseException e) {
             Log.d("joinGameHandler game", "The retrieval failed");
             changeGameNameExistsView(activity, "join");
@@ -156,5 +159,13 @@ public class GameNameHandler {
             secondView.setVisibility(View.INVISIBLE);
             existsView.setVisibility(View.VISIBLE);
         }
+    }
+
+    /**
+     * Displays a message to the user if they try to join a game that has already started.
+     * @param thisActivity GameName Activity
+     */
+    private static void gameHasAlreadyStarted(GameNameActivity thisActivity) {
+        Toast.makeText(thisActivity, "That game has already started.", Toast.LENGTH_SHORT).show();
     }
 }

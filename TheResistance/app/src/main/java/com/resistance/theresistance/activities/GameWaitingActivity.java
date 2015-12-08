@@ -1,5 +1,6 @@
 package com.resistance.theresistance.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.GameController;
+import com.resistance.theresistance.logic.GameTimer;
 import com.resistance.theresistance.views.MyTextView;
 
 import com.parse.ParseException;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Game Activity
+ * Game Waiting Activity
  */
 public class GameWaitingActivity extends AppCompatActivity {
 
@@ -31,6 +33,15 @@ public class GameWaitingActivity extends AppCompatActivity {
     Button startButton;
     String gameName;
     String gameRoomStr;
+    public static Context mContext;
+
+    /**
+     * Get context
+     * @return context
+     */
+    public static Context getContext() {
+        return mContext;
+    }
 
     /**
      * Called on create
@@ -53,16 +64,8 @@ public class GameWaitingActivity extends AppCompatActivity {
 //        ImageView player1 = new ImageView(this);
 //        player1.setVisibility(View.VISIBLE);
 
-        //Start GameActivity on start button click
-        startButton = (Button) findViewById(R.id.button);
-        // Capture button clicks
-        startButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View button) {
 
-                startGame();
-            }
-        });
-
+        handleHost();
 
         //Abstract this method
         //Add some sort of timer, do this every second or so
@@ -75,13 +78,7 @@ public class GameWaitingActivity extends AppCompatActivity {
             }
             setPlayerNames(players);
         } else {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String playerName = preferences.getString("playerName", "none");
-            if (GameController.isResistance(playerName)) {
-                //Go to GamePlayActivity with certain layout for Resistance?
-            } else {
-                //Go to GamePlayActivity with certain layout for Spies?
-            }
+            //START THE GAMEPLAY ACTIVITY
         }
     }
 
@@ -92,6 +89,7 @@ public class GameWaitingActivity extends AppCompatActivity {
 
     /**
      * Checks if player is host and if player is host, player can see "Start" button.
+     * If player is not host, displays "Waiting for host to begin"
      */
     private void handleHost() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -100,27 +98,28 @@ public class GameWaitingActivity extends AppCompatActivity {
         //If player is host, change visibilities for host
         if (GameController.checkHost(gameName, storedPlayer)) {
             //Make Start button visible
+        } else {
+            //Display "Waiting for host to begin" message
         }
     }
 
-    private void startGame() {
-        //When host clicks start Game, run Cloud code.
-        //Starting the new activity should be elsewhere
+    /**
+     * Called when a Host presses the "Start" button. Calls Cloud function to take care of starting a game.
+     */
+    public void startGame(View view) {
+        //STARTING THE NEW ACTIVITY SHOULD BE SOMEWHERE ELSE.
         intent = new Intent(this, GamePlayActivity.class);
         intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
         startActivity(intent);
 
+        //Call Cloud function
         HashMap<String,Object> arguments = new HashMap<>();
         arguments.put("Name", gameName);
-        ParseCloud.callFunctionInBackground("startGame", arguments,
-                new FunctionCallback<Map<String, Object>>() {
-                    @Override
-                    public void done(Map<String, Object> mapObject, ParseException e) {
-                        if (e == null) {
-                        }
-                    }
-                });
-
+        try {
+            ParseCloud.callFunction("startGame", arguments);
+        } catch (ParseException e) {
+            Log.d("startGame", "Cloud function did not call successfully");
+        }
 
         /**
         //TEST IF CHECKHOST WORKS. DELETE.
@@ -141,7 +140,7 @@ public class GameWaitingActivity extends AppCompatActivity {
             Log.d("CHECKING", "YES. GAME HAS STARTED.");
         } else {
             Log.d("CHECKING", "NO. GAME HAS NOT STARTED.");
-        }
+        } **/
 
         //TEST IF UPDATE PLAYERS WORKS. DELETE.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -151,8 +150,12 @@ public class GameWaitingActivity extends AppCompatActivity {
         testPlayers = GameController.updatePlayers(gameName);
         for (String name : testPlayers) {
             Log.d("Player name", name);
-        } **/
+        }
+/**
+        //TEST IF CHECK MISSION LEADER DONE CHOOSING WORKS. DELETE.
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String storedGame = preferences.getString("gameName","none");
+        Log.d("checkGameName", storedGame);
+        GameController.missionLeaderDoneChoosing(storedGame); **/
     }
-
 }
-
