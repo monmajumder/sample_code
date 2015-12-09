@@ -60,6 +60,29 @@ public class GameController {
     }
 
     /**
+     * Checks if there are enough players in a game to start.
+     * @param gameName Name of game
+     * @return True if 5 or more players, False otherwise
+     */
+    public static boolean checkEnoughPlayers(String gameName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
+        query.whereEqualTo("Name", gameName);
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("checkEnoughPlayers game", "The retrieval succeeded");
+            Game gameObject = (Game)object;
+            if (gameObject.getNumPlayers() >= 5) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            Log.d("checkEnoughPlayers game", "The retrieval failed");
+            return false;
+        }
+    }
+
+    /**
      * Extracts the name of the players currently in a game.
      * @param gameName Name of the game
      * @return ArrayList containing the names of the Players in a game
