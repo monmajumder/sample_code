@@ -88,6 +88,8 @@ function failMission(currentMission,game){
         promise.reject();
       };
     }
+  }).then(function() {
+    promise.resolve();
   }), function(error) {
     promise.reject();
   };
