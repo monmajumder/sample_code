@@ -75,12 +75,14 @@ function failMission(currentMission,game){
 
   currentMission.set("Passed", false);
   currentMission.save().then(function() {
-    if (game.get("Missions").length === 5) {
-      console.log("5 missions have failed , the game is over.");
-      return changeGameStatus(game,"SPIES_WIN");
+    return checkIfGameOver(game);
+  }).then(function(game) {
+    if (gameIsOver(game)) {
+      console.log("the game is over.");
+      return game.save();
     }
     else {
-      console.log("adding a new mission in failMission");
+      console.log("adding a new mission in failMission to game [" + game.id + "]");
       addMission(game).then(function(game,round) {
         console.log("finished the first promise in failMission");
         return setNextMissionLeader(game,round);
@@ -94,6 +96,33 @@ function failMission(currentMission,game){
     promise.reject();
   };
   return promise;
+}
+
+function gameIsOver(game) {
+  return ((game.get("State") === "SPIES_WIN") || (game.get("State") === "RESISTANCE_WINS"));
+}
+
+//checks if game is over
+//changes the game status if it is
+function checkIfGameOver(game) {
+  var missions = game.get("Missions");
+  var numMissionsPassed = 0;
+  var numMissionsFailed = 0;
+  for (var i = 0; i < missions.length; i++) {
+    if (missions[i].get("Passed") === true)
+      numMissionsPassed++;
+    else if (missions[i].get("Passed") === false)
+      numMissionsFailed++;
+  }
+  console.log("checking if game is over with" + numMissionsPassed + " missions passed and " + numMissionsFailed + " numMissionsFailed");
+  if (numMissionsPassed >= 3) {
+    return changeGameStatus(game, "RESISTANCE_WINS");
+  }
+  else if (numMissionsFailed >= 3) {
+    return changeGameStatus(game, "SPIES_WIN");
+  }
+  else
+    return game.save();
 }
 
 //fails the missionary vote
