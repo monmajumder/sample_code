@@ -1,5 +1,7 @@
 package com.resistance.theresistance.logic;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -23,7 +25,7 @@ public class Game extends ParseObject {
     private int numSpiesWins;
     private String host;
     private ArrayList<Player> players;
-    private ArrayList<Mission> missions;
+    private List<Mission> missions;
 
     /**
      * Defines the states that a game can be in
@@ -68,7 +70,7 @@ public class Game extends ParseObject {
      * @return Mission object that is the current mission
      */
     public Mission getCurrentMission() {
-        missions = new ArrayList<>(getMissions());
+        missions = getMissions();
         return missions.get(missions.size()-1);
     }
 
@@ -78,6 +80,14 @@ public class Game extends ParseObject {
      */
     public String getCurrentLeader() {
         return getCurrentMission().getCurrentMissionLeader();
+    }
+
+    /**
+     * Gets the number of the current mission.
+     * @return Number of missions
+     */
+    public int getCurrentMissionNumber() {
+        return getMissions().size();
     }
 
     //-----------------------------------------------

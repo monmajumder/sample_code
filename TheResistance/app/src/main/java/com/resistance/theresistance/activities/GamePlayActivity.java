@@ -23,6 +23,7 @@ public class GamePlayActivity extends FragmentActivity {
 
     String gameName;
     String playerName;
+    int numPlayersOnMission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +36,15 @@ public class GamePlayActivity extends FragmentActivity {
         gameName = preferences.getString("gameName", "none");
         playerName = preferences.getString("playerName", "none");
 
-        //handleResistanceOrSpy();
-        //handleLeader();
+        handleResistanceOrSpy();
+        handleLeader();
 
         //GameTimer.missionLeaderDoneChoosing(this, gameName);
+
+        //TEST IF GET NUMBER OF MISSIONARIES REQUIRED WORKS. DELETE.
+        //int numPlayers = GameController.getMissionariesRequired(gameName);
+        //Log.d("Missionaries required", String.valueOf(numPlayers));
+
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -79,7 +85,9 @@ public class GamePlayActivity extends FragmentActivity {
      */
     private void handleLeader() {
         if (GameController.checkLeader(gameName, playerName)) {
-            //Change visibilities for Mission Leader
+            this.numPlayersOnMission = GameController.getMissionariesRequired(gameName);
+            Log.d("handleLeader numPlayers", String.valueOf(numPlayersOnMission));
+            //Change visibilities for Mission Leader, with number of missionaries that need to be chosen
         } else {
             //Change visibilities
         }
@@ -100,7 +108,7 @@ public class GamePlayActivity extends FragmentActivity {
      * Called when a Mission Leader is choosing missionaries.
      */
     public void leaderChoosingMissionaries() {
-        //somehow take in clicks for players who the leader chooses
+        //somehow take in clicks for players who the leader chooses, make sure it is the right number, numPlayersOnMission
         ArrayList<String> chosenMissionaries = new ArrayList<>();
         GameController.addChosenMissionaries(gameName, chosenMissionaries);
         GameController.changeState(gameName, Game.State.VOTE_FOR_MISSIONARIES);

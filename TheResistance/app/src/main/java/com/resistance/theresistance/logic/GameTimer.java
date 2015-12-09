@@ -48,7 +48,7 @@ public class GameTimer {
                             if (players == null) {
                                 Log.d("Players array", "IS NULL");
                             }
-//                            thisActivity.addPlayerIcons();
+                            //thisActivity.addPlayerIcons();
                             Log.d("TIMER CHECK", "GAME HAS NOT STARTED");
                         } else {
                             timer.cancel();
@@ -63,6 +63,7 @@ public class GameTimer {
 
     /**
      * Starts the new activity after the game has started.
+     * @param gameName Name of the game
      */
     private static void startGamePlayActivity(String gameName) {
         Intent intent = new Intent(GameWaitingActivity.getContext(), GamePlayActivity.class);
