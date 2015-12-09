@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
@@ -117,10 +118,11 @@ public class GameWaitingActivity extends AppCompatActivity {
      * Called when a Host presses the "Start" button. Calls Cloud function to take care of starting a game.
      */
     public void startGame(View view) {
-        //STARTING THE NEW ACTIVITY SHOULD BE SOMEWHERE ELSE.
-        intent = new Intent(this, GamePlayActivity.class);
-        intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
-        startActivity(intent);
+
+        if (!GameController.checkEnoughPlayers(gameName)) {
+            tooFewPlayers();
+            return;
+        }
 
         //Call Cloud function
         HashMap<String,Object> arguments = new HashMap<>();
@@ -130,6 +132,11 @@ public class GameWaitingActivity extends AppCompatActivity {
         } catch (ParseException e) {
             Log.d("startGame", "Cloud function did not call successfully");
         }
+
+        //STARTING THE NEW ACTIVITY SHOULD BE SOMEWHERE ELSE. DELETE THIS.
+        intent = new Intent(this, GamePlayActivity.class);
+        intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
+        startActivity(intent);
 
         /**
         //TEST IF CHECKHOST WORKS. DELETE.
@@ -167,6 +174,13 @@ public class GameWaitingActivity extends AppCompatActivity {
         String storedGame = preferences.getString("gameName","none");
         Log.d("checkGameName", storedGame);
         GameController.missionLeaderDoneChoosing(storedGame); **/
+    }
+
+    /**
+     * Displays a toast if there are not enough players to start a game.
+     */
+    private void tooFewPlayers() {
+            Toast.makeText(this,"Too few players. Need at least 5 players to start.", Toast.LENGTH_SHORT).show();
     }
 
     private void addPlayer(int playerNumber){
@@ -228,6 +242,12 @@ public class GameWaitingActivity extends AppCompatActivity {
 
     public void addPlayerIcons() {
         ArrayList<String> playerNames = GameController.updatePlayers(gameName);
+
+        //DELETE. TESTING.
+        for (String name: playerNames) {
+            Log.d("player name list", name);
+        }
+
         for (int i = 0; i < playerNames.size(); i++) {
             addPlayer(i);
         }
