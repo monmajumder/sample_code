@@ -5,10 +5,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.resistance.theresistance.R;
-import com.resistance.theresistance.activities.GameNameActivity;
 import com.resistance.theresistance.activities.GamePlayActivity;
 import com.resistance.theresistance.activities.GameWaitingActivity;
-import com.resistance.theresistance.views.MyTextView;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -50,7 +48,7 @@ public class GameTimer {
                             if (players == null) {
                                 Log.d("Players array", "IS NULL");
                             }
-                            setPlayerNames(thisActivity, players);
+                            //thisActivity.addPlayerIcons();
                             Log.d("TIMER CHECK", "GAME HAS NOT STARTED");
                         } else {
                             timer.cancel();
@@ -61,16 +59,6 @@ public class GameTimer {
                 });
             }
         }, 0, 1000);
-    }
-
-    /**
-     * Updates the game waiting UI with player names who have joined. FIX THIS TO INCLUDE ALL PLAYERS.
-     * @param activity GameWaitingActivity
-     * @param players ArrayList of player names
-     */
-    private static void setPlayerNames(GameWaitingActivity activity, ArrayList<String> players){
-        MyTextView player1 = (MyTextView)activity.findViewById(R.id.pink_player_label);
-        player1.setText(players.get(0));
     }
 
     /**
@@ -119,4 +107,6 @@ public class GameTimer {
         View existsView= (View) activity.findViewById(R.id.waiting_for_host);
         existsView.setVisibility(View.INVISIBLE);
     }
+
+
 }
