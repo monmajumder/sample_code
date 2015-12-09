@@ -4,20 +4,6 @@ Parse.Cloud.define("get_message", function (request, response) {
   message.getMessage(request, response);
 });
 
-/*  adds "clouuuuuuud" to "Name" field of object
-    {"Name" : String} Name to be cloudified*/
-Parse.Cloud.define("cloudifyNameObject", function(request, response) {
-  (function() {
-    return findObject("NameObject",request.params.Name);
-  }()).then(function(object){
-    addCloudToName(object);
-  }).then(function() {
-    response.success();
-  }), function(error) {
-    response.error("something fucked up");
-  };
-});
-
 /**
   Tallies a vote for missionaries.
   Checks if every player has voted.
@@ -84,46 +70,61 @@ function isDefined(object) {
 }
 //fails the mission
 //tbd: check if 5 missions have passed and the game should be over
-function failMission(currentMission,game) {
-  var promises = [];
+function failMission(currentMission,game){
+  var promise = new Parse.Promise;
 
   currentMission.set("Passed", false);
-  promises.push(currentMission.save());
-  if (game.get("Missions").length === 5) {
-    console.log("5 missions have failed , the game is over.");
-    promises.push(changeGameStatus("SPIES_WIN"));
-  }
-  addMission(game).then(function(game,round) {
-    promises.push(setNextMissionLeader());
+  currentMission.save().then(function() {
+    if (game.get("Missions").length === 5) {
+      console.log("5 missions have failed , the game is over.");
+      return changeGameStatus(game,"SPIES_WIN");
+    }
+    else {
+      console.log("adding a new mission in failMission");
+      addMission(game).then(function(game,round) {
+        console.log("finished the first promise in failMission");
+        return setNextMissionLeader(game,round);
+      }), function(error) {
+        promise.reject();
+      };
+    }
   }), function(error) {
-    response.error("something fucked up");
+    promise.reject();
   };
-  return Parse.Promise.when(promises);
+  return promise;
 }
 
 //fails the missionary vote
 //creates a new round object, adds it to the rounds array in mission object
 //changes game state to MISSION_LEADER_CHOOSING
 function failMissionaries(currentRound, currentMission, game) {
-  var promise = new Parse.Promise();
+  var promise = new Parse.Promise;
 
   currentRound.set("MissionariesAccepted", false);
-  currentRound.save(); //assuming things, trololol
-
-  if (currentMission.get("Rounds").length >= 5) {
-    console.log("mission should fail because " + game.get("Missions")[0].get("Rounds").length + " rounds were rejected.");
-    failMission(currentMission,game);
-  }
-
-  var RoundObject = Parse.Object.extend("RoundObject");
-  var nextRound = new RoundObject();
-  setNextMissionLeader(game,nextRound).then(function(nextRound) {
-    currentMission.add("Rounds",nextRound);
-    return currentMission.save();
-  }).then(function(currentMission) {
-    return changeGameStatus(game,"MISSION_LEADER_CHOOSING");
-  }).then(function() {
-    promise.resolve(game);
+  currentRound.save().then(function() {
+    if (currentMission.get("Rounds").length >= 5) {
+      console.log("mission fails because " + game.get("Missions")[0].get("Rounds").length + " rounds were rejected.");
+      failMission(currentMission,game).then(function() {
+        promise.resolve(game);
+      }), function(error) {
+        promise.reject();
+      };
+    }
+    else {
+      var RoundObject = Parse.Object.extend("RoundObject");
+      var nextRound = new RoundObject();
+      nextRound.save().then(function(nextRound) {
+        currentMission.add("Rounds",nextRound);
+        currentMission.save(); //not synchronous...
+        return setNextMissionLeader(game,nextRound);
+      }).then(function(game,round) {
+        return changeGameStatus(game,"MISSION_LEADER_CHOOSING");
+      }).then(function() {
+        promise.resolve(game);
+      }), function(error) {
+        promise.reject();
+      };
+    }
   }), function(error) {
     promise.reject();
   };
@@ -194,32 +195,18 @@ function addMission(game) {
     mission.set("Fail",0);
     return mission.save();
   }).then(function(mission) {
+    console.log("adding mission:" + mission.id);
+    console.log("missions before: " + game.get("Missions"));
     game.add("Missions", mission);
-    game.save();
-  }).then(function() {
+    console.log("missions after: " + game.get("Missions"));
+    return game.save();
+  }).then(function(game) {
+    console.log("resolving add mission promise");
     promise.resolve(game,firstRound);
   }), function(error){
     response.error("fuck");
   };
   return promise;
-}
-
-/* determines player roles
-   {"Name" : String} Name of the game */
-Parse.Cloud.define("setPlayerRoles", function(request, response) {
-  setPlayerRoles(request,response);
-});
-
-var setPlayerRoles = function(request,response) {
-  (function() {
-  return findObject("GameObject", request.params.Name);
-  }()).then(function(game){
-    actuallySetPlayerRoles(game);
-  }).then(function() {
-    response.success();
-  }), function(error) {
-    response.error("something fucked up");
-  };
 }
 
 function actuallySetPlayerRoles(game) {
@@ -264,7 +251,7 @@ var setRandomMissionLeader = function(game,round) {
   //cant figure out how to use fields of type 'object', using the id for now
   round.set("Leader", players[missionLeaderIndex].get("Name"));
   round.save().then(function() {
-    promise.resolve(round);
+    promise.resolve(game);
   }), function(error) {
     promise.reject();
   };
@@ -286,8 +273,10 @@ var setNextMissionLeader = function(game,round) {
     var previousRounds = previousMission.get("Rounds");
     previousRound = previousRounds[previousRounds.length - 1];
   }
-
-  var previousRound = rounds[rounds.length-1];
+  else {
+    var previousRound = rounds[rounds.length-2];
+  }
+  console.log("previous round:" + previousRound);
   if (typeof previousRound === 'undefined') throw "Can't set next mission leader without previous round.";
   
   var previousLeader = previousRound.get("Leader");
@@ -299,10 +288,10 @@ var setNextMissionLeader = function(game,round) {
   }
   console.log("previous round had leader with name " + previousLeader);
   if (!isDefined(newLeader))
-    throw "Couldn't index previous leader";
+    throw "Couldn't find previous leader";
   round.set("Leader", newLeader);
   round.save().then(function() {
-    promise.resolve(round);
+    promise.resolve(game,round);
   }), function(error) {
     promise.reject();
   };
@@ -362,11 +351,6 @@ function findGameWithPlayers(name) {
   query.equalTo("Name", name);
   query.include('Players');
   return query.first();
-}
-
-function addCloudToName(object) {
-  object.set("Name", "clouuuuuuud");
-  object.save();
 }
 
 /* function blatantly copied from stackOverflow: 
