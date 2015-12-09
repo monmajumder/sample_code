@@ -1,5 +1,7 @@
 package com.resistance.theresistance.logic;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -17,9 +19,10 @@ import java.util.Random;
 @ParseClassName("MissionObject")
 public class Mission extends ParseObject {
 
+    private String objectId; //DELETE
     private int missionNum;
     private boolean succeeded;//if the players voted to pass the mission
-    private ArrayList<Round> rounds;
+    private List<Round> rounds;
     private int pass; //number of players who voted to pass the mission
     private int fail; //number of players who voted to fail the mission
 
@@ -35,9 +38,7 @@ public class Mission extends ParseObject {
      * @return Name of the current Mission leader
      */
     public String getCurrentMissionLeader() {
-        rounds = new ArrayList<>(getRounds());
-        Round currentRound = rounds.get(rounds.size()-1);
-        return currentRound.getLeader();
+        return getCurrentRound().getLeader();
     }
 
     /**
@@ -45,7 +46,7 @@ public class Mission extends ParseObject {
      * @return Round object that is the current round
      */
     public Round getCurrentRound() {
-        rounds = new ArrayList<>(getRounds());
+        rounds = getRounds();
         return rounds.get(rounds.size()-1);
     }
 
@@ -125,4 +126,8 @@ public class Mission extends ParseObject {
         return getList("Rounds");
     }
 
+    //DELETE
+    public String getId() {
+        return getObjectId();
+    }
 }

@@ -64,7 +64,7 @@ public class GameTimer {
     }
 
     /**
-     * Updates the game waiting UI with player names who have joined.
+     * Updates the game waiting UI with player names who have joined. FIX THIS TO INCLUDE ALL PLAYERS.
      * @param activity GameWaitingActivity
      * @param players ArrayList of player names
      */
@@ -75,6 +75,7 @@ public class GameTimer {
 
     /**
      * Starts the new activity after the game has started.
+     * @param gameName Name of the game
      */
     private static void startGamePlayActivity(String gameName) {
         Intent intent = new Intent(GameWaitingActivity.getContext(), GamePlayActivity.class);
