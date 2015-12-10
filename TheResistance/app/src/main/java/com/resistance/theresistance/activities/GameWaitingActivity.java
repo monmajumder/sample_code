@@ -74,29 +74,7 @@ public class GameWaitingActivity extends AppCompatActivity {
         handleHost();
         addPlayerIcons();
         GameTimer.gameStarted(this, gameName);
-
-        /**
-        //Abstract this method
-        //Add some sort of timer, do this every second or so
-        //Do it until the game is started (game state changes after host presses start)
-        //Check if game started
-
-        if (!GameController.checkStarted(gameName)) {
-            ArrayList<String> players = GameController.updatePlayers(gameName);
-            if (players == null) {
-                Log.d("Players array", "IS NULL");
-            }
-            setPlayerNames(players);
-        } else {
-            //START THE GAMEPLAY ACTIVITY
-        } **/
     }
-
-    /** DELETE! DON'T NEED THIS. NOW IN GAME TIMER.
-    private void setPlayerNames(ArrayList<String> players){
-        MyTextView player1 = (MyTextView)findViewById(R.id.pink_player_label);
-        player1.setText(players.get(0));
-    } **/
 
     /**
      * Checks if player is host and if player is host, player can see "Start" button.
@@ -119,10 +97,12 @@ public class GameWaitingActivity extends AppCompatActivity {
      */
     public void startGame(View view) {
 
+        /**
+        //COMMENTED OUT FOR NOW FOR TESTING PURPOSES.
         if (!GameController.checkEnoughPlayers(gameName)) {
             tooFewPlayers();
             return;
-        }
+        } **/
 
         //Call Cloud function
         HashMap<String,Object> arguments = new HashMap<>();
