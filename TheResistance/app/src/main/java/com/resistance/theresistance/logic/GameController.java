@@ -27,6 +27,13 @@ public class GameController {
      */
     public GameController(){
         this.numMissionariesRequired = new HashMap<>();
+
+        //DELETE THE HASH MAP WITH KEYS 1-4 BECAUSE YOU CANNOT HAVE 1-4 PLAYERS. ONLY HERE FOR TESTING PURPOSES.
+        numMissionariesRequired.put(1, Arrays.asList(1, 1, 1, 1, 1));
+        numMissionariesRequired.put(2, Arrays.asList(1, 1, 1, 1, 1));
+        numMissionariesRequired.put(3, Arrays.asList(1, 1, 1, 1, 1));
+        numMissionariesRequired.put(4, Arrays.asList(1, 1, 1, 1, 1));
+
         numMissionariesRequired.put(5, Arrays.asList(2, 3, 2, 3, 3));
         numMissionariesRequired.put(6, Arrays.asList(2, 3, 4, 3, 4));
         numMissionariesRequired.put(7, Arrays.asList(2, 3, 3, 4, 4));

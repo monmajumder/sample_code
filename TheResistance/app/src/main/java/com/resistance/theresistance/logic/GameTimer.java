@@ -9,6 +9,7 @@ import com.resistance.theresistance.activities.GamePlayActivity;
 import com.resistance.theresistance.activities.GameWaitingActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -76,9 +77,10 @@ public class GameTimer {
      * Runs the Timer task for checking when a Mission Leader has finished choosing the team.
      * @param gameName name of the game
      */
-    public static void missionLeaderDoneChoosing(GamePlayActivity activity, String gameName) {
+    public static void missionLeaderDoneChoosing(GamePlayActivity activity, String gameName, List<String> chosenPlayers) {
         final GamePlayActivity thisActivity = activity;
         final String game = gameName;
+        final List<String> missionaryTeam = chosenPlayers;
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -88,7 +90,7 @@ public class GameTimer {
                     public void run() {
                         if (GameController.checkMissionLeaderDoneChoosing(game)) {
                             timer.cancel();
-                            changeView(thisActivity);
+                            changeLeaderDoneView(thisActivity, missionaryTeam);
                             Log.d("TIMER CHECK", "I AM DONE");
                         } else {
                             Log.d("TIMER CHECK", "ONE TIME");
@@ -103,10 +105,10 @@ public class GameTimer {
      * Change View. CHANGE TO REFLECT VISIBILITY CHANGE WHEN LEADER DONE CHOOSING.
      * @param activity GameWaitingActivity
      */
-    private static void changeView(GamePlayActivity activity) {
+    private static void changeLeaderDoneView(GamePlayActivity activity, List<String> missionaryTeam) {
         View existsView= (View) activity.findViewById(R.id.waiting_for_host);
+        //SOMEHOW DISPLAY THE MISSIONARY TEAM
         existsView.setVisibility(View.INVISIBLE);
     }
-
 
 }
