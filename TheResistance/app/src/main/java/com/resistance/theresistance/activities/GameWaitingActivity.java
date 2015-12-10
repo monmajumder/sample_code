@@ -34,6 +34,8 @@ public class GameWaitingActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     public final static String ANOTHER_EXTRA_MESSAGE = "";
+    public final static String PLAYER_NAMES = "";
+    public static ArrayList<String> playerNames;
     private static Intent intent;
     Button startButton;
     String gameName;
@@ -119,10 +121,10 @@ public class GameWaitingActivity extends AppCompatActivity {
      */
     public void startGame(View view) {
 
-        if (!GameController.checkEnoughPlayers(gameName)) {
-            tooFewPlayers();
-            return;
-        }
+//        if (!GameController.checkEnoughPlayers(gameName)) {
+//            tooFewPlayers();
+//            return;
+//        }
 
         //Call Cloud function
         HashMap<String,Object> arguments = new HashMap<>();
@@ -136,6 +138,7 @@ public class GameWaitingActivity extends AppCompatActivity {
         //STARTING THE NEW ACTIVITY SHOULD BE SOMEWHERE ELSE. DELETE THIS.
         intent = new Intent(this, GamePlayActivity.class);
         intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
+        intent.putStringArrayListExtra(PLAYER_NAMES, playerNames);
         startActivity(intent);
 
         /**
@@ -241,12 +244,7 @@ public class GameWaitingActivity extends AppCompatActivity {
     }
 
     public void addPlayerIcons() {
-        ArrayList<String> playerNames = GameController.updatePlayers(gameName);
-
-        //DELETE. TESTING.
-        for (String name: playerNames) {
-            Log.d("player name list", name);
-        }
+        playerNames = GameController.updatePlayers(gameName);
 
         for (int i = 0; i < playerNames.size(); i++) {
             addPlayer(i);

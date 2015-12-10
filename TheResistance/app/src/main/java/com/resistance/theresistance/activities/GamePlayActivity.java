@@ -1,6 +1,8 @@
 package com.resistance.theresistance.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -9,32 +11,46 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.util.TypedValue;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
-import com.resistance.theresistance.logic.GameTimer;
-import com.resistance.theresistance.logic.Round;
 import com.resistance.theresistance.views.GamePlayFragment;
+import com.resistance.theresistance.views.MyTextView;
 
 import java.util.ArrayList;
+
+import ru.biovamp.widget.CircleLayout;
 
 public class GamePlayActivity extends FragmentActivity {
 
     String gameName;
     String playerName;
     int numPlayersOnMission;
-
+    private static Intent intent;
+    public ArrayList<String> playerNames;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
+
+
+
+
         ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+
+
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         gameName = preferences.getString("gameName", "none");
         playerName = preferences.getString("playerName", "none");
+
+
+        addPlayerIcons();
 
         handleResistanceOrSpy();
         handleLeader();
@@ -186,6 +202,73 @@ public class GamePlayActivity extends FragmentActivity {
         } else if (result == Game.State.MISSION_FAILED) {
             // change visibilities for mission failed
             //Cloud code
+        }
+    }
+
+    private void addPlayer(int playerNumber){
+        TypedArray playerIcons = getResources().obtainTypedArray(R.array.player_imgs);
+        TypedArray playerIds = getResources().obtainTypedArray(R.array.player_ids_ints);
+        ArrayList<String> playerNames = GameController.updatePlayers(gameName);
+        CircleLayout circleLayout = (CircleLayout) findViewById(R.id.circleview2);
+
+
+        // Creating a new RelativeLayout
+        RelativeLayout relativeLayout = new RelativeLayout(this);
+
+        // Defining the RelativeLayout layout parameters.
+        // In this case I want to fill its parent
+        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        // Creating a new ImageView
+        ImageView iv = new ImageView(this);
+        iv.setImageResource(playerIcons.getResourceId(playerNumber, -1));
+        iv.setId(playerIds.getResourceId(playerNumber, -1));
+
+        // Defining the layout parameters of the ImageView
+        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+
+        //Creating a new TextView
+        MyTextView tv = new MyTextView(this);
+        tv.setText(playerNames.get(playerNumber));
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+
+        int px = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                44,
+                this.getResources().getDisplayMetrics()
+        );
+
+        //Defining the layout parameters of the TextView
+        RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        textParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        textParams.setMargins(0, px, 0, 0);
+
+        // Setting the parameters on the views
+        iv.setLayoutParams(imageParams);
+        tv.setLayoutParams(textParams);
+
+        // Adding the ImageView and TextView to the RelativeLayout as children
+        relativeLayout.addView(iv);
+        relativeLayout.addView(tv);
+
+        // Setting the RelativeLayout as our content view
+        circleLayout.addView(relativeLayout);
+    }
+
+    public void addPlayerIcons() {
+
+        ArrayList<String> playerNames = GameController.updatePlayers(gameName);
+        Log.d("Player names size", String.valueOf(playerNames.size()));
+
+        for (int i = 0; i < playerNames.size(); i++) {
+            addPlayer(i);
         }
     }
 
