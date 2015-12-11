@@ -112,7 +112,7 @@ var actuallyAddVoteForMissionaries = function(game, playerName, vote) {
   //calculate number of players and votes
   var numPlayers = game.get("Players").length;
   var numAssentors = isDefined(currentRound.get("Assentors")) ? currentRound.get("Assentors").length : 0;
-  var numDissentors = isDefined(currentRound.get("Dissentors"))!== 'undefined' ? currentRound.get("Dissentors").length : 0;
+  var numDissentors = isDefined(currentRound.get("Dissentors")) ? currentRound.get("Dissentors").length : 0;
   var numVotes = numAssentors + numDissentors;
 
   if (numVotes >= numPlayers) { //voting finished. update round
