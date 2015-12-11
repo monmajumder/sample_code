@@ -129,10 +129,9 @@ public class GameNameActivity extends AppCompatActivity {
 
     /**
      * Test End Game - need to delete
-     */
     public void endGame(View v) {
         Intent intent = new Intent(this, EndGameActivity.class);
         startActivity(intent);
-    }
+    }**/
 
 }

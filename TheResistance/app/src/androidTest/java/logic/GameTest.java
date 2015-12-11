@@ -1,6 +1,6 @@
 package logic;
 
-        import com.resistance.theresistance.logic.Game;
+import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.Player;
 
 import org.junit.Test;

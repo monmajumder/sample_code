@@ -1,7 +1,5 @@
 package com.resistance.theresistance.logic;
 
-import android.util.Log;
-
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -29,7 +27,7 @@ public class Game extends ParseObject {
      * Defines the states that a game can be in
      */
     public enum State {
-        WAITING_FOR_PLAYERS, MISSION_LEADER_CHOOSING, VOTE_FOR_MISSIONARIES, MISSIONARIES_VOTING, MISSION_PASSED, MISSION_FAILED, RESISTANCE_WINS, SPIES_WIN
+        WAITING_FOR_PLAYERS, MISSION_LEADER_CHOOSING, VOTE_FOR_MISSIONARIES, MISSIONARIES_VOTING, RESISTANCE_WINS, SPIES_WIN
     }
     private State gameState;
 

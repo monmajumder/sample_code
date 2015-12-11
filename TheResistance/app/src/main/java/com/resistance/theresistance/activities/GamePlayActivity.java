@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
+import com.resistance.theresistance.logic.GameTimer;
 import com.resistance.theresistance.views.GamePlayFragment;
 
 import java.util.ArrayList;
