@@ -20,10 +20,9 @@ public class Round extends ParseObject {
 
 	private String missionLeader;
 	private ArrayList<String> missionaries;//The current proposed Mission team of Missionaries
-	private int numberVoted; //Total number of players who have voted so far
-    private ArrayList<String> yes; //Players who voted yes
-    private ArrayList<String> no; //Players who voted no
-    private boolean passed;
+    private ArrayList<String> assentors; //Players who voted yes
+    private ArrayList<String> dissentors; //Players who voted no
+    private boolean missionariesAccepted;
 
     /**
      * Creates Round object. A Round contains all of the player voting on whether to approve the
@@ -32,18 +31,6 @@ public class Round extends ParseObject {
      */
     public Round(){
         super();
-    }
-
-    public void addYesVote(String playerName) {
-        yes = new ArrayList<>(getYes());
-        yes.add(playerName);
-        setYes(yes);
-    }
-
-    public void addNoVote(String playerName) {
-        no = new ArrayList<>(getNo());
-        no.add(playerName);
-        setNo(no);
     }
 
     //-----------------------------------------------
@@ -86,32 +73,32 @@ public class Round extends ParseObject {
      * Gets the players' names who voted yes
      * @return List of names
      */
-    public List<String> getYes() {
-        return getList("Yes");
+    public List<String> getAssentors() {
+        return getList("Assentors");
     }
 
     /**
      * Saves the players' names who voted yes
      * @param yesVotes player's names who voted yes
      */
-    public void setYes(ArrayList<String> yesVotes){
-       put("Yes", yesVotes);
+    public void setAssentors(ArrayList<String> yesVotes){
+       put("Assentors", yesVotes);
     }
 
     /**
      * Gets the players' names who voted no
      * @return List of names
      */
-    public List<String> getNo() {
-        return getList("No");
+    public List<String> getDissentors() {
+        return getList("Dissentors");
     }
 
     /**
      * Saves the players' names who voted no
      * @param noVotes player's names who voted no
      */
-    public void setNo(ArrayList<String> noVotes){
-        put("No", noVotes);
+    public void setDissentors(ArrayList<String> noVotes){
+        put("Dissentors", noVotes);
     }
 
 }

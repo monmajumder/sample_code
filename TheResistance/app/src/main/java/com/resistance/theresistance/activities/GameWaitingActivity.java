@@ -232,4 +232,13 @@ public class GameWaitingActivity extends AppCompatActivity {
             addPlayer(i);
         }
     }
+
+    /**
+     * Starts the Game Play Activity.
+     */
+    public void startGamePlayActivity() {
+        intent = new Intent(this, GamePlayActivity.class);
+        intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
+        startActivity(intent);
+    }
 }

@@ -6,6 +6,7 @@ import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.resistance.theresistance.activities.GamePlayActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -271,24 +272,6 @@ public class GameController {
     }
 
     /**
-     * Queries for the game and changes the game state
-     * @param gameName Name of the game
-     * @param state New game state
-     */
-    public static void changeState(String gameName, Game.State state) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
-        query.whereEqualTo("Name", gameName);
-        try {
-            ParseObject object = query.getFirst();
-            Log.d("changeState game", "The retrieval succeeded");
-            Game gameObject = (Game) object;
-            gameObject.setGameState(state);
-        } catch (ParseException e) {
-            Log.d("changeState game", "The retrieval failed");
-        }
-    }
-
-    /**
      * Adds the chosen missionaries to the Round object
      * @param gameName Name of the game
      * @param missionaries List of player names who were chosen to be missionaries
@@ -306,21 +289,18 @@ public class GameController {
         }
     }
 
-    public static void ifMissionLeaderDoneChoosing(String gameName) {
-        //Every few seconds, query for game state
+    public static List<String> getChosenMissionaries(String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
         try {
             ParseObject object = query.getFirst();
-            Log.d("playGame game", "The retrieval succeeded");
+            Log.d("getCurrentMission game", "The retrieval succeeded");
             Game gameObject = (Game) object;
-            if (gameObject.getGameState() == Game.State.VOTE_FOR_MISSIONARIES) {
-                //Change visibilities to display the chosen missionary team
-                //Change visibilities to vote on missionary team
-                return;
-            }
+            return gameObject.getCurrentMission().getCurrentRound().getMissionaries();
         } catch (ParseException e) {
-            Log.d("playGame game", "The retrieval failed");
+            Log.d("getCurrentMission game", "The retrieval failed");
+            return null;
+            //ADD ERROR FOR NULL?
         }
     }
 
@@ -343,7 +323,6 @@ public class GameController {
      * @return Game State Enum, Mission leader choosing or missionaries voting
      */
     public static Game.State ifEveryoneDoneVoting(String gameName) {
-        //Every few seconds, query for game state
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
         try {
@@ -365,8 +344,7 @@ public class GameController {
         //Call Cloud function
     }
 
-    public static Game.State ifMissionariesDoneVoting(String gameName) {
-        //Every few seconds, query for game state
+    public static Game.State ifMissionariesDoneVoting(GamePlayActivity activity, String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
         try {
@@ -374,12 +352,39 @@ public class GameController {
             Log.d("playGame game", "The retrieval succeeded");
             Game gameObject = (Game) object;
             Game.State state = gameObject.getGameState();
-            if (state == Game.State.SPIES_WIN || state == Game.State.RESISTANCE_WINS || state == Game.State.MISSION_PASSED || state == Game.State.MISSION_FAILED) {
-                return gameObject.getGameState();
+            if (state == Game.State.SPIES_WIN || state == Game.State.RESISTANCE_WINS || state == Game.State.MISSION_LEADER_CHOOSING) {
+                if (state == Game.State.MISSION_LEADER_CHOOSING) {
+                    List<Mission> missions = gameObject.getMissions();
+                    if (missions.get(missions.size()-2).getPassed()) {
+                        activity.showMissionPassed(missions.size()-1);
+                    } else {
+                        activity.showMissionFailed(missions.size()-1);
+                    }
+                }
+                return state;
             }
         } catch (ParseException e) {
             Log.d("playGame game", "The retrieval failed");
         }
         return null;
     }
+
+    /**
+     * Queries for the game and changes the game state
+     * @param gameName Name of the game
+     * @param state New game state
+     */
+    public static void changeState(String gameName, Game.State state) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
+        query.whereEqualTo("Name", gameName);
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("changeState game", "The retrieval succeeded");
+            Game gameObject = (Game) object;
+            gameObject.setGameState(state);
+        } catch (ParseException e) {
+            Log.d("changeState game", "The retrieval failed");
+        }
+    }
+
 }
