@@ -3,24 +3,29 @@ package com.resistance.theresistance.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
+import com.parse.ParseException;
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.GameController;
 import com.resistance.theresistance.logic.GameTimer;
 import com.resistance.theresistance.views.MyTextView;
 
-import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+
+import ru.biovamp.widget.CircleLayout;
 
 /**
  * Game Waiting Activity
@@ -50,6 +55,7 @@ public class GameWaitingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getBaseContext();
 
         setContentView(R.layout.activity_game);
         // Get the message from the intent
@@ -66,25 +72,8 @@ public class GameWaitingActivity extends AppCompatActivity {
 
 
         handleHost();
-
-        //Abstract this method
-        //Add some sort of timer, do this every second or so
-        //Do it until the game is started (game state changes after host presses start)
-        //Check if game started
-        if (!GameController.checkStarted(gameName)) {
-            ArrayList<String> players = GameController.updatePlayers(gameName);
-            if (players == null) {
-                Log.d("Players array", "IS NULL");
-            }
-            setPlayerNames(players);
-        } else {
-            //START THE GAMEPLAY ACTIVITY
-        }
-    }
-
-    private void setPlayerNames(ArrayList<String> players){
-        MyTextView player1 = (MyTextView)findViewById(R.id.pink_player_label);
-        player1.setText(players.get(0));
+        addPlayerIcons();
+        GameTimer.gameStarted(this, gameName);
     }
 
     /**
@@ -107,10 +96,13 @@ public class GameWaitingActivity extends AppCompatActivity {
      * Called when a Host presses the "Start" button. Calls Cloud function to take care of starting a game.
      */
     public void startGame(View view) {
-        //STARTING THE NEW ACTIVITY SHOULD BE SOMEWHERE ELSE.
-        intent = new Intent(this, GamePlayActivity.class);
-        intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
-        startActivity(intent);
+
+        /**
+        //COMMENTED OUT FOR NOW FOR TESTING PURPOSES.
+        if (!GameController.checkEnoughPlayers(gameName)) {
+            tooFewPlayers();
+            return;
+        } **/
 
         //Call Cloud function
         HashMap<String,Object> arguments = new HashMap<>();
@@ -120,6 +112,11 @@ public class GameWaitingActivity extends AppCompatActivity {
         } catch (ParseException e) {
             Log.d("startGame", "Cloud function did not call successfully");
         }
+
+        //STARTING THE NEW ACTIVITY SHOULD BE SOMEWHERE ELSE. DELETE THIS.
+        intent = new Intent(this, GamePlayActivity.class);
+        intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
+        startActivity(intent);
 
         /**
         //TEST IF CHECKHOST WORKS. DELETE.
@@ -140,7 +137,7 @@ public class GameWaitingActivity extends AppCompatActivity {
             Log.d("CHECKING", "YES. GAME HAS STARTED.");
         } else {
             Log.d("CHECKING", "NO. GAME HAS NOT STARTED.");
-        } **/
+        }
 
         //TEST IF UPDATE PLAYERS WORKS. DELETE.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -151,11 +148,88 @@ public class GameWaitingActivity extends AppCompatActivity {
         for (String name : testPlayers) {
             Log.d("Player name", name);
         }
-/**
+
         //TEST IF CHECK MISSION LEADER DONE CHOOSING WORKS. DELETE.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String storedGame = preferences.getString("gameName","none");
         Log.d("checkGameName", storedGame);
         GameController.missionLeaderDoneChoosing(storedGame); **/
+    }
+
+    /**
+     * Displays a toast if there are not enough players to start a game.
+     */
+    private void tooFewPlayers() {
+            Toast.makeText(this,"Too few players. Need at least 5 players to start.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void addPlayer(int playerNumber){
+        TypedArray playerIcons = getResources().obtainTypedArray(R.array.player_imgs);
+        TypedArray playerIds = getResources().obtainTypedArray(R.array.player_ids_ints);
+        ArrayList<String> playerNames = GameController.updatePlayers(gameName);
+        CircleLayout circleLayout = (CircleLayout) findViewById(R.id.circleview);
+
+
+        // Creating a new RelativeLayout
+        RelativeLayout relativeLayout = new RelativeLayout(this);
+
+        // Defining the RelativeLayout layout parameters.
+        // In this case I want to fill its parent
+        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        // Creating a new ImageView
+        ImageView iv = new ImageView(this);
+        iv.setImageResource(playerIcons.getResourceId(playerNumber, -1));
+        iv.setId(playerIds.getResourceId(playerNumber, -1));
+
+        // Defining the layout parameters of the ImageView
+        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+
+        //Creating a new TextView
+        MyTextView tv = new MyTextView(this);
+        tv.setText(playerNames.get(playerNumber));
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+
+        int px = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                44,
+                this.getResources().getDisplayMetrics()
+        );
+
+        //Defining the layout parameters of the TextView
+        RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        textParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        textParams.setMargins(0, px, 0, 0);
+
+        // Setting the parameters on the views
+        iv.setLayoutParams(imageParams);
+        tv.setLayoutParams(textParams);
+
+        // Adding the ImageView and TextView to the RelativeLayout as children
+        relativeLayout.addView(iv);
+        relativeLayout.addView(tv);
+
+        // Setting the RelativeLayout as our content view
+        circleLayout.addView(relativeLayout);
+    }
+
+    public void addPlayerIcons() {
+        ArrayList<String> playerNames = GameController.updatePlayers(gameName);
+
+        //DELETE. TESTING.
+        for (String name: playerNames) {
+            Log.d("player name list", name);
+        }
+
+        for (int i = 0; i < playerNames.size(); i++) {
+            addPlayer(i);
+        }
     }
 }

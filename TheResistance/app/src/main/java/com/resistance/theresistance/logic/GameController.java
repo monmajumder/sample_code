@@ -1,19 +1,16 @@
 package com.resistance.theresistance.logic;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.resistance.theresistance.activities.GamePlayActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * GameController class is in charge of controlling the Game.
@@ -23,13 +20,26 @@ import java.util.TimerTask;
  */
 public class GameController {
 
-    public static Context mContext;
+    private static HashMap<Integer, List<Integer>> numMissionariesRequired;
 
     /**
      * Constructor for GameController.
      */
     public GameController(){
-        super();
+        this.numMissionariesRequired = new HashMap<>();
+
+        //DELETE THE HASH MAP WITH KEYS 1-4 BECAUSE YOU CANNOT HAVE 1-4 PLAYERS. ONLY HERE FOR TESTING PURPOSES.
+        numMissionariesRequired.put(1, Arrays.asList(1, 1, 1, 1, 1));
+        numMissionariesRequired.put(2, Arrays.asList(1, 1, 1, 1, 1));
+        numMissionariesRequired.put(3, Arrays.asList(1, 1, 1, 1, 1));
+        numMissionariesRequired.put(4, Arrays.asList(1, 1, 1, 1, 1));
+
+        numMissionariesRequired.put(5, Arrays.asList(2, 3, 2, 3, 3));
+        numMissionariesRequired.put(6, Arrays.asList(2, 3, 4, 3, 4));
+        numMissionariesRequired.put(7, Arrays.asList(2, 3, 3, 4, 4));
+        numMissionariesRequired.put(8, Arrays.asList(3, 4, 4, 5, 5));
+        numMissionariesRequired.put(9, Arrays.asList(3, 4, 4, 5, 5));
+        numMissionariesRequired.put(10, Arrays.asList(3, 4, 4, 5, 5));
     }
 
     /**
@@ -52,6 +62,29 @@ public class GameController {
             }
         } catch (ParseException e) {
             Log.d("checkHost game", "The retrieval failed");
+            return false;
+        }
+    }
+
+    /**
+     * Checks if there are enough players in a game to start.
+     * @param gameName Name of game
+     * @return True if 5 or more players, False otherwise
+     */
+    public static boolean checkEnoughPlayers(String gameName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
+        query.whereEqualTo("Name", gameName);
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("checkEnoughPlayers game", "The retrieval succeeded");
+            Game gameObject = (Game)object;
+            if (gameObject.getNumPlayers() >= 5) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            Log.d("checkEnoughPlayers game", "The retrieval failed");
             return false;
         }
     }
@@ -134,10 +167,13 @@ public class GameController {
     public static boolean checkLeader(String gameName, String playerName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
+        query.include("Missions");
+        query.include("Missions.Rounds");
         try {
             ParseObject object = query.getFirst();
             Log.d("checkLeader game", "The retrieval succeeded");
             Game gameObject = (Game) object;
+
             if (gameObject.getCurrentLeader().equals(playerName)) {
                 return true;
             }
@@ -146,6 +182,27 @@ public class GameController {
             Log.d("checkLeader game", "The retrieval failed");
             return false;
         }
+    }
+
+    /**
+     * Gets the number of missionaries required to go on a certain mission.
+     * @param gameName Name of the game
+     * @return Number of missionaries necessary
+     */
+    public static int getMissionariesRequired(String gameName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
+        query.whereEqualTo("Name", gameName);
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("getMissionariesRequired", "The retrieval succeeded");
+            Game gameObject = (Game) object;
+            int numPlayers = gameObject.getNumPlayers();
+            int missionNumber = gameObject.getCurrentMissionNumber();
+            return numMissionariesRequired.get(numPlayers).get(missionNumber-1);
+        } catch (ParseException e) {
+            Log.d("getMissionariesRequired", "The retrieval failed");
+        }
+        return 0;
     }
 
     /**
@@ -183,7 +240,7 @@ public class GameController {
             ParseObject object = query.getFirst();
             Log.d("checkStarted game", "The retrieval succeeded");
             Game gameObject = (Game) object;
-            if (gameObject.getGameState() == Game.State.WAITING_FOR_PLAYERS) { //CHANGE BACK TO MISSION_LEADER_CHOOSING. TESTING!!!!
+            if (gameObject.getGameState() == Game.State.MISSION_LEADER_CHOOSING) {
                 return false;
             }
             //add exceptions for wrong state
@@ -248,7 +305,6 @@ public class GameController {
             Log.d("getCurrentMission game", "The retrieval failed");
         }
     }
-
 
     public static void ifMissionLeaderDoneChoosing(String gameName) {
         //Every few seconds, query for game state
@@ -326,5 +382,4 @@ public class GameController {
         }
         return null;
     }
-
 }

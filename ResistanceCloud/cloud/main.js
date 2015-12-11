@@ -4,20 +4,6 @@ Parse.Cloud.define("get_message", function (request, response) {
   message.getMessage(request, response);
 });
 
-/*  adds "clouuuuuuud" to "Name" field of object
-    {"Name" : String} Name to be cloudified*/
-Parse.Cloud.define("cloudifyNameObject", function(request, response) {
-  (function() {
-    return findObject("NameObject",request.params.Name);
-  }()).then(function(object){
-    addCloudToName(object);
-  }).then(function() {
-    response.success();
-  }), function(error) {
-    response.error("something fucked up");
-  };
-});
-
 /**
   Tallies a vote for missionaries.
   Checks if every player has voted.
@@ -31,13 +17,10 @@ Parse.Cloud.define("addVoteForMissionaries", function(request, response) {
 });
 
 var addVoteForMissionaries = function(request, response) {
-  (function() {
-  return findGameWithMissionsAndRounds(request.params.Name);
-  }()).then(function(game){
+  findGameWithMissionsAndRounds(request.params.Name).then(function(game){
     return actuallyAddVoteForMissionaries(game, request.params.PlayerName,
       request.params.Vote);
   }).then(function() {
-    console.log("response sucess");
     response.success();
   }), function(error) {
     response.error("something fucked up");
@@ -46,7 +29,6 @@ var addVoteForMissionaries = function(request, response) {
 
 var actuallyAddVoteForMissionaries = function(game, playerName, vote) {
   var promise = new Parse.Promise();
-  
   //find current round
   var missions = game.get("Missions");
   var currentMission = missions[missions.length-1];
@@ -57,12 +39,11 @@ var actuallyAddVoteForMissionaries = function(game, playerName, vote) {
     currentRound.add("Assentors", playerName);
   else {
     currentRound.add("Dissentors", playerName);
-    console.log("added dissentors to current round:" + currentRound.id);
   }
   //calculate number of players and votes
   var numPlayers = game.get("Players").length;
-  var numAssentors = typeof currentRound.get("Assentors") !== 'undefined' ? currentRound.get("Assentors").length : 0;
-  var numDissentors = typeof currentRound.get("Dissentors") !== 'undefined' ? currentRound.get("Dissentors").length : 0;
+  var numAssentors = isDefined(currentRound.get("Assentors")) ? currentRound.get("Assentors").length : 0;
+  var numDissentors = isDefined(currentRound.get("Dissentors"))!== 'undefined' ? currentRound.get("Dissentors").length : 0;
   var numVotes = numAssentors + numDissentors;
 
   if (numVotes >= numPlayers) { //voting finished. update round
@@ -84,34 +65,68 @@ var actuallyAddVoteForMissionaries = function(game, playerName, vote) {
   return promise;
 }
 
+function isDefined(object) {
+  return typeof object !== 'undefined';
+}
 //fails the mission
 //tbd: check if 5 missions have passed and the game should be over
-function failMission(currentMission,game) {
+function failMission(currentMission,game){
+  var promise = new Parse.Promise;
+
   currentMission.set("Passed", false);
-  currentMission.save();
-  addMission(game);
+  currentMission.save().then(function() {
+    if (game.get("Missions").length === 5) {
+      console.log("5 missions have failed , the game is over.");
+      return changeGameStatus(game,"SPIES_WIN");
+    }
+    else {
+      console.log("adding a new mission in failMission");
+      addMission(game).then(function(game,round) {
+        console.log("finished the first promise in failMission");
+        return setNextMissionLeader(game,round);
+      }), function(error) {
+        promise.reject();
+      };
+    }
+  }).then(function() {
+    promise.resolve();
+  }), function(error) {
+    promise.reject();
+  };
+  return promise;
 }
 
 //fails the missionary vote
 //creates a new round object, adds it to the rounds array in mission object
 //changes game state to MISSION_LEADER_CHOOSING
 function failMissionaries(currentRound, currentMission, game) {
-  var promise = new Parse.Promise();
-  if (currentMission.get("Rounds").length >= 5) {
-    console.log("todo: mission should fail because " + game.get("Missions")[0].get("Rounds").length + " rounds were rejected.");
-    failMission(currentMission,game);
-  }
+  var promise = new Parse.Promise;
+
   currentRound.set("MissionariesAccepted", false);
-  currentRound.save(); //assuming things, trololol
-  var RoundObject = Parse.Object.extend("RoundObject");
-  var nextRound = new RoundObject();
-  nextRound.save().then(function(nextRound) {
-    currentMission.add("Rounds",nextRound);
-    return currentMission.save();
-  }).then(function(currentMission) {
-    return changeGameStatus(game,"MISSION_LEADER_CHOOSING");
-  }).then(function() {
-    promise.resolve(game);
+  currentRound.save().then(function() {
+    if (currentMission.get("Rounds").length >= 5) {
+      console.log("mission fails because " + game.get("Missions")[0].get("Rounds").length + " rounds were rejected.");
+      failMission(currentMission,game).then(function() {
+        promise.resolve(game);
+      }), function(error) {
+        promise.reject();
+      };
+    }
+    else {
+      var RoundObject = Parse.Object.extend("RoundObject");
+      var nextRound = new RoundObject();
+      nextRound.save().then(function(nextRound) {
+        currentMission.add("Rounds",nextRound);
+        currentMission.save(); //not synchronous...
+        return setNextMissionLeader(game,nextRound);
+      }).then(function(game,round) {
+        return changeGameStatus(game,"MISSION_LEADER_CHOOSING");
+      }).then(function() {
+        promise.resolve(game);
+      }), function(error) {
+        promise.reject();
+      };
+    }
   }), function(error) {
     promise.reject();
   };
@@ -150,8 +165,8 @@ var startGame = function(request, response) {
     return actuallySetPlayerRoles(game);
   }).then(function(game){
     return addMission(game);
-  }).then(function(game){
-    return actuallySetRandomMissionLeader(game);
+  }).then(function(game,round) {
+    return setRandomMissionLeader(game,round);
   }).then(function(game){
     return changeGameStatus(game,"MISSION_LEADER_CHOOSING");
   }).then(function() {
@@ -166,6 +181,7 @@ var changeGameStatus = function(game, status) {
   game.set("State", status);
   return game.save();
 }
+
 // makes the first round for a mission.
 // makes the mission and adds the first round to it.
 // adds the mission to the game
@@ -173,7 +189,7 @@ function addMission(game) {
   var promise = new Parse.Promise();
   var RoundObject = Parse.Object.extend("RoundObject");
   var firstRound = new RoundObject();
-  firstRound.save().then(function(firstRound) {
+  firstRound.save().then(function(firstRound) { //sets and saves round
     var MissionObject = Parse.Object.extend("MissionObject");
     var mission = new MissionObject();
     mission.add("Rounds",firstRound);
@@ -181,32 +197,18 @@ function addMission(game) {
     mission.set("Fail",0);
     return mission.save();
   }).then(function(mission) {
+    console.log("adding mission:" + mission.id);
+    console.log("missions before: " + game.get("Missions"));
     game.add("Missions", mission);
-    game.save();
-  }).then(function() {
-    promise.resolve(game);
+    console.log("missions after: " + game.get("Missions"));
+    return game.save();
+  }).then(function(game) {
+    console.log("resolving add mission promise");
+    promise.resolve(game,firstRound);
   }), function(error){
     response.error("fuck");
   };
   return promise;
-}
-
-/* determines player roles
-   {"Name" : String} Name of the game */
-Parse.Cloud.define("setPlayerRoles", function(request, response) {
-  setPlayerRoles(request,response);
-});
-
-var setPlayerRoles = function(request,response) {
-  (function() {
-  return findObject("GameObject", request.params.Name);
-  }()).then(function(game){
-    actuallySetPlayerRoles(game);
-  }).then(function() {
-    response.success();
-  }), function(error) {
-    response.error("something fucked up");
-  };
 }
 
 function actuallySetPlayerRoles(game) {
@@ -218,7 +220,6 @@ function actuallySetPlayerRoles(game) {
   console.log("numPlayers " + numPlayers);
   var numSpies = ~~(numPlayers*.43); //magically calculates the correct number of spies
   var uniqueRandomNumbers = generateRandomNumbers(numSpies,0,numPlayers - 1);
-  console.log("uniqueRandomNumbers " + uniqueRandomNumbers);
   consoleString = "spies are players with indices";
   var roles = {};
   uniqueRandomNumbers.forEach(function(spyIndex) {
@@ -236,27 +237,9 @@ function actuallySetPlayerRoles(game) {
   return Parse.Promise.when(promises);
 }
 
-/* chooses the first mission leader
-   {"Name" : String} name of the game */
-Parse.Cloud.define("setRandomMissionLeader", function(request, response) {
-  setRandomMissionLeader(request,response);
-});
-
-var setRandomMissionLeader = function(request,response) {
-  var promise = new Parse.Promise(); 
-  (function() {
-  return findObject("GameObject", request.params.Name);
-  }()).then(function(game){
-    return actuallySetRandomMissionLeader(game);
-  }).then(function() {
-    promise.resolve(game);
-  }), function(error) {
-    promise.reject();
-  };
-  return promise;
-}
-
-var actuallySetRandomMissionLeader = function(game) {
+// sets a random mission leader for the roung passed
+// saves the round
+var setRandomMissionLeader = function(game,round) {
   var promise = new Parse.Promise();
   var players = game.get("Players");
   var numPlayers = players.length;
@@ -268,8 +251,8 @@ var actuallySetRandomMissionLeader = function(game) {
   var mockPlayer = new PlayerObject();
   //sets the first mission for the first mission. maybe not a good assumption
   //cant figure out how to use fields of type 'object', using the id for now
-  missions[0].set("Leader", players[missionLeaderIndex].get("Name")); //tbd: this line is broken
-  missions[0].save().then(function() {
+  round.set("Leader", players[missionLeaderIndex].get("Name"));
+  round.save().then(function() {
     promise.resolve(game);
   }), function(error) {
     promise.reject();
@@ -277,8 +260,46 @@ var actuallySetRandomMissionLeader = function(game) {
   return promise;
 }
 
-/* tbd: use a beforeSave on vote objects to start the mission outcome calculation
-   at the right time */
+// sets the mission leader to the player with the next array index
+// loops around, of course
+// assumes that the mission leader of the previous round
+var setNextMissionLeader = function(game,round) {
+  var promise = new Parse.Promise();
+
+  var missions = game.get("Missions");
+  var currentMission = missions[missions.length-1];  
+  var rounds = currentMission.get("Rounds");
+
+  if (rounds.length === 1) { //the current round is the first round of a new mission
+    var previousMission = missions[missions.length - 2];
+    var previousRounds = previousMission.get("Rounds");
+    previousRound = previousRounds[previousRounds.length - 1];
+  }
+  else {
+    var previousRound = rounds[rounds.length-2];
+  }
+  console.log("previous round:" + previousRound);
+  if (typeof previousRound === 'undefined') throw "Can't set next mission leader without previous round.";
+  
+  var previousLeader = previousRound.get("Leader");
+  var newLeader;
+  var players = game.get("Players");
+  for (var i = 0; i < players.length; i++) {
+    if (players[i].get("Name") === previousLeader)
+      newLeader = players[(i+1)%players.length].get("Name");
+  }
+  console.log("previous round had leader with name " + previousLeader);
+  if (!isDefined(newLeader))
+    throw "Couldn't find previous leader";
+  round.set("Leader", newLeader);
+  round.save().then(function() {
+    promise.resolve(game,round);
+  }), function(error) {
+    promise.reject();
+  };
+  return promise;
+
+}
 
 /* determines whether the mission succeeds or fails 
    tbd: either pass the game name and query, or pass the object from
@@ -318,9 +339,12 @@ function findGameWithMissionsAndRounds(name) {
   var query = new Parse.Query(Parse.Object.extend("GameObject"));
   query.equalTo("Name", name);
   query.include('Missions');
+  query.include('Players');
+  //somehow the query breaks when you include these things
   query.include('Missions.Rounds');
-  query.include('Missions.Rounds.Assentors');
-  query.include('Missions.Rounds.Dissentors');
+  //query.include('Missions.Rounds.Assentors');
+  //query.include('Missions.Rounds.Dissentors');
+  //query.include('Missions.Rounds.Leader');
   return query.first();
 }
 
@@ -329,11 +353,6 @@ function findGameWithPlayers(name) {
   query.equalTo("Name", name);
   query.include('Players');
   return query.first();
-}
-
-function addCloudToName(object) {
-  object.set("Name", "clouuuuuuud");
-  object.save();
 }
 
 /* function blatantly copied from stackOverflow: 
