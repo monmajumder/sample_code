@@ -17,19 +17,17 @@ import java.util.List;
 @ParseClassName("GameObject")
 public class Game extends ParseObject {
 
+    private String host;
     private String keyword;
     private int numPlayers;
-    private int numResistanceWins;
-    private int numSpiesWins;
-    private String host;
     private ArrayList<Player> players;
-    private ArrayList<Mission> missions;
+    private List<Mission> missions;
 
     /**
      * Defines the states that a game can be in
      */
     public enum State {
-        WAITING_FOR_PLAYERS, MISSION_LEADER_CHOOSING, VOTE_FOR_MISSIONARIES, MISSIONARIES_VOTING, MISSION_PASSED, MISSION_FAILED, RESISTANCE_WINS, SPIES_WIN
+        WAITING_FOR_PLAYERS, MISSION_LEADER_CHOOSING, VOTE_FOR_MISSIONARIES, MISSIONARIES_VOTING, RESISTANCE_WINS, SPIES_WIN
     }
     private State gameState;
 
@@ -45,8 +43,6 @@ public class Game extends ParseObject {
      * @param player Player object to be added
      */
     public void addPlayer(Player player) {
-        //ADD TOAST? For making sure no more than 10 players
-       // if (getNumPlayers() < 10) {
             int newNumPlayers = getNumPlayers() + 1;
             setNumPlayers(newNumPlayers);
             List<Player> playerList = getPlayers();
@@ -57,10 +53,6 @@ public class Game extends ParseObject {
             }
             players.add(player);
             setPlayers(players);
-        //}
-       // else{
-        //    throw new IndexOutOfBoundsException();
-        //}
     }
 
     /**
@@ -68,7 +60,7 @@ public class Game extends ParseObject {
      * @return Mission object that is the current mission
      */
     public Mission getCurrentMission() {
-        missions = new ArrayList<>(getMissions());
+        missions = getMissions();
         return missions.get(missions.size()-1);
     }
 
@@ -79,6 +71,15 @@ public class Game extends ParseObject {
     public String getCurrentLeader() {
         return getCurrentMission().getCurrentMissionLeader();
     }
+
+    /**
+     * Gets the number of the current mission.
+     * @return Number of missions
+     */
+    public int getCurrentMissionNumber() {
+        return getMissions().size();
+    }
+
 
     //-----------------------------------------------
     // Getter and Setter Methods

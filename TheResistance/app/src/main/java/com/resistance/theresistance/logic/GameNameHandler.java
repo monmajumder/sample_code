@@ -73,9 +73,12 @@ public class GameNameHandler {
         query.whereEqualTo("Name", gameName);
         try {
             ParseObject object = query.getFirst();
+            Game gameObject = (Game) object;
             Log.d("joinGameHandler game", "The retrieval succeeded");
             if (GameController.checkStarted(gameName)) {
                 gameHasAlreadyStarted(activity);
+            } else if (gameObject.getNumPlayers() >= 10){
+                tooManyPlayers(activity);
             } else {
                 addPlayerToGame(object, playerName);
                 object.saveInBackground();
@@ -167,5 +170,13 @@ public class GameNameHandler {
      */
     private static void gameHasAlreadyStarted(GameNameActivity thisActivity) {
         Toast.makeText(thisActivity, "That game has already started.", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Displays a message to the user if they try to join a game that already has 10 players.
+     * @param thisActivity GameName Activity
+     */
+    private static void tooManyPlayers(GameNameActivity thisActivity) {
+        Toast.makeText(thisActivity, "This game is at maximum capacity.", Toast.LENGTH_SHORT).show();
     }
 }
