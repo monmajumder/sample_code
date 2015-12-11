@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="SPIES WIN."
-        android:id="@+id/swinning"
+        android:id="@+id/spies_wintextview"
         android:layout_gravity="center"
         android:autoText="false"
         android:textColor="@color/darkred"
