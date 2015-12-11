@@ -19,11 +19,9 @@ import java.util.List;
 @ParseClassName("GameObject")
 public class Game extends ParseObject {
 
+    private String host;
     private String keyword;
     private int numPlayers;
-    private int numResistanceWins;
-    private int numSpiesWins;
-    private String host;
     private ArrayList<Player> players;
     private List<Mission> missions;
 
@@ -47,8 +45,6 @@ public class Game extends ParseObject {
      * @param player Player object to be added
      */
     public void addPlayer(Player player) {
-        //ADD TOAST? For making sure no more than 10 players
-       // if (getNumPlayers() < 10) {
             int newNumPlayers = getNumPlayers() + 1;
             setNumPlayers(newNumPlayers);
             List<Player> playerList = getPlayers();
@@ -59,10 +55,6 @@ public class Game extends ParseObject {
             }
             players.add(player);
             setPlayers(players);
-        //}
-       // else{
-        //    throw new IndexOutOfBoundsException();
-        //}
     }
 
     /**
@@ -89,6 +81,7 @@ public class Game extends ParseObject {
     public int getCurrentMissionNumber() {
         return getMissions().size();
     }
+
 
     //-----------------------------------------------
     // Getter and Setter Methods
