@@ -4,6 +4,99 @@ Parse.Cloud.define("get_message", function (request, response) {
   message.getMessage(request, response);
 });
 
+
+/**
+  Gets the history of a game.
+
+  @params
+  -------
+  {"Name" : String} Name of the game 
+  
+  @returns
+  --------
+  {"PlayerNames" : array} Player names
+  {"numPlayers" : int} Number of players
+  {"numMissions" : int} Number of missions
+  {"missions" : Object[] } Information from each mission
+      {"numRounds" : int } Number of rounds in the mission
+      {"rounds" : Object[] } Information from each round
+          {"assentors" : String[] } Players who approved the missionary selection
+          {"dissentors" : String[] } Players who declined the missionary selection
+          {"leader" : string } Name of the Mission leader
+          {"missionaries" : String[] } Players selected to go on the mission
+*/
+
+Parse.Cloud.define("getHistory", function(request, response) {
+  getHistory(request,response);
+});
+
+var getHistory = function(request, response) {
+  findGameWithMissionsAndRounds(request.params.Name).then(function(game){
+    return actuallyGetHistory(game);
+  }).then(function(history) {
+    response.success(history);
+  }), function(error) {
+    response.error("something fucked up");
+  };
+}
+
+var actuallyGetHistory = function(game) {
+  var promise = new Parse.Promise();
+  var history = {};
+  var players = game.get("Players");
+  history.playerNames = players[0].get("Name");
+  history.playerNames = getPlayerNames(game);
+  history.numPlayers = game.get("Players").length;
+  history.missions = getMissions(game);
+  history.numMissions = game.get("Missions").length;
+  promise = Parse.Promise.as(history);
+  return promise;
+}
+
+function getMissions(game) {
+  var missions = [];
+  for (var i = 0; i < game.get("Missions").length; i++) { //for every mission
+    missions.push(getMissionInfo(game.get("Missions")[i]));
+  }
+  return missions;
+}
+
+function getMissionInfo(mission) {
+  var missionInfo = {};
+
+  missionInfo.numRounds = mission.get("Rounds").length;
+  missionInfo.rounds = [];
+  for (var i = 0; i < mission.get("Rounds").length; i++) { 
+    missionInfo.rounds.push(getRoundInfo(mission.get("Rounds")[i]));
+  }
+  return missionInfo;
+}
+
+function getRoundInfo(round) {
+  var roundInfo = {};
+  roundInfo.missionaries = getMissionaryNames(round);
+  roundInfo.leader = round.get("Leader");
+  roundInfo.assentors = isDefined(round.get("Assentors")) ? round.get("Assentors"): [];
+  roundInfo.dissentors = isDefined(round.get("Dissentors")) ? round.get("Dissentors"): [];
+return roundInfo;
+}
+
+//tbd: missions don't have missionaries yet
+function getMissionaryNames(round) {
+  var missionaries = [];
+  if (isDefined(round.get("Missionaries")))
+    for (var i = 0; i < round.get("Missionaries").length; i++)
+      missionaries.push(round.get("Missionaries")[i].get("Name")); //not debugged, sadly
+  return missionaries;
+}
+
+function getPlayerNames(game) {
+  var playerNames = [];
+  for (var i = 0; i < game.get("Players").length; i++)
+    playerNames.push(game.get("Players")[i].get("Name"));
+  return playerNames;
+}
+
 /**
   Tallies a mission vote.
   Checks if every player has voted.
@@ -151,7 +244,6 @@ function isDefined(object) {
 }
 
 //fails the mission
-//tbd: check if 5 missions have passed and the game should be over
 function failMission(currentMission,game){
   var promise = new Parse.Promise();
 
@@ -451,30 +543,6 @@ var setNextMissionLeader = function(game,round) {
   return promise;
 
 }
-
-/* determines whether the mission succeeds or fails 
-   tbd: either pass the game name and query, or pass the object from
-   before save reference */
-function determineMissionOutcome() {
-  /* [query to find the amount of yes and no votes] */
-  var uniqueRandomNumbers = generateRandomNumbers(1,0,3);
-  var failureVotes = uniqueRandomNumbers.pop();
-  console.log("Mocking mission outcome voting with " 
-    + failureVotes + " players voting to fail the mission.");
-  if (failureVotes) {
-    /* tbd: edit the mission object to fail the mission */
-    console.log("The mission failed.");
-  }
-  else {
-    /* tbd: edit the mission object to pass the mission */
-    console.log("The mission succeeded.");
-  }
-}
-/* temporary public method for testing */
-Parse.Cloud.define("determineMissionOutcome", function(request, response) {
-  determineMissionOutcome();
-  response.success();
-});
 
 /* finds an object 
    [typeName] name of object type
