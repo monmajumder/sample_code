@@ -5,6 +5,68 @@ Parse.Cloud.define("get_message", function (request, response) {
 });
 
 /**
+  Tallies a mission vote.
+  Checks if every player has voted.
+  If necessary, calculates the result of voting.
+
+  {"Name" : String} Name of the game
+  {"Vote" : Boolean} Vote */
+Parse.Cloud.define("addMissionVote", function(request, response) {
+  addMissionVote(request,response);
+});
+
+var addMissionVote = function(request, response) {
+  findGameWithMissionsAndRounds(request.params.Name).then(function(game){
+    return actuallyAddMissionVote(game,request.params.Vote);
+  }).then(function() {
+    response.success();
+  }), function(error) {
+    response.error("something fucked up");
+  };
+}
+
+var actuallyAddMissionVote = function(game, vote) {
+  var promises = [];
+
+  //find current mission
+  var missions = game.get("Missions");
+  console.log("missions: " + missions);
+  var currentMission = missions[missions.length-1];
+  console.log("currentMission:" + currentMission);
+  var numPass = currentMission.get("Pass");
+  var numFail = currentMission.get("Fail");
+  //add vote
+  if (vote)
+    currentMission.set("Pass", ++numPass);
+  else {
+    currentMission.set("Fail", ++numFail);
+    console.log("adding a fail vote");
+  }
+
+  //calculate number of players and votes
+  var numVotes = numPass + numFail;
+
+  if (votingFinished(game,numVotes)) { //voting finished. update mission
+    if (numFail == 0) 
+      currentMission.set("Passed", true);
+    else 
+      currentMission.set("Passed", false);
+    checkIfGameOver(game).then(function(game) {
+      if (!gameIsOver(game))
+        promises.push(addMissionAndSetMissionLeader(game));
+    }), function(error) {
+      promise.reject();
+    };
+  }
+  promises.push(currentMission.save());
+  return Parse.Promise.when(promises);
+}
+
+function votingFinished(game, numVotes) {
+  return (numVotes >= 2); //tbd: actually check how many missionaries are on the team
+}
+
+/**
   Tallies a vote for missionaries.
   Checks if every player has voted.
   If necessary, calculates the result of voting.
