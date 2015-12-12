@@ -72,8 +72,8 @@ public class GameWaitingActivity extends AppCompatActivity {
 //        ImageView player1 = new ImageView(this);
 //        player1.setVisibility(View.VISIBLE);
 
-
-        handleHost();
+        //COMMENTED OUT FOR TESTING PURPOSES
+        //handleHost();
         addPlayerIcons();
         GameTimer.gameStarted(this, gameName);
     }
@@ -89,8 +89,12 @@ public class GameWaitingActivity extends AppCompatActivity {
         //If player is host, change visibilities for host
         if (GameController.checkHost(gameName, storedPlayer)) {
             //Make Start button visible
+            Button startButton = (Button) findViewById(R.id.start_button);
+            startButton.setVisibility(View.VISIBLE);
         } else {
             //Display "Waiting for host to begin" message
+            MyTextView waitingText = (MyTextView) findViewById(R.id.waiting_for_host);
+            waitingText.setVisibility(View.VISIBLE);
         }
     }
 
