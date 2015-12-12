@@ -8,6 +8,9 @@
         <item>5</item>
         <item>6</item>
         <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
     </array>
     <array name="player_imgs">
         <item>@drawable/player_icon_green</item>
@@ -17,5 +20,8 @@
         <item>@drawable/player_icon_yellow</item>
         <item>@drawable/player_icon_blue</item>
         <item>@drawable/player_icon_gray</item>
+        <item>@drawable/player_icon_indigo</item>
+        <item>@drawable/player_icon_teal</item>
+        <item>@drawable/player_icon_red</item>
     </array>
 </resources>
