@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -46,6 +45,8 @@ public class GameNameActivity extends AppCompatActivity {
         TextView textView = new TextView(this);
         textView.setTextSize(40);
         textView.setText(name);
+
+        //
 
     }
 
@@ -125,4 +126,12 @@ public class GameNameActivity extends AppCompatActivity {
         String storedName = preferences.getString("playerName","none");
         return storedName;
     }
+
+    /**
+     * Test End Game - need to delete
+    public void endGame(View v) {
+        Intent intent = new Intent(this, EndGameActivity.class);
+        startActivity(intent);
+    }**/
+
 }

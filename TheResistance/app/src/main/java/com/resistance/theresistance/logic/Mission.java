@@ -19,9 +19,7 @@ import java.util.Random;
 @ParseClassName("MissionObject")
 public class Mission extends ParseObject {
 
-    private String objectId; //DELETE
-    private int missionNum;
-    private boolean succeeded;//if the players voted to pass the mission
+    private boolean passed;//if the players voted to pass the mission
     private List<Round> rounds;
     private int pass; //number of players who voted to pass the mission
     private int fail; //number of players who voted to fail the mission
@@ -124,6 +122,14 @@ public class Mission extends ParseObject {
      */
     public List<Round> getRounds() {
         return getList("Rounds");
+    }
+
+    /**
+     * Gets whether or not a mission passed
+     * @return True if a mission passed, false if it failed
+     */
+    public boolean getPassed() {
+        return getBoolean("Passed");
     }
 
     //DELETE

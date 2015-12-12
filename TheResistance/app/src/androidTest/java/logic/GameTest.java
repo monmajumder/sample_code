@@ -1,15 +1,15 @@
 package logic;
 
-        import com.resistance.theresistance.logic.*;
-        import static org.junit.Assert.assertEquals;
-        import static org.junit.Assert.assertTrue;
-        import static org.junit.Assert.assertFalse;
-        import static org.junit.Assert.assertNull;
-        import org.junit.experimental.theories.DataPoint;
-        import org.junit.experimental.theories.Theories;
-        import org.junit.experimental.theories.Theory;
-        import org.junit.runner.RunWith;
-        import org.junit.Test;
+import com.resistance.theresistance.logic.Game;
+import com.resistance.theresistance.logic.Player;
+
+import org.junit.Test;
+import org.junit.experimental.theories.DataPoint;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests Game.
@@ -82,7 +82,7 @@ public class GameTest {
     @Theory @Test (expected = NullPointerException.class)
     public void testGetCurrMiss(Game g){
         // Game g = fix.init();
-        g.getCurrMission();
+        //g.getCurrMission();
     }
 
     /**
