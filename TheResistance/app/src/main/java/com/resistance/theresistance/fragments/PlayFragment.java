@@ -1,6 +1,5 @@
 package com.resistance.theresistance.fragments;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.resistance.theresistance.R;
-import com.resistance.theresistance.activities.GamePlayActivity;
+import com.resistance.theresistance.activities.EndGameActivity;
 import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
 import com.resistance.theresistance.logic.GameTimer;
@@ -29,7 +28,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     private String gameName;
     private String playerName;
     private int numPlayersOnMission;
-    private static Intent intent;
+    public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     private Context context;
 
     @Override
@@ -50,30 +49,44 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
         ((com.resistance.theresistance.views.MyTextView)view.findViewById(R.id.game_play_room_name)).setText(gameRoomStr);
 
+        handleResistanceOrSpy();
+        changeToMissionLeaderChoosing();
+
         return view;
+    }
+
+    /**
+     * Checks if a player is Resistance or Spy and changes visibilities if so.
+     */
+    private void handleResistanceOrSpy() {
+        if (GameController.isResistance(playerName)) {
+            //Visibilities for resistance
+        } else {
+            //visibilities for spies
+        }
+    }
+
+    /**
+     * Called when the game state is Mission Leader Choosing.
+     */
+    public void changeToMissionLeaderChoosing() {
+        handleLeader();
+        GameTimer.missionLeaderDoneChoosing(this, gameName);
     }
 
     /**
      * Handles the leader, displays the start button if leader.
      */
     private void handleLeader() {
+        String currentLeader = GameController.getCurrentMission(gameName).getCurrentMissionLeader();
+        // Do something to change position of little star
+
         if (GameController.checkLeader(gameName, playerName)) {
             this.numPlayersOnMission = GameController.getMissionariesRequired(gameName);
             Log.d("handleLeader numPlayers", String.valueOf(numPlayersOnMission));
             //Change visibilities for Mission Leader, with number of missionaries that need to be chosen
         } else {
             //Change visibilities for waiting for mission leader to choose
-        }
-    }
-
-    /**
-     * Handles the missionary, displays pass/fail buttons.
-     */
-    private void handleMissionary() {
-        if (GameController.checkMissionary(gameName, playerName)) {
-            //Change visibilities for Missionary, see pass/fail buttons
-        } else {
-            //change visibilities to waiting for missionaries to vote
         }
     }
 
@@ -93,21 +106,50 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     }
 
     /**
-     * Called when a player clicks "YES" when voting for a Missionary team.
+     * Called when the game state is Vote For Missionaries.
+     * @param missionaryTeam the chosen missionaries
      */
-    public void yesMissionaryTeam() {
+    public void changeToVoteForMissionaries(List<String> missionaryTeam) {
+        //VISIBILITIES FOR DISPLAYING BUTTONS FOR VOTING FOR YES OR NO
+        //VISIBILITIES FOR DISPLAYING CHOSEN MISSIONARY TEAM
+        GameTimer.everyoneDoneVoting(this, gameName);
+    }
+
+    /**
+     * Called when a player clicks "Accept" when voting for a Missionary team.
+     */
+    public void acceptMissionaryTeam() {
         // switch to visibilities for waiting for everyone to finish voting
         boolean vote = true;
         GameController.addVoteForMissionaries(vote, gameName, playerName);
     }
 
     /**
-     * Called when a player clicks "NO" when voting for a Missionary team.
+     * Called when a player clicks "Reject" when voting for a Missionary team.
      */
-    public void noMissionaryTeam() {
+    public void rejectMissionaryTeam() {
         // switch to visibilities for waiting for everyone to finish voting
         boolean vote = false;
         GameController.addVoteForMissionaries(vote, gameName, playerName);
+    }
+
+    /**
+     * Called when the game state is Missionaries Voting.
+     */
+    public void changeToMissionaryVoting() {
+        handleMissionary();
+        GameTimer.missionariesDoneVoting(this, gameName);
+    }
+
+    /**
+     * Handles the missionary, displays pass/fail buttons.
+     */
+    private void handleMissionary() {
+        if (GameController.checkMissionary(gameName, playerName)) {
+            //Change visibilities for Missionary, see pass/fail buttons
+        } else {
+            //change visibilities to waiting for missionaries to vote
+        }
     }
 
     /**
@@ -129,24 +171,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     }
 
     /**
-     * Called when the game state is Mission Leader Choosing.
-     */
-    public void changeToMissionLeaderChoosing() {
-        handleLeader();
-        GameTimer.missionLeaderDoneChoosing(this, gameName);
-    }
-
-    /**
-     * Called when the game state is Vote For Missionaries.
-     * @param missionaryTeam the chosen missionaries
-     */
-    public void changeToVoteForMissionaries(List<String> missionaryTeam) {
-        //VISIBILITIES FOR DISPLAYING BUTTONS FOR VOTING FOR YES OR NO
-        //VISIBILITIES FOR DISPLAYING CHOSEN MISSIONARY TEAM
-        GameTimer.everyoneDoneVoting(this, gameName);
-    }
-
-    /**
      * Displays a toast if the Missionary Team was approved.
      */
     public void showMissionTeamApproved() {
@@ -158,14 +182,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      */
     public void showMissionTeamRejected() {
         Toast.makeText(context, "The Mission Team was rejected.", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Called when the game state is Missionaries Voting.
-     */
-    public void changeToMissionaryVoting() {
-        handleMissionary();
-        GameTimer.missionariesDoneVoting(this, gameName);
     }
 
     /**
@@ -191,9 +207,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * @param state State of the game, either Resistance Wins or Spies Win.
      */
     public void changeToGameOver(Game.State state) {
-        //SWITCH TO GAME OVER ACTIVITY
-        //DO SOMETHING TO DELETE EVERYTHING. HOLY SHIT.
+        //DELETE EVERYTHING??
+        Intent intent = new Intent(this.getContext(), EndGameActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, state.toString());
+        this.getContext().startActivity(intent);
     }
-
-
 }
