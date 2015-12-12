@@ -173,4 +173,12 @@ public class Game extends ParseObject {
         return getList("Missions");
     }
 
+    /**
+     * Sets the list of missions
+     * @param missions List of mission objects
+     */
+    public void setMissions(List<Mission> missions) {
+        put("Missions",missions);
+    }
+
 }
