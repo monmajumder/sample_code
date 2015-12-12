@@ -1,4 +1,4 @@
-package com.resistance.theresistance.views;
+package com.resistance.theresistance.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;

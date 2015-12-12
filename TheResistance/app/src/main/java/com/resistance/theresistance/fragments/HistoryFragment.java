@@ -1,4 +1,4 @@
-package com.resistance.theresistance.activities;
+package com.resistance.theresistance.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
