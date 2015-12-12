@@ -107,7 +107,9 @@ public class GameController {
             List<Player> listOfPlayers = gameObject.fetchIfNeeded().getList("Players");
             for (Player player : listOfPlayers) {
                 allPlayers.add(player.fetchIfNeeded().getString("Name"));
+                Log.d("Name", player.fetchIfNeeded().getString("Name"));
             }
+                Log.d("Size of allplayers", String.valueOf(allPlayers.size()));
             return allPlayers;
         } catch (ParseException e) {
             Log.d("updatePlayers game", "The retrieval failed");

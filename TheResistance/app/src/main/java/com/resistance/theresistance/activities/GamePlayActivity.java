@@ -1,11 +1,11 @@
 package com.resistance.theresistance.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -15,7 +15,7 @@ import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
 import com.resistance.theresistance.logic.GameTimer;
-import com.resistance.theresistance.views.GamePlayFragment;
+import com.resistance.theresistance.views.PlayFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,63 +25,18 @@ public class GamePlayActivity extends FragmentActivity {
     String gameName;
     String playerName;
     int numPlayersOnMission;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_play);
-        ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
-        pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        gameName = preferences.getString("gameName", "none");
-        playerName = preferences.getString("playerName", "none");
-
-        handleResistanceOrSpy();
-        changeToMissionLeaderChoosing();
-
-        //TEST IF GET NUMBER OF MISSIONARIES REQUIRED WORKS. DELETE.
-        //int numPlayers = GameController.getMissionariesRequired(gameName);
-        //Log.d("Missionaries required", String.valueOf(numPlayers));
-
-    }
-
-    private class MyPagerAdapter extends FragmentPagerAdapter {
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int pos) {
-            switch(pos) {
-
-                case 0: return GamePlayFragment.newInstance("FirstFragment, Instance 1");
-                //case 1: return SecondFragment.newInstance("SecondFragment, Instance 1");
-                default: return GamePlayFragment.newInstance("ThirdFragment, Default");
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 5;
-        }
-    }
+    private static Intent intent;
+    public ArrayList<String> playerNames;
 
     /**
-     * Checks if a player is Resistance or Spy and changes visibilities if so.
+     * Identifier for the first fragment.
      */
-    private void handleResistanceOrSpy() {
-        if (GameController.isResistance(playerName)) {
-            //Go to GamePlayActivity with certain layout for Resistance?
-        } else {
-            //Go to GamePlayActivity with certain layout for Spies?
-        }
-    }
+    public static final int FRAGMENT_ONE = 0;
 
     /**
-     * Checks if player is a Mission Leader and changes visibilities if so.
+     * Identifier for the second fragment.
      */
+    public static final int FRAGMENT_TWO = 1;
     private void handleLeader() {
         if (GameController.checkLeader(gameName, playerName)) {
             this.numPlayersOnMission = GameController.getMissionariesRequired(gameName);
@@ -93,8 +48,9 @@ public class GamePlayActivity extends FragmentActivity {
     }
 
     /**
-     * Checks if a player is a Missionary and handles visibilities if so.
+     * Number of total fragments.
      */
+    public static final int FRAGMENTS = 2;
     private void handleMissionary() {
         if (GameController.checkMissionary(gameName, playerName)) {
             //Change visibilities for Missionary, see pass/fail buttons
@@ -104,8 +60,10 @@ public class GamePlayActivity extends FragmentActivity {
     }
 
     /**
+     * The adapter definition of the fragments.
      * Called when a Mission Leader clicks "Done" after done choosing missionaries.
      */
+    private FragmentPagerAdapter _fragmentPagerAdapter;
     public void leaderChoosingMissionaries() {
         //somehow take in clicks for players who the leader chooses, make sure it is the right number, numPlayersOnMission
         ArrayList<String> chosenMissionaries = new ArrayList<>();
@@ -116,6 +74,52 @@ public class GamePlayActivity extends FragmentActivity {
         GameController.addChosenMissionaries(gameName, chosenMissionaries);
         GameController.changeState(gameName, Game.State.VOTE_FOR_MISSIONARIES);
         //change visibilities to "please wait"
+    }
+
+    /**
+     * The ViewPager that hosts the section contents.
+     */
+    private ViewPager _viewPager;
+
+    /**
+     * List of fragments.
+     */
+    private List<android.support.v4.app.Fragment> _fragments = new ArrayList<android.support.v4.app.Fragment>();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game_play);
+
+        // Create fragments.
+        _fragments.add(FRAGMENT_ONE, new PlayFragment());
+        _fragments.add(FRAGMENT_TWO, new HistoryFragment());
+
+        // Setup the fragments, defining the number of fragments, the screens and titles.
+        _fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public int getCount() {
+                return FRAGMENTS;
+            }
+
+            @Override
+            public Fragment getItem(final int position) {
+                return _fragments.get(position);
+            }
+
+            @Override
+            public CharSequence getPageTitle(final int position) {
+                switch (position) {
+                    case FRAGMENT_ONE:
+                        return "Title One";
+                    case FRAGMENT_TWO:
+                        return "Title Two";
+                    default:
+                        return null;
+                }
+            }
+        };
+        _viewPager = (ViewPager) findViewById(R.id.pager);
+        _viewPager.setAdapter(_fragmentPagerAdapter);
     }
 
     /**
@@ -221,19 +225,6 @@ public class GamePlayActivity extends FragmentActivity {
         //DO SOMETHING TO DELETE EVERYTHING. HOLY SHIT.
     }
 
-    /**
-     * DELETE!!!!!!!!!!
-     * Test game.
-     */
-    public void testGame() {
-        //TEST IF ISRESISTANCE WORKS. DELETE.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String storedPlayer = preferences.getString("playerName", "none");
-        Log.d("checkPlayerName", storedPlayer);
-        if (GameController.isResistance(storedPlayer)) {
-            Log.d("IsResistance", storedPlayer);
-        } else {
-            Log.d("IsNotResistance", storedPlayer);
-        }
-    }
+
+
 }
