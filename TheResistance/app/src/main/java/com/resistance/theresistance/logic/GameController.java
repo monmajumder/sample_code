@@ -344,6 +344,14 @@ public class GameController {
 
     public static void addPassFailForMission(boolean vote, String gameName) {
         //Call Cloud function
+        HashMap<String,Object> arguments = new HashMap<>();
+        arguments.put("Name", gameName);
+        arguments.put("Vote", vote);
+        try {
+            ParseCloud.callFunction("addMissionVote", arguments);
+        } catch (ParseException e) {
+            Log.d("startGame", "Cloud function did not call successfully");
+        }
     }
 
     public static Game.State ifMissionariesDoneVoting(GamePlayActivity activity, String gameName) {

@@ -14,11 +14,20 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp" />
 
+
+
     <com.resistance.theresistance.views.PlayerView
         android:layout_width="290dp"
         android:layout_height="290dp"
+        android:id="@+id/playerview"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
 
+    <com.resistance.theresistance.views.MissionTracker
+        android:layout_marginTop="75dp"
+        android:layout_alignBottom="@id/playerview"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
