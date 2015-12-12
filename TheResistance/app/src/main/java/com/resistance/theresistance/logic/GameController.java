@@ -397,4 +397,23 @@ public class GameController {
         }
     }
 
+    /**
+     * Queries for the game and gets the game state
+     * @param gameName Name of the game
+     * @return State of the game
+     */
+    public static Game.State getState(String gameName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
+        query.whereEqualTo("Name", gameName);
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("changeState game", "The retrieval succeeded");
+            Game gameObject = (Game) object;
+            return gameObject.getGameState();
+        } catch (ParseException e) {
+            Log.d("changeState game", "The retrieval failed");
+            return null;
+        }
+    }
+
 }

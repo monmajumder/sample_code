@@ -63,6 +63,6 @@ public class Player extends ParseObject {
      * @param type Either resistor or spy
      */
     public void setPlayerType(PlayerType type) {
-        put("Type", type.toString());
+        put("PlayerType", type.toString());
     }
 }

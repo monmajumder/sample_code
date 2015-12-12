@@ -125,6 +125,14 @@ public class Mission extends ParseObject {
     }
 
     /**
+     * Sets the list of rounds in a mission
+     * @param rounds List of rounds
+     */
+    public void setRounds(List<Round> rounds) {
+        put("Rounds", rounds);
+    }
+
+    /**
      * Gets whether or not a mission passed
      * @return True if a mission passed, false if it failed
      */

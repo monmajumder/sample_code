@@ -2,6 +2,7 @@ package logic;
 
 import android.util.Log;
 
+import com.resistance.theresistance.activities.GamePlayActivity;
 import com.resistance.theresistance.logic.*;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoint;
@@ -9,6 +10,7 @@ import org.junit.runners.Parameterized;
 
 import com.parse.ParseException;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
 import static org.junit.Assert.assertFalse;
@@ -26,14 +28,9 @@ public class GameControllerTest {
      */
     @Test
     public void testCheckHost() {
-        String playerName = "Candace";
-        String gameName = "Game1";
-
-        Game game = new Game();
-        assertTrue(true);
-        game.setKeyword(gameName);
-        game.setHost(playerName);
-        game.saveInBackground();
+        String playerName = UUID.randomUUID().toString();
+        String gameName = UUID.randomUUID().toString();
+        createUniqueGame(gameName, playerName);
         assertTrue(GameController.checkHost(gameName, playerName));
     }
 
@@ -43,12 +40,15 @@ public class GameControllerTest {
      */
     @Test
     public void testCheckNotEnoughPlayers() {
-        String gameName = "Game2";
-
-        Game game = new Game();
-        game.setKeyword(gameName);
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
         game.setNumPlayers(1);
-        game.saveInBackground();
+        try {
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
         assertFalse(GameController.checkEnoughPlayers(gameName));
     }
 
@@ -57,66 +57,346 @@ public class GameControllerTest {
      */
     @Test
     public void testCheckEnoughPlayers() {
-        String gameName = "Game3";
-
-        Game game = new Game();
-        game.setKeyword(gameName);
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
         game.setNumPlayers(5);
-        game.saveInBackground();
+        try {
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
         assertTrue(GameController.checkEnoughPlayers(gameName));
     }
 
+    /**
+     * Test if update players (returning array of player names) works.
+     */
     @Test
     public void testUpdatePlayers() {
-        String gameName = "Game4";
-        Game game = new Game();
-        game.setKeyword(gameName);
+        String gameName = UUID.randomUUID().toString();
+        String player1Name = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, player1Name);
 
-        Player player1 = new Player();
-        player1.setUsername("Candace");
-        player1.saveInBackground();
-
+        String player2Name = UUID.randomUUID().toString();
         Player player2 = new Player();
-        player2.setUsername("Andrew");
-        player2.saveInBackground();
-
-        game.addPlayer(player1);
+        player2.setUsername(player2Name);
         game.addPlayer(player2);
-        game.saveInBackground();
+
+        try {
+            player2.save();
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
 
         ArrayList<String> playerNames = new ArrayList<>();
-        playerNames.add("Candace");
-        playerNames.add("Andrew");
+        playerNames.add(player1Name);
+        playerNames.add(player2Name);
 
         assertEquals(playerNames, GameController.updatePlayers(gameName));
     }
 
+    /**
+     * Test if checking that a game is not started works.
+     */
+    @Test
+    public void testCheckNotStarted() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+        game.setGameState(Game.State.WAITING_FOR_PLAYERS);
+        try {
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertFalse(GameController.checkStarted(gameName));
+    }
+
+    /**
+     * Test if checking that a game is started works.
+     */
     @Test
     public void testCheckStarted() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+        game.setGameState(Game.State.MISSION_LEADER_CHOOSING);
+        try {
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertTrue(GameController.checkStarted(gameName));
+    }
+
+    /**
+     * Tests if a player is a spy.
+     */
+    @Test
+    public void testIsNotResistance() {
+        String playerName = UUID.randomUUID().toString();
+        Player player = new Player();
+        player.setUsername(playerName);
+        player.setPlayerType(Player.PlayerType.SPY);
+        try {
+            player.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertFalse(GameController.isResistance(playerName));
+    }
+
+    /**
+     * Tests if a player is resistance.
+     */
+    @Test
+    public void testIsResistance() {
+        String playerName = UUID.randomUUID().toString();
+        Player player = new Player();
+        player.setUsername(playerName);
+        player.setPlayerType(Player.PlayerType.RESISTOR);
+        try {
+            player.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertTrue(GameController.isResistance(playerName));
+    }
+
+    /**
+     * Tests if a player is the leader of the most current round.
+     */
+    @Test
+    public void testIsLeader() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+
+        try {
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertTrue(GameController.checkLeader(gameName, playerName));
 
     }
 
     /**
-     * Create new game testing.
+     * Tests if a player is not the leader.
      */
     @Test
-    public void testNewGameCreation() {
-        String myusername, gamekey;
-        Game mygame;
-        GameController controller = new GameController();
-        ArrayList<Game> runningGames;
+    public void testIsNotLeader() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
 
-        myusername = "group11";
-        gamekey = "Monica's GameRoom";
-       /* controller.createGame(myusername, gamekey);
+        Round round = new Round();
+        round.setLeader(UUID.randomUUID().toString());
+        List<Round> rounds = game.getCurrentMission().getRounds();
+        rounds.add(round);
+        game.getCurrentMission().setRounds(rounds);
+        try {
+            round.save();
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertFalse(GameController.checkLeader(gameName, playerName));
+    }
 
-        runningGames = controller.getGames();
-        mygame = runningGames.get(0);
-        //the game is new and should have only 1 player - the host
-        assert(mygame.getNumPlayers() == 1);
-        //ensure that the game keyword is correct
-        assert(mygame.getKeyword() == "Monica's GameRoom");
-        //make sure that the player's user name is group11
-        assert(mygame.getPlayers().get(0).getUsername() == "group11"); */
+    /**
+     * Tests if get number of missionaries required to go on a mission works.
+     */
+    @Test
+    public void testGetMissionariesRequired() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+        game.setNumPlayers(5);
+        try {
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertEquals(2, GameController.getMissionariesRequired(gameName));
+    }
+
+    /**
+     * Tests if a player is a missionary.
+     */
+    @Test
+    public void testIsMissionary() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+        Round round = game.getCurrentMission().getCurrentRound();
+
+        ArrayList<String> missionaries = new ArrayList<>();
+        missionaries.add(playerName);
+        round.setMissionaries(missionaries);
+        try {
+            round.save();
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertTrue(GameController.checkMissionary(gameName, playerName));
+    }
+
+    /**
+     * Test when mission leader is done choosing.
+     */
+    @Test
+    public void testMissionLeaderDoneChoosing() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+        game.setGameState(Game.State.VOTE_FOR_MISSIONARIES);
+        try {
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertTrue(GameController.checkMissionLeaderDoneChoosing(gameName));
+    }
+
+    /**
+     * Tests get current mission.
+     */
+    @Test
+    public void testGetCurrentMission() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+
+        Mission newMission = new Mission();
+        List<Mission> missions = game.getMissions();
+        missions.add(newMission);
+        game.setMissions(missions);
+        try {
+            newMission.save();
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertEquals(newMission, GameController.getCurrentMission(gameName));
+    }
+
+    /**
+     * Tests if chosen missionaries are added correctly.
+     */
+    @Test
+    public void testAddChosenMissionaries() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+
+        ArrayList<String> missionaries = new ArrayList<>();
+        missionaries.add(playerName);
+        GameController.addChosenMissionaries(gameName, missionaries);
+
+        assertEquals(missionaries, GameController.getChosenMissionaries(gameName));
+    }
+
+    public void testAddVoteForMissionaries() {
+
+    }
+
+    /**
+     * Test if everyone done voting.
+     */
+    @Test
+    public void testIfEveryoneDoneVoting() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+        game.setGameState(Game.State.MISSIONARIES_VOTING);
+        try {
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertEquals(Game.State.MISSIONARIES_VOTING, GameController.ifEveryoneDoneVoting(gameName));
+    }
+
+    public void testAddPassFailForMission() {
+
+    }
+
+    /**
+     * Check that missionaries are done voting.
+     */
+    @Test
+    public void testIfMissionariesDoneVoting() {
+        /**
+        GamePlayActivity activity = new GamePlayActivity();
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+        game.setGameState(Game.State.MISSION_LEADER_CHOOSING);
+        try {
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertEquals(Game.State.MISSION_LEADER_CHOOSING, GameController.ifMissionariesDoneVoting(activity, gameName)); **/
+    }
+
+    /**
+     * Tests if a game state is changed.
+     */
+    @Test
+    public void testChangeState() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+        GameController.changeState(gameName, Game.State.SPIES_WIN);
+        try {
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+        assertEquals(Game.State.SPIES_WIN, GameController.getState(gameName));
+    }
+
+    /**
+     * Creates a game to be used in tests.
+     * @param gameName Name of the game
+     * @param playerName Player of the game
+     * @return Game that was created
+     */
+    private static Game createUniqueGame(String gameName, String playerName) {
+
+        Player player = new Player();
+        Game game = new Game();
+        Mission mission = new Mission();
+        Round round = new Round();
+
+        player.setUsername(playerName);
+        game.setKeyword(gameName);
+        game.addPlayer(player);
+        game.setHost(playerName);
+        round.setLeader(playerName);
+
+        List<Round> rounds = new ArrayList<>();
+        rounds.add(round);
+        mission.setRounds(rounds);
+
+        List<Mission> missions = new ArrayList<>();
+        missions.add(mission);
+        game.setMissions(missions);
+
+        try {
+            player.save();
+            round.save();
+            mission.save();
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+
+        return game;
     }
 }

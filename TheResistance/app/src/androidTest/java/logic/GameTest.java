@@ -54,38 +54,6 @@ public class GameTest {
     }
 
     /**
-     * Verifying an exception is thrown when trying to add
-     * more than 10 players to a game.
-     * @param g Game to test
-     */
-    @Theory @Test (expected = IndexOutOfBoundsException.class)
-    public void testAddPlayersMax(Game g) {
-        //Game g = fix.init();
-        //Adding 10 players
-        for(int i = 0; i < 10; i++){
-            Player p = new Player();
-            g.addPlayer(p);
-        }
-        assertEquals(g.getNumPlayers(), 10);
-        //Adding 11th player
-        Player n = new Player();
-        g.addPlayer(n);
-    }
-
-
-    /**
-     * Verifying and exception is thrown when trying to get
-     * the current mission of a game that has just been
-     * initalized and hasn't started.
-     * @param g Game to test
-     */
-    @Theory @Test (expected = NullPointerException.class)
-    public void testGetCurrMiss(Game g){
-        // Game g = fix.init();
-        //g.getCurrMission();
-    }
-
-    /**
      * Testing setHost and getHost
      * @param g Game to test
      */
