@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="mission_icon_1" type="id" />
+    <item name="mission_icon_2" type="id" />
+    <item name="mission_icon_3" type="id" />
+    <item name="mission_icon_4" type="id" />
+    <item name="mission_icon_5" type="id" />
+</resources>

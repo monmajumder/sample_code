@@ -232,8 +232,10 @@ public class GameWaitingActivity extends AppCompatActivity {
 
     public void addPlayerIcons() {
         playerNames = GameController.updatePlayers(gameName);
-
+        String a;
         for (int i = 0; i < playerNames.size(); i++) {
+            a = playerNames.size() + "";
+            Log.d("player Names size", a);
             addPlayer(i);
         }
     }

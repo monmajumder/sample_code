@@ -24,4 +24,20 @@
         <item>@drawable/player_icon_teal</item>
         <item>@drawable/player_icon_red</item>
     </array>
+    <array name="mission_imgs">
+        <item>@drawable/mission_icon_1</item>
+        <item>@drawable/mission_icon_2</item>
+        <item>@drawable/mission_icon_3</item>
+        <item>@drawable/mission_icon_4</item>
+        <item>@drawable/mission_icon_5</item>
+    </array>
+
+    <array name="mission_icon_ids">
+        <item>@id/mission_icon_1</item>
+        <item>@id/mission_icon_2</item>
+        <item>@id/mission_icon_3</item>
+        <item>@id/mission_icon_4</item>
+        <item>@id/mission_icon_5</item>
+    </array>
+
 </resources>
