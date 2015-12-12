@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.resistance.theresistance.R;
+import com.resistance.theresistance.fragments.PlayFragment;
 
 public class EndGameActivity extends AppCompatActivity {
 
@@ -17,6 +18,9 @@ public class EndGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
+
+        intent = getIntent();
+        winner = intent.getStringExtra(PlayFragment.EXTRA_MESSAGE);
 
         visibility(winner);
     }
