@@ -46,6 +46,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         gameName = preferences.getString("gameName", "none");
         playerName = preferences.getString("playerName", "none");
+        playerNames = GameController.updatePlayers(gameName);
         pview = (PlayerView) view.findViewById(R.id.playerview);
 
         this.context = getActivity().getApplicationContext();
@@ -62,6 +63,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         changeToMissionLeaderChoosing();
 
 
+
         return view;
     }
 
@@ -69,10 +71,23 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Checks if a player is Resistance or Spy and changes visibilities if so.
      */
     private void handleResistanceOrSpy() {
+        ArrayList<String> arrayOfSpies = new ArrayList<>();
+        for (String name : playerNames){
+            if (!GameController.isResistance(name)){
+                arrayOfSpies.add(name);
+            }
+        }
+
         if (GameController.isResistance(playerName)) {
             //Visibilities for resistance
         } else {
-            //visibilities for spies
+            for (String spy : arrayOfSpies){
+                int id = getLayoutIdForPlayer(spy);
+                RelativeLayout rl = (RelativeLayout) pview.findViewById(id);
+                ImageView spyView = (ImageView) rl.findViewById(id + 520);
+
+                spyView.setImageResource(R.drawable.player_icon_spy);
+            }
         }
     }
 
@@ -89,6 +104,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      */
     private void handleLeader() {
         Log.d("handleLeader", gameName);
+
         String currentLeader = GameController.getCurrentMission(gameName).getCurrentMissionLeader();
         // Do something to change position of little star
         playerNames = GameController.updatePlayers(gameName);
@@ -98,12 +114,13 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         MyTextView tv = (MyTextView) relativeLayout.findViewById(id+320);
         ImageView star = new ImageView(this.getContext());
         star.setImageResource(R.drawable.star);
-        star.setPadding(0, 0, 0, 0);
 
         RelativeLayout.LayoutParams starParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         starParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         starParams.addRule(RelativeLayout.BELOW, tv.getId());
         relativeLayout.addView(star, starParams);
+
+        togglePlayerSelection(currentLeader);
 
 
 
@@ -245,14 +262,13 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     public void togglePlayerSelection(String playerName) {
 
-        final int id = getLayoutIdForPlayer(playerName);
+        int id = getLayoutIdForPlayer(playerName);
         RelativeLayout rl = (RelativeLayout) pview.findViewById(id);
-        final ImageView iv = (ImageView) rl.findViewById(id + 520);
+        ImageView iv = (ImageView) rl.findViewById(id + 520);
 
         iv.setOnClickListener(new View.OnClickListener() {
             boolean clicked = true;
             public void onClick(View v) {
-            Log.d("background", iv.getBackground() + "");
 
                 if(clicked) {
                     v.setBackgroundResource(R.drawable.playerborder);
@@ -268,7 +284,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     }
 
     public int getLayoutIdForPlayer(String playerName){
-        playerNames = GameController.updatePlayers(gameName);
 
         int index = playerNames.indexOf(playerName);
         Log.d("name of leader:", playerName);
