@@ -93,14 +93,4 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         round.addView(view);
         return round;
     }
-
-    /**
-     * Converts dps to pixels.
-     * @param dpLength the length in dp.
-     * @return the length in pixels.
-     */
-    private int getPixelLength(int dpLength) {
-        final float scale = getContext().getResources().getDisplayMetrics().density;
-        return (int) (dpLength * scale + 0.5f);
-    }
 }
