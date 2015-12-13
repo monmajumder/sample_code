@@ -18,8 +18,8 @@
 
 
     <com.resistance.theresistance.views.PlayerView
-        android:layout_width="290dp"
-        android:layout_height="290dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:id="@+id/playerview"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>

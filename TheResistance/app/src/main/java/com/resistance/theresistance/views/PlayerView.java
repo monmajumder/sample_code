@@ -56,11 +56,13 @@ public class PlayerView extends CircleLayout {
 
         // Creating a new RelativeLayout
         RelativeLayout relativeLayout = new RelativeLayout(this.getContext());
+        //TODO: Something is wrong here. playerIds at 0 is null
+        relativeLayout.setId(playerNumber);
 
         // Creating a new ImageView
         ImageView iv = new ImageView(this.getContext());
         iv.setImageResource(playerIcons.getResourceId(playerNumber, -1));
-        iv.setId(playerIds.getResourceId(playerNumber, -1));
+
 
         // Defining the layout parameters of the ImageView
         RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
@@ -72,6 +74,7 @@ public class PlayerView extends CircleLayout {
         MyTextView tv = new MyTextView(this.getContext());
         tv.setText(playerNames.get(playerNumber));
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+        tv.setId(playerNumber+320);
 
         int px = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,

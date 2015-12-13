@@ -3,12 +3,15 @@ package com.resistance.theresistance.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.resistance.theresistance.R;
@@ -16,6 +19,8 @@ import com.resistance.theresistance.activities.EndGameActivity;
 import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
 import com.resistance.theresistance.logic.GameTimer;
+import com.resistance.theresistance.views.MyTextView;
+import com.resistance.theresistance.views.PlayerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +35,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     private int numPlayersOnMission;
     public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     private Context context;
+    public ArrayList<String> playerNames;
+    public PlayerView pview;
+    public RelativeLayout relativeLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +46,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         gameName = preferences.getString("gameName", "none");
         playerName = preferences.getString("playerName", "none");
+        pview = (PlayerView) view.findViewById(R.id.playerview);
 
         this.context = getActivity().getApplicationContext();
 
@@ -47,7 +56,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
         gameRoomStr = gameRoomStr + " " + gameName;
 
-        ((com.resistance.theresistance.views.MyTextView)view.findViewById(R.id.game_play_room_name)).setText(gameRoomStr);
+        ((com.resistance.theresistance.views.MyTextView) view.findViewById(R.id.game_play_room_name)).setText(gameRoomStr);
 
         handleResistanceOrSpy();
         changeToMissionLeaderChoosing();
@@ -81,6 +90,28 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         Log.d("handleLeader", gameName);
         String currentLeader = GameController.getCurrentMission(gameName).getCurrentMissionLeader();
         // Do something to change position of little star
+        playerNames = GameController.updatePlayers(gameName);
+
+        int index = playerNames.indexOf(currentLeader);
+        Log.d("name of leader:", currentLeader);
+        String indexString = "" + index;
+
+
+        Resources res = getResources();
+        int id = res.getIdentifier(indexString, "id", this.getContext().getPackageName());
+
+        relativeLayout = (RelativeLayout) pview.findViewById(id);
+        MyTextView tv = (MyTextView) relativeLayout.findViewById(id+320);
+        ImageView star = new ImageView(this.getContext());
+        star.setImageResource(R.drawable.star);
+        star.setPadding(0, 0, 0, 0);
+
+        RelativeLayout.LayoutParams starParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        starParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        starParams.addRule(RelativeLayout.BELOW, tv.getId());
+        relativeLayout.addView(star, starParams);
+
+
 
         if (GameController.checkLeader(gameName, playerName)) {
             this.numPlayersOnMission = GameController.getMissionariesRequired(gameName);
@@ -108,6 +139,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Called when the game state is Vote For Missionaries.
+     *
      * @param missionaryTeam the chosen missionaries
      */
     public void changeToVoteForMissionaries(List<String> missionaryTeam) {
@@ -187,6 +219,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Called when a mission was passed. Displays a toast and updates the UI.
+     *
      * @param missionNum Mission number that was passed.
      */
     public void showMissionPassed(int missionNum) {
@@ -196,6 +229,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Called when a mission was failed. Displays a toast and updates the UI.
+     *
      * @param missionNum Mission number that was failed.
      */
     public void showMissionFailed(int missionNum) {
@@ -205,6 +239,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Starts the Game Over activity.
+     *
      * @param state State of the game, either Resistance Wins or Spies Win.
      */
     public void changeToGameOver(Game.State state) {
