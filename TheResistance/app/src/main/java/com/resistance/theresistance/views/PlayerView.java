@@ -56,7 +56,6 @@ public class PlayerView extends CircleLayout {
 
         // Creating a new RelativeLayout
         RelativeLayout relativeLayout = new RelativeLayout(this.getContext());
-        //TODO: Something is wrong here. playerIds at 0 is null
         relativeLayout.setId(playerNumber);
 
         // Creating a new ImageView
@@ -69,6 +68,7 @@ public class PlayerView extends CircleLayout {
         RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
+        imageParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
 
         //Creating a new TextView
