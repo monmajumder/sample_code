@@ -215,6 +215,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     }
 
     public void togglePlayerSelection(int playerNumber){
-        
+
     }
 }
