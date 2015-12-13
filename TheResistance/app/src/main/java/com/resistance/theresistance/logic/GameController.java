@@ -263,6 +263,8 @@ public class GameController {
     public static Mission getCurrentMission(String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
+        query.include("Missions");
+        query.include("Missions.Rounds");
         try {
             ParseObject object = query.getFirst();
             Log.d("getCurrentMission game", "The retrieval succeeded");
