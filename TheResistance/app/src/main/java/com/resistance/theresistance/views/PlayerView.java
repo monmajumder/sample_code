@@ -56,6 +56,7 @@ public class PlayerView extends CircleLayout {
 
         // Creating a new RelativeLayout
         RelativeLayout relativeLayout = new RelativeLayout(this.getContext());
+        relativeLayout.generateViewId();
 
         // Creating a new ImageView
         ImageView iv = new ImageView(this.getContext());
