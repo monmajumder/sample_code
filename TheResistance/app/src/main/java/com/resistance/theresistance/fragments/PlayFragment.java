@@ -61,6 +61,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         handleResistanceOrSpy();
         changeToMissionLeaderChoosing();
 
+
         return view;
     }
 
@@ -92,14 +93,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         // Do something to change position of little star
         playerNames = GameController.updatePlayers(gameName);
 
-        int index = playerNames.indexOf(currentLeader);
-        Log.d("name of leader:", currentLeader);
-        String indexString = "" + index;
-
-
-        Resources res = getResources();
-        int id = res.getIdentifier(indexString, "id", this.getContext().getPackageName());
-
+        int id = getLayoutIdForPlayer(currentLeader);
         relativeLayout = (RelativeLayout) pview.findViewById(id);
         MyTextView tv = (MyTextView) relativeLayout.findViewById(id+320);
         ImageView star = new ImageView(this.getContext());
@@ -249,7 +243,40 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         this.getContext().startActivity(intent);
     }
 
-    public void togglePlayerSelection(int playerNumber){
+    public void togglePlayerSelection(String playerName) {
 
+        final int id = getLayoutIdForPlayer(playerName);
+        RelativeLayout rl = (RelativeLayout) pview.findViewById(id);
+        final ImageView iv = (ImageView) rl.findViewById(id + 520);
+
+        iv.setOnClickListener(new View.OnClickListener() {
+            boolean clicked = true;
+            public void onClick(View v) {
+            Log.d("background", iv.getBackground() + "");
+
+                if(clicked) {
+                    v.setBackgroundResource(R.drawable.playerborder);
+                    clicked = false;
+                }
+                else if (!clicked){
+                    v.setBackgroundResource(R.drawable.blank_transparency);
+                    clicked = true;
+                }
+
+             }
+        });
+    }
+
+    public int getLayoutIdForPlayer(String playerName){
+        playerNames = GameController.updatePlayers(gameName);
+
+        int index = playerNames.indexOf(playerName);
+        Log.d("name of leader:", playerName);
+        String indexString = "" + index;
+
+        Resources res = getResources();
+        int id = res.getIdentifier(indexString, "id", this.getContext().getPackageName());
+
+        return id;
     }
 }
