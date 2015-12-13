@@ -3,28 +3,19 @@ package com.resistance.theresistance.fragments;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import com.resistance.theresistance.R;
-import com.resistance.theresistance.logic.GameController;
-import com.resistance.theresistance.views.PlayerView;
+import com.resistance.theresistance.logic.Round;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-
-import ru.biovamp.widget.CircleLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +23,10 @@ import ru.biovamp.widget.CircleLayout;
 public class  HistoryFragment extends android.support.v4.app.Fragment {
 
     String gameName;
+    //ArrayList<String> players = GameController.updatePlayers(gameName); //real list of players
+    ArrayList<String> players = new ArrayList<>(); //DELETE - ONLY FOR TESTING PURPOSES
+    Round test; //DELETE - ONLY FOR TESTING PURPOSES
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, null);
@@ -41,11 +36,14 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
+        dummyPlayers(); // testing purposes
         addPlayerImages();
+
+        Round dummy = dummyRound(); // testing
+        addRound(dummy); //testing
     }
 
     /**
@@ -55,7 +53,7 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         ArrayList<Integer> row1 = new ArrayList<Integer>();
         row1.add(R.drawable.blank_transparency);
         TypedArray playerIcons = getResources().obtainTypedArray(R.array.player_imgs);
-        int numPlayers = GameController.updatePlayers(gameName).size();
+        int numPlayers = players.size();
         for (int i = 0; i < numPlayers; i++) {
             row1.add(playerIcons.getResourceId(i, -1));
         }
@@ -92,5 +90,127 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         view.setImageResource(resourceId);
         round.addView(view);
         return round;
+    }
+
+    public void addMission() {
+
+    }
+
+    /**
+     * Adds a round's outcomes to the history
+     * @param r
+     */
+    public void addRound(Round r) {
+        Round round = r;
+        ArrayList<String> missionaries = (ArrayList<String>) round.getMissionaries();
+        ArrayList<String> yesVotes = (ArrayList<String>) round.getAssentors();
+        ArrayList<Integer> resourceIDs = new ArrayList<>();
+        String leader = round.getLeader();
+        boolean isMissionary, votedYes, isLeader;
+        isLeader = false;
+        isMissionary = false;
+        votedYes = false;
+
+        resourceIDs.add(R.drawable.blank_transparency);
+
+        //Go through the players array to check for which box each one needs
+        for (int i= 0; i < players.size(); i++) {
+            //check to see if the player is the mission leader
+            if (players.get(i) == leader) {
+                isLeader = true;
+            }
+
+            //check to see if the player is a missionary
+            for (int x = 0; x < missionaries.size(); x++) {
+                if (missionaries.get(x) ==  players.get(i)) {
+                    isMissionary = true;
+                }
+            }
+
+            //check to see if the player voted yes
+            for (int y = 0; y < yesVotes.size(); y++) {
+                if (yesVotes.get(y) == players.get(i)) {
+                    votedYes = true;
+                }
+            }
+
+            //Check for the different combinations of resource ids
+            if (isLeader && isMissionary && votedYes) {
+                resourceIDs.add(R.drawable.green_box_star_m);
+            }
+            else if (isLeader && isMissionary) {
+                resourceIDs.add(R.drawable.red_box_star_m);
+            }
+            else if (isLeader && votedYes) {
+                resourceIDs.add(R.drawable.green_box_star);
+            }
+            else if (isLeader) {
+                resourceIDs.add(R.drawable.red_box_star);
+            }
+            else if(votedYes && isMissionary) {
+                resourceIDs.add(R.drawable.green_box_m);
+            }
+            else if(isMissionary) {
+                resourceIDs.add(R.drawable.red_box_m);
+            }
+            else if (votedYes) {
+                resourceIDs.add(R.drawable.green_box_empty);
+            }
+            else {
+                resourceIDs.add(R.drawable.red_box_empty);
+            }
+
+            //set all the variables to false again for the next player
+            isLeader = false;
+            isMissionary = false;
+            votedYes = false;
+        }
+
+        //add a new row
+        addRow(resourceIDs);
+
+        /* Extract data from round */
+    }
+
+    /**
+     * Fills in a dummy arraylist of players
+     * DELETE - FOR TESTING PURPOSES ONLY
+     */
+    private void dummyPlayers() {
+        //Add players
+        players.add("Monica");
+        players.add("Andrew");
+        players.add("Jenny");
+        players.add("Mindy");
+        players.add("Candace");
+        players.add("6");
+        players.add("7");
+    }
+
+    /**
+     * Create a dummy Round
+     * Delete - Testing Purposes only
+     * @return Round
+     */
+    private Round dummyRound() {
+
+        //missionaries arraylist
+        ArrayList<String> tempMiss = new ArrayList<>();
+        tempMiss.add("Monica");
+        tempMiss.add("Andrew");
+        tempMiss.add("Jenny");
+
+        //assentors arraylist
+        ArrayList<String> tempAss = new ArrayList<>();
+        tempAss.add("Monica");
+        tempAss.add("Andrew");
+
+        //Create the round - set leader, missionaries, assentors
+        test = new Round();
+        test.setLeader("Monica");
+        test.setMissionaries(tempMiss);
+        test.setAssentors(tempAss);
+
+        return test;
     }
 }
