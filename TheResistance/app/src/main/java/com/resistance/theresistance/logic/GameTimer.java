@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.resistance.theresistance.activities.GamePlayActivity;
 import com.resistance.theresistance.activities.GameWaitingActivity;
+import com.resistance.theresistance.fragments.PlayFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +44,11 @@ public class GameTimer {
                                 Log.d("Players array", "IS NULL");
                             }
                             //thisActivity.addPlayerIcons();
-                            Log.d("TIMER CHECK", "GAME HAS NOT STARTED");
+                            Log.d("game started TIMER", "GAME HAS NOT STARTED");
                         } else {
                             timer.cancel();
                             thisActivity.startGamePlayActivity();
-                            Log.d("TIMER CHECK", "GAME HAS STARTED");
+                            Log.d("game started TIMER", "GAME HAS STARTED");
                         }
                     }
                 });
@@ -59,23 +60,23 @@ public class GameTimer {
      * Runs the Timer task for checking when a Mission Leader has finished choosing the team.
      * @param gameName name of the game
      */
-    public static void missionLeaderDoneChoosing(GamePlayActivity activity, String gameName) {
-        final GamePlayActivity thisActivity = activity;
+    public static void missionLeaderDoneChoosing(PlayFragment fragment, String gameName) {
+        final PlayFragment thisFragment = fragment;
         final String game = gameName;
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                thisActivity.runOnUiThread(new Runnable() {
+                thisFragment.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (GameController.checkMissionLeaderDoneChoosing(game)) {
                             timer.cancel();
                             List<String> missionaryTeam = GameController.getChosenMissionaries(game);
-                            thisActivity.changeToVoteForMissionaries(missionaryTeam);
-                            Log.d("TIMER CHECK", "I AM DONE");
+                            thisFragment.changeToVoteForMissionaries(missionaryTeam);
+                            Log.d("missionleader TIMER", "I AM DONE");
                         } else {
-                            Log.d("TIMER CHECK", "ONE TIME");
+                            Log.d("missionleader TIMER", "ONE TIME");
                         }
                     }
                 });
@@ -83,28 +84,28 @@ public class GameTimer {
         }, 0, 1000);
     }
 
-    public static void everyoneDoneVoting(GamePlayActivity activity, String gameName) {
-        final GamePlayActivity thisActivity = activity;
+    public static void everyoneDoneVoting(PlayFragment fragment, String gameName) {
+        final PlayFragment thisFragment = fragment;
         final String game = gameName;
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                thisActivity.runOnUiThread(new Runnable() {
+                thisFragment.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (GameController.ifEveryoneDoneVoting(game) == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
-                            thisActivity.showMissionTeamRejected();
-                            thisActivity.changeToMissionLeaderChoosing();
+                            thisFragment.showMissionTeamRejected();
+                            thisFragment.changeToMissionLeaderChoosing();
                             Log.d("TIMER CHECK", "I AM DONE");
                         } else if (GameController.ifEveryoneDoneVoting(game) == Game.State.MISSIONARIES_VOTING) {
                             timer.cancel();
-                            thisActivity.showMissionTeamApproved();
-                            thisActivity.changeToMissionaryVoting();
-                            Log.d("TIMER CHECK", "I AM DONE");
+                            thisFragment.showMissionTeamApproved();
+                            thisFragment.changeToMissionaryVoting();
+                            Log.d("everyone done TIMER", "I AM DONE");
                         } else {
-                            Log.d("TIMER CHECK", "ONE TIME");
+                            Log.d("everyone done TIMER", "ONE TIME");
                         }
                     }
                 });
@@ -112,31 +113,31 @@ public class GameTimer {
         }, 0, 1000);
     }
 
-    public static void missionariesDoneVoting(GamePlayActivity activity, String gameName) {
-        final GamePlayActivity thisActivity = activity;
+    public static void missionariesDoneVoting(PlayFragment fragment, String gameName) {
+        final PlayFragment thisFragment = fragment;
         final String game = gameName;
         final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                thisActivity.runOnUiThread(new Runnable() {
+                thisFragment.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Game.State state = GameController.ifMissionariesDoneVoting(thisActivity, game);
+                        Game.State state = GameController.ifMissionariesDoneVoting(thisFragment, game);
                         if (state == null) {
-                            Log.d("TIMER CHECK", "ONE TIME");
+                            Log.d("missionaries done TIMER", "ONE TIME");
                         } else if (state == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
-                            thisActivity.changeToMissionLeaderChoosing();
-                            Log.d("TIMER CHECK", "I AM DONE");
+                            thisFragment.changeToMissionLeaderChoosing();
+                            Log.d("missionaries done TIMER", "I AM DONE");
                         } else if (state == Game.State.RESISTANCE_WINS) {
                             timer.cancel();
-                            thisActivity.changeToGameOver(state);
-                            Log.d("TIMER CHECK", "I AM DONE");
-                        } else if (state == Game.State.SPIES_WIN){
+                            thisFragment.changeToGameOver(state);
+                            Log.d("missionaries done TIMER", "I AM DONE");
+                        } else if (state == Game.State.SPIES_WIN) {
                             timer.cancel();
-                            thisActivity.changeToGameOver(state);
-                            Log.d("TIMER CHECK", "I AM DONE");
+                            thisFragment.changeToGameOver(state);
+                            Log.d("missionaries done TIMER", "I AM DONE");
                         }
                     }
                 });

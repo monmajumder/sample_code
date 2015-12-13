@@ -7,6 +7,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.resistance.theresistance.activities.GamePlayActivity;
+import com.resistance.theresistance.fragments.PlayFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -262,6 +263,8 @@ public class GameController {
     public static Mission getCurrentMission(String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
+        query.include("Missions");
+        query.include("Missions.Rounds");
         try {
             ParseObject object = query.getFirst();
             Log.d("getCurrentMission game", "The retrieval succeeded");
@@ -354,7 +357,7 @@ public class GameController {
         }
     }
 
-    public static Game.State ifMissionariesDoneVoting(GamePlayActivity activity, String gameName) {
+    public static Game.State ifMissionariesDoneVoting(PlayFragment fragment, String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
         try {
@@ -366,9 +369,9 @@ public class GameController {
                 if (state == Game.State.MISSION_LEADER_CHOOSING) {
                     List<Mission> missions = gameObject.getMissions();
                     if (missions.get(missions.size()-2).getPassed()) {
-                        activity.showMissionPassed(missions.size()-1);
+                        fragment.showMissionPassed(missions.size()-1);
                     } else {
-                        activity.showMissionFailed(missions.size()-1);
+                        fragment.showMissionFailed(missions.size()-1);
                     }
                 }
                 return state;
