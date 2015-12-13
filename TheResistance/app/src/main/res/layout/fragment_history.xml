@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<HorizontalScrollView
+<ScrollView
     android:layout_height="match_parent"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
-        <LinearLayout
-            android:orientation="horizontal"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <HorizontalScrollView
             android:layout_height="match_parent"
             android:layout_width="wrap_content">
             <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content">
-                <com.resistance.theresistance.views.MyTextView
-                    android:text="1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/round_one"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="24dp" />
+                <View
+                    android:id="@+id/space"
+                    android:layout_height="match_parent"
+                    android:layout_width="50dp"
+                    android:layout_weight="1"/>
                 <ImageView
                     android:id="@+id/img1"
                     android:layout_height="wrap_content"
@@ -80,10 +80,80 @@
                     android:layout_weight="1"
                     android:src="@drawable/player_icon_pink" />
             </LinearLayout>
-            <Button
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="hi"/>
-        </LinearLayout>
-
-    </HorizontalScrollView>
+        </HorizontalScrollView>
+        <HorizontalScrollView
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content">
+                <View
+                    android:id="@+id/space2"
+                    android:layout_height="match_parent"
+                    android:layout_width="50dp"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/img11"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img12"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img13"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img14"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img15"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img16"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img17"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img18"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img19"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img20"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+</ScrollView>
