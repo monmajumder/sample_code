@@ -1,8 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<HorizontalScrollView
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content">
+                <com.resistance.theresistance.views.MyTextView
+                    android:text="1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/round_one"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="24dp" />
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img3"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img4"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img5"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img6"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img7"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img8"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img9"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+                <ImageView
+                    android:id="@+id/img10"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/player_icon_pink" />
+            </LinearLayout>
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="hi"/>
+        </LinearLayout>
 
-
-</GridLayout>
+    </HorizontalScrollView>
