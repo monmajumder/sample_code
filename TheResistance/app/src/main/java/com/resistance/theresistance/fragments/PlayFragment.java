@@ -78,6 +78,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Handles the leader, displays the start button if leader.
      */
     private void handleLeader() {
+        Log.d("handleLeader", gameName);
         String currentLeader = GameController.getCurrentMission(gameName).getCurrentMissionLeader();
         // Do something to change position of little star
 
