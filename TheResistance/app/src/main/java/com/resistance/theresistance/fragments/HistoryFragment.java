@@ -11,7 +11,7 @@ import com.resistance.theresistance.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryFragment extends android.support.v4.app.Fragment {
+public class  HistoryFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
