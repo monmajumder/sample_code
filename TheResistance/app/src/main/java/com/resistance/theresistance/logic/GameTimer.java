@@ -44,11 +44,11 @@ public class GameTimer {
                                 Log.d("Players array", "IS NULL");
                             }
                             //thisActivity.addPlayerIcons();
-                            Log.d("TIMER CHECK", "GAME HAS NOT STARTED");
+                            Log.d("game started TIMER", "GAME HAS NOT STARTED");
                         } else {
                             timer.cancel();
                             thisActivity.startGamePlayActivity();
-                            Log.d("TIMER CHECK", "GAME HAS STARTED");
+                            Log.d("game started TIMER", "GAME HAS STARTED");
                         }
                     }
                 });
@@ -74,9 +74,9 @@ public class GameTimer {
                             timer.cancel();
                             List<String> missionaryTeam = GameController.getChosenMissionaries(game);
                             thisFragment.changeToVoteForMissionaries(missionaryTeam);
-                            Log.d("TIMER CHECK", "I AM DONE");
+                            Log.d("missionleader TIMER", "I AM DONE");
                         } else {
-                            Log.d("TIMER CHECK", "ONE TIME");
+                            Log.d("missionleader TIMER", "ONE TIME");
                         }
                     }
                 });
@@ -103,9 +103,9 @@ public class GameTimer {
                             timer.cancel();
                             thisFragment.showMissionTeamApproved();
                             thisFragment.changeToMissionaryVoting();
-                            Log.d("TIMER CHECK", "I AM DONE");
+                            Log.d("everyone done TIMER", "I AM DONE");
                         } else {
-                            Log.d("TIMER CHECK", "ONE TIME");
+                            Log.d("everyone done TIMER", "ONE TIME");
                         }
                     }
                 });
@@ -125,19 +125,19 @@ public class GameTimer {
                     public void run() {
                         Game.State state = GameController.ifMissionariesDoneVoting(thisFragment, game);
                         if (state == null) {
-                            Log.d("TIMER CHECK", "ONE TIME");
+                            Log.d("missionaries done TIMER", "ONE TIME");
                         } else if (state == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
                             thisFragment.changeToMissionLeaderChoosing();
-                            Log.d("TIMER CHECK", "I AM DONE");
+                            Log.d("missionaries done TIMER", "I AM DONE");
                         } else if (state == Game.State.RESISTANCE_WINS) {
                             timer.cancel();
                             thisFragment.changeToGameOver(state);
-                            Log.d("TIMER CHECK", "I AM DONE");
-                        } else if (state == Game.State.SPIES_WIN){
+                            Log.d("missionaries done TIMER", "I AM DONE");
+                        } else if (state == Game.State.SPIES_WIN) {
                             timer.cancel();
                             thisFragment.changeToGameOver(state);
-                            Log.d("TIMER CHECK", "I AM DONE");
+                            Log.d("missionaries done TIMER", "I AM DONE");
                         }
                     }
                 });

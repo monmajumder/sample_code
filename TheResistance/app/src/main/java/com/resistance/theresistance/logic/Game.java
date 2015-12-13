@@ -1,5 +1,7 @@
 package com.resistance.theresistance.logic;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
