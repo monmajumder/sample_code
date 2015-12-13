@@ -10,6 +10,7 @@
     <item name="darkorange" type="color">#FFFF8800</item>
     <item name="darkred" type="color">#FFCC0000</item>
     <item name="beige" type="color">#F5F5DC</item>
+    <item name="white" type="color">#FFFFFF</item>
     <item name="reallydarkblue" type="color">#02166c</item>
     <item name="darkgrey" type="color">#353734</item>
 

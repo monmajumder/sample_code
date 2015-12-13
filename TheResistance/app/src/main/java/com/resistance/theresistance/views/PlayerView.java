@@ -62,6 +62,7 @@ public class PlayerView extends CircleLayout {
         // Creating a new ImageView
         ImageView iv = new ImageView(this.getContext());
         iv.setImageResource(playerIcons.getResourceId(playerNumber, -1));
+        iv.setId(playerNumber+520);
 
 
         // Defining the layout parameters of the ImageView
@@ -78,7 +79,7 @@ public class PlayerView extends CircleLayout {
 
         int px = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                44,
+                50,
                 this.getResources().getDisplayMetrics()
         );
 
