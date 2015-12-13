@@ -213,4 +213,8 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         intent.putExtra(EXTRA_MESSAGE, state.toString());
         this.getContext().startActivity(intent);
     }
+
+    public void togglePlayerSelection(int playerNumber){
+        
+    }
 }
