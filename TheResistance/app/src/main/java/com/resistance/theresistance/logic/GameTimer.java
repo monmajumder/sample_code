@@ -1,9 +1,11 @@
 package com.resistance.theresistance.logic;
 
+import android.app.Fragment;
 import android.util.Log;
 
 import com.resistance.theresistance.activities.GamePlayActivity;
 import com.resistance.theresistance.activities.GameWaitingActivity;
+import com.resistance.theresistance.fragments.HistoryFragment;
 import com.resistance.theresistance.fragments.PlayFragment;
 
 import java.util.ArrayList;
@@ -101,11 +103,14 @@ public class GameTimer {
                     public void run() {
                         if (GameController.ifEveryoneDoneVoting(game) == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
+                            Fragment history = thisFragment.getActivity().getFragmentManager().findFragmentByTag("history_fragment");
+                            Round round = GameController.getCurrentMission(game).getCurrentRound();
                             //Check if a new mission was created
                             if (GameController.getCurrentMission(game).getRounds().size() == 1) {
-                                //increment counter
+                                //history.addRoundInNewMission(round);
                             }
-                            //RETURN CURRENT ROUND TO HISTORY
+                            //history.addRound(round);
+
                             thisFragment.showMissionTeamRejected();
                             thisFragment.changeToMissionLeaderChoosing();
                             Log.d("TIMER CHECK", "I AM DONE");
@@ -143,8 +148,9 @@ public class GameTimer {
                             Log.d("missionaries done TIMER", "ONE TIME");
                         } else if (state == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
-                            //RETURN CURRENT ROUND
-                            //INCREMENT MISSION NUMBER
+                            Fragment history = thisFragment.getActivity().getFragmentManager().findFragmentByTag("history_fragment");
+                            Round round = GameController.getCurrentMission(game).getCurrentRound();
+                            //history.addRoundInNewMission(round);
                             thisFragment.changeToMissionLeaderChoosing();
                             Log.d("missionaries done TIMER", "I AM DONE");
                         } else if (state == Game.State.RESISTANCE_WINS) {
