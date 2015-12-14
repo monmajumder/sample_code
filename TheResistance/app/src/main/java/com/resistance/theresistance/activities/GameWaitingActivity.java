@@ -41,6 +41,7 @@ public class GameWaitingActivity extends AppCompatActivity {
     String gameName;
     String gameRoomStr;
     public static Context mContext;
+    private int numPlayersInRoom;
 
     /**
      * Get context
@@ -57,6 +58,7 @@ public class GameWaitingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.numPlayersInRoom = 0;
         mContext = getBaseContext();
 
         setContentView(R.layout.activity_game);
@@ -178,6 +180,10 @@ public class GameWaitingActivity extends AppCompatActivity {
             Toast.makeText(this,"Too few players. Need at least 5 players to start.", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Adds a player.
+     * @param playerNumber
+     */
     private void addPlayer(int playerNumber){
         TypedArray playerIcons = getResources().obtainTypedArray(R.array.player_imgs);
         TypedArray playerIds = getResources().obtainTypedArray(R.array.player_ids_ints);
@@ -235,14 +241,25 @@ public class GameWaitingActivity extends AppCompatActivity {
         circleLayout.addView(relativeLayout);
     }
 
+    /**
+     * Adds the player icons to the game play screen.
+     */
     public void addPlayerIcons() {
         playerNames = GameController.updatePlayers(gameName);
+        int numPlayers = playerNames.size();
+        int changed = numPlayers - numPlayersInRoom;
+
+        if (changed == 0) {
+            return;
+        }
+
         String a;
-        for (int i = 0; i < playerNames.size(); i++) {
+        for (int i = numPlayersInRoom; i < playerNames.size(); i++) {
             a = playerNames.size() + "";
             Log.d("player Names size", a);
             addPlayer(i);
         }
+        numPlayersInRoom = numPlayers;
     }
 
     /**
