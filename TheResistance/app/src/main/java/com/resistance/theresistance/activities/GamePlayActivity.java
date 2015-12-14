@@ -40,7 +40,6 @@ public class GamePlayActivity extends FragmentActivity {
 
     /**
      * The adapter definition of the fragments.
-     * Called when a Mission Leader clicks "Done" after done choosing missionaries.
      */
     private FragmentPagerAdapter _fragmentPagerAdapter;
 

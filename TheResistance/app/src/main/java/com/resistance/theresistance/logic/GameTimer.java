@@ -96,6 +96,11 @@ public class GameTimer {
                     public void run() {
                         if (GameController.ifEveryoneDoneVoting(game) == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
+                            //Check if a new mission was created
+                            if (GameController.getCurrentMission(game).getRounds().size() == 1) {
+                                //increment counter
+                            }
+                            //RETURN CURRENT ROUND TO HISTORY
                             thisFragment.showMissionTeamRejected();
                             thisFragment.changeToMissionLeaderChoosing();
                             Log.d("TIMER CHECK", "I AM DONE");
@@ -128,6 +133,8 @@ public class GameTimer {
                             Log.d("missionaries done TIMER", "ONE TIME");
                         } else if (state == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
+                            //RETURN CURRENT ROUND
+                            //INCREMENT MISSION NUMBER
                             thisFragment.changeToMissionLeaderChoosing();
                             Log.d("missionaries done TIMER", "I AM DONE");
                         } else if (state == Game.State.RESISTANCE_WINS) {
