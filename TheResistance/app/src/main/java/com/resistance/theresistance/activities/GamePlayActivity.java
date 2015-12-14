@@ -6,14 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.fragments.HistoryFragment;
-import com.resistance.theresistance.logic.Game;
-import com.resistance.theresistance.logic.GameController;
-import com.resistance.theresistance.logic.GameTimer;
 import com.resistance.theresistance.fragments.PlayFragment;
 
 import java.util.ArrayList;
