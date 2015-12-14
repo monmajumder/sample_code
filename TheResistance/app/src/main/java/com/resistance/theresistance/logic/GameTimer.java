@@ -43,7 +43,7 @@ public class GameTimer {
                             if (players == null) {
                                 Log.d("Players array", "IS NULL");
                             }
-                            //thisActivity.addPlayerIcons();
+                            thisActivity.addPlayerIcons();
                             Log.d("game started TIMER", "GAME HAS NOT STARTED");
                         } else {
                             timer.cancel();
@@ -84,6 +84,11 @@ public class GameTimer {
         }, 0, 1000);
     }
 
+    /**
+     * Runs the Timer task for checking when everybody has finished voting.
+     * @param fragment PlayFragment
+     * @param gameName Name of the game
+     */
     public static void everyoneDoneVoting(PlayFragment fragment, String gameName) {
         final PlayFragment thisFragment = fragment;
         final String game = gameName;
@@ -118,6 +123,11 @@ public class GameTimer {
         }, 0, 1000);
     }
 
+    /**
+     * Runs the Timer task for checking when everybody has finished voting.
+     * @param fragment PlayFragment
+     * @param gameName Name of the game
+     */
     public static void missionariesDoneVoting(PlayFragment fragment, String gameName) {
         final PlayFragment thisFragment = fragment;
         final String game = gameName;
