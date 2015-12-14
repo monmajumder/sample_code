@@ -22,10 +22,15 @@ import java.util.ArrayList;
  */
 public class  HistoryFragment extends android.support.v4.app.Fragment {
 
-    String gameName;
+    private String gameName;
+    private int currentMissionNumber;
     //ArrayList<String> players = GameController.updatePlayers(gameName); //real list of players
     ArrayList<String> players = new ArrayList<>(); //DELETE - ONLY FOR TESTING PURPOSES
-    Round test; //DELETE - ONLY FOR TESTING PURPOSES
+    private Round test; //DELETE - ONLY FOR TESTING PURPOSES
+
+    public HistoryFragment() {
+        currentMissionNumber = 0;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,7 +48,18 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         addPlayerImages();
 
         Round dummy = dummyRound(); // testing
+        addRoundInNewMission(dummy);
         addRound(dummy); //testing
+        addRound(dummy);
+        addRoundInNewMission(dummy);
+        addRound(dummy);
+        addRound(dummy);
+        addRoundInNewMission(dummy);
+        addRoundInNewMission(dummy);
+        addRoundInNewMission(dummy);
+        addRound(dummy);
+        addRound(dummy);
+
     }
 
     /**
@@ -92,15 +108,28 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         return round;
     }
 
-    public void addMission() {
-
+    /**
+     * Adds a round in a new mission
+     * @param r the round to be added
+     */
+    public void addRoundInNewMission(Round r) {
+        addRoundBlocks(r, true);
+        currentMissionNumber++;
     }
 
     /**
-     * Adds a round's outcomes to the history
-     * @param r
+     * Adds a round to the history
+     * @param r the round to be added
      */
     public void addRound(Round r) {
+        addRoundBlocks(r,false);
+    }
+    /**
+     * Adds a round's outcomes to the history
+     * @param r the round to be added
+     * @param isNewMission whether a new mission is being added
+     */
+    private void addRoundBlocks(Round r,boolean isNewMission) {
         Round round = r;
         ArrayList<String> missionaries = (ArrayList<String>) round.getMissionaries();
         ArrayList<String> yesVotes = (ArrayList<String>) round.getAssentors();
@@ -111,7 +140,14 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         isMissionary = false;
         votedYes = false;
 
-        resourceIDs.add(R.drawable.blank_transparency);
+        if (isNewMission) {
+            TypedArray historyMissionNumberIcons = getResources().obtainTypedArray(R.array.history_mission_imgs);
+            resourceIDs.add(historyMissionNumberIcons.getResourceId(currentMissionNumber, -1));
+            //resourceIDs.add(R.drawable.history_mission_icon_1);
+        }
+        else {
+            resourceIDs.add(R.drawable.blank_transparency);
+        }
 
         //Go through the players array to check for which box each one needs
         for (int i= 0; i < players.size(); i++) {

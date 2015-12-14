@@ -39,5 +39,11 @@
         <item>@id/mission_icon_4</item>
         <item>@id/mission_icon_5</item>
     </array>
-
+    <array name="history_mission_imgs">
+        <item>@drawable/history_mission_icon_1</item>
+        <item>@drawable/history_mission_icon_2</item>
+        <item>@drawable/history_mission_icon_3</item>
+        <item>@drawable/history_mission_icon_4</item>
+        <item>@drawable/history_mission_icon_5</item>
+    </array>
 </resources>
