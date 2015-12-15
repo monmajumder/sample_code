@@ -270,6 +270,7 @@ public class GameController {
         query.whereEqualTo("Name", gameName);
         query.include("Missions");
         query.include("Missions.Rounds");
+        query.include("Missions.Rounds.Missionaries");
         try {
             ParseObject object = query.getFirst();
             Log.d("getCurrentMission game", "The retrieval succeeded");
@@ -468,6 +469,8 @@ public class GameController {
     public static Game getGame(String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
+        query.include("Missions");
+        query.include("Missions.Rounds");
         try {
             ParseObject object = query.getFirst();
             Log.d("changeState game", "The retrieval succeeded");

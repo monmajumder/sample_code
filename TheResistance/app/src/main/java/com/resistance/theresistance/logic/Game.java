@@ -60,6 +60,15 @@ public class Game extends ParseObject {
     }
 
     /**
+     * Gets the previous mission
+     * @return Mission object that is the previous mission
+     */
+    public Mission getPreviousMission() {
+        missions = getMissions();
+        return missions.get(missions.size()-2);
+    }
+
+    /**
      * Gets the name of the current mission leader.
      * @return Name of the current mission leader.
      */
