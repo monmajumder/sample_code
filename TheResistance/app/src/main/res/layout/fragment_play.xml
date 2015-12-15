@@ -16,8 +16,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp" />
 
-
-
     <com.resistance.theresistance.views.PlayerView
         android:layout_width="400dp"
         android:layout_height="400dp"
@@ -28,17 +26,22 @@
     <com.resistance.theresistance.views.MissionTracker
         android:id="@+id/missiontracker"
         android:layout_marginTop="75dp"
-        android:layout_alignBottom="@id/playerview"
+        android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <com.resistance.theresistance.views.MyTextView
+    <TextView
+        android:id="@+id/waiting_for_mission_leader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="@string/waiting_for_mission_leader"
-        android:id="@+id/waiting_for_mission_leader"
-        android:visibility="invisible"/>
+        android:text="Waiting for mission leader to select missionaries"
+        android:layout_below="@+id/playerview"
+        android:layout_alignStart="@+id/game_play_room_name"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:visibility="visible"/>
 
 </RelativeLayout>

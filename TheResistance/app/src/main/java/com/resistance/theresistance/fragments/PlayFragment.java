@@ -58,7 +58,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         showMissionFailed(3);
         showMissionPassed(1);
         showMissionFailed(2);
-        
+
         this.context = getActivity().getApplicationContext();
 
         //UI Components here
