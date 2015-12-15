@@ -101,7 +101,7 @@ public class GameTimer {
                 thisFragment.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (GameController.ifEveryoneDoneVoting(game) == Game.State.MISSION_LEADER_CHOOSING) {
+                        if (GameController.ifEveryoneDoneVoting(thisFragment, game) == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
                             Fragment history = thisFragment.getActivity().getFragmentManager().findFragmentByTag("history_fragment");
                             Round round = GameController.getCurrentMission(game).getCurrentRound();
@@ -114,7 +114,7 @@ public class GameTimer {
                             thisFragment.showMissionTeamRejected();
                             thisFragment.changeToMissionLeaderChoosing();
                             Log.d("TIMER CHECK", "I AM DONE");
-                        } else if (GameController.ifEveryoneDoneVoting(game) == Game.State.MISSIONARIES_VOTING) {
+                        } else if (GameController.ifEveryoneDoneVoting(thisFragment, game) == Game.State.MISSIONARIES_VOTING) {
                             timer.cancel();
                             thisFragment.showMissionTeamApproved();
                             thisFragment.changeToMissionaryVoting();
