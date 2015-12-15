@@ -31,17 +31,45 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <TextView
+    <com.resistance.theresistance.views.MyTextView
         android:id="@+id/waiting_for_mission_leader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Waiting for mission leader to select missionaries"
+        android:text="@string/waiting_for_mission_leader"
         android:layout_below="@+id/playerview"
         android:layout_alignStart="@+id/game_play_room_name"
         android:textSize="20sp"
         android:textAlignment="center"
         android:gravity="center_vertical|center_horizontal"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/select_missionaries"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true">
+
+        <com.resistance.theresistance.views.MyTextView
+            android:id="@+id/select_missionaries_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select missionaries"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/select_missionaries_text"
+            android:layout_centerHorizontal="true"
+            android:text="@string/done_choosing"
+            android:id="@+id/button" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
