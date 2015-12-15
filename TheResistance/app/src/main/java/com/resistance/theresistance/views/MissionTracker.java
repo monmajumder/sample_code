@@ -3,6 +3,7 @@ package com.resistance.theresistance.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -89,6 +90,7 @@ public class MissionTracker extends RelativeLayout{
             missionIconViews.get(missNum-1).setImageResource(passIconIds.get(missNum - 1));
         }
         else {
+            Log.d("something", "mission number is: " + missNum);
             missionIconViews.get(missNum-1).setImageResource(failIconIds.get(missNum-1));
         }
     }
