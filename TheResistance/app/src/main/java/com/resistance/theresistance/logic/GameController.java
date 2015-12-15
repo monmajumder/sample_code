@@ -294,6 +294,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Returns the chosen missionaries
+     * @param gameName Name of the game
+     * @return List of player names who were chosen
+     */
     public static List<String> getChosenMissionaries(String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
@@ -309,6 +314,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Adds a vote for the missionary team.
+     * @param vote True if accept, False if reject
+     * @param gameName Name of the game
+     * @param playerName Name of the player
+     */
     public static void addVoteForMissionaries(boolean vote, String gameName, String playerName) {
         //Call Cloud function
         HashMap<String,Object> arguments = new HashMap<>();
@@ -345,6 +356,11 @@ public class GameController {
         return null;
     }
 
+    /**
+     * Adds a missionary vote for a Mission.
+     * @param vote True if missionary votes to pass, Fail if missionary votes to fail
+     * @param gameName Name of the game
+     */
     public static void addPassFailForMission(boolean vote, String gameName) {
         //Call Cloud function
         HashMap<String,Object> arguments = new HashMap<>();
@@ -413,6 +429,25 @@ public class GameController {
             Log.d("changeState game", "The retrieval succeeded");
             Game gameObject = (Game) object;
             return gameObject.getGameState();
+        } catch (ParseException e) {
+            Log.d("changeState game", "The retrieval failed");
+            return null;
+        }
+    }
+
+    /**
+     * Returns the game.
+     * @param gameName Name of the game
+     * @return Game object
+     */
+    public static Game getGame(String gameName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
+        query.whereEqualTo("Name", gameName);
+        try {
+            ParseObject object = query.getFirst();
+            Log.d("changeState game", "The retrieval succeeded");
+            Game gameObject = (Game) object;
+            return gameObject;
         } catch (ParseException e) {
             Log.d("changeState game", "The retrieval failed");
             return null;
