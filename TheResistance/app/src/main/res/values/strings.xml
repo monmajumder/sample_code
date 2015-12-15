@@ -18,11 +18,20 @@
     <string name="game_room_name">Game room name: </string>
     <string name="waiting_for_host">Waiting for host to begin &#8230;</string>
     <string name="title_activity_game_play">GamePlayActivity</string>
+    <string name="waiting_for_mission_leader">The Mission Leader is choosing missionaries...</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="spies_win">Spies Win</string>
     <string name="resistance_wins">Resistance Wins</string>
 
-<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_end_game">EndGameActivity</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="waiting_for_votes">Waiting for other players to vote...</string>
+    <string name="done_choosing">Done Selecting</string>
+    <string name="failure">Failure</string>
+    <string name="success">Success</string>
+    <string name="you_the_missionaries">You, the missionaries, must vote on the success of the mission</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+    <string name="do_you_accept">Do you accept these missionaries?</string>
 </resources>

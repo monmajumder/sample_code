@@ -16,8 +16,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp" />
 
-
-
     <com.resistance.theresistance.views.PlayerView
         android:layout_width="400dp"
         android:layout_height="400dp"
@@ -28,9 +26,155 @@
     <com.resistance.theresistance.views.MissionTracker
         android:id="@+id/missiontracker"
         android:layout_marginTop="75dp"
-        android:layout_alignBottom="@id/playerview"
+        android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <com.resistance.theresistance.views.MyTextView
+        android:id="@+id/waiting_for_mission_leader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/waiting_for_mission_leader"
+        android:layout_below="@+id/playerview"
+        android:layout_alignStart="@+id/game_play_room_name"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:visibility="gone" />
+
+    <com.resistance.theresistance.views.MyTextView
+        android:id="@+id/please_wait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/please_wait"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:visibility="gone"/>
+
+    <com.resistance.theresistance.views.MyTextView
+        android:id="@+id/waiting_for_votes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/waiting_for_votes"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/select_missionaries"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone">
+
+        <com.resistance.theresistance.views.MyTextView
+            android:id="@+id/select_missionaries_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select missionaries"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_centerHorizontal="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/select_missionaries_text"
+            android:layout_centerHorizontal="true"
+            android:text="@string/done_choosing"
+            android:id="@+id/button" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/vote_for_mission"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone">
+        <com.resistance.theresistance.views.MyTextView
+            android:id="@+id/vote_on_mission_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/you_the_missionaries"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/success"
+            android:text="@string/success"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/vote_on_mission_text"
+            android:layout_toLeftOf="@+id/centerPoint" />
+
+        <TextView
+            android:id="@+id/centerPoint"
+            android:text=""
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vote_on_mission_text"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/failure"
+            android:text="@string/failure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/vote_on_mission_text"
+            android:layout_toRightOf="@+id/centerPoint" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/vote_for_missionaries"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible">
+        <com.resistance.theresistance.views.MyTextView
+            android:id="@+id/vote_on_missionaries_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/do_you_accept"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/accept"
+            android:text="@string/accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/vote_on_missionaries_text"
+            android:layout_toLeftOf="@+id/centerPoint2" />
+
+        <TextView
+            android:id="@+id/centerPoint2"
+            android:text=""
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vote_on_missionaries_text"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/reject"
+            android:text="@string/reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/vote_on_missionaries_text"
+            android:layout_toRightOf="@+id/centerPoint2" />
+    </RelativeLayout>
 
 </RelativeLayout>
