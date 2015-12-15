@@ -110,10 +110,10 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      */
 
     private void handleLeader() {
-        Log.d("handleLeader", gameName);
+        resetBottomQuarterViews();
 
         String currentLeader = GameController.getCurrentMission(gameName).getCurrentMissionLeader();
-        // Do something to change position of little star
+        // Change position of little star
         playerNames = GameController.updatePlayers(gameName);
 
         int id = getLayoutIdForPlayer(currentLeader);
@@ -133,6 +133,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
             this.numPlayersOnMission = GameController.getMissionariesRequired(gameName);
             Log.d("handleLeader numPlayers", String.valueOf(numPlayersOnMission));
             //Change visibilities for Mission Leader, with number of missionaries that need to be chosen
+            v.findViewById(R.id.select_missionaries).setVisibility(View.VISIBLE);
 
         } else {
             //Change visibilities for waiting for mission leader to choose
@@ -149,6 +150,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Handles when a leader is choosing missionaries.
      */
     public void leaderChoosingMissionaries() {
+        resetBottomQuarterViews();
 
         //take in clicks for players who the leader chooses, make sure it is the right number, numPlayersOnMission
         final ArrayList<String> chosenMissionaries = new ArrayList<>();
@@ -169,6 +171,8 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         GameController.changeState(gameName, Game.State.VOTE_FOR_MISSIONARIES);
 
         //change visibilities to "please wait"
+        MyTextView pleaseWait = (MyTextView) v.findViewById(R.id.please_wait);
+        pleaseWait.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -177,8 +181,11 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * @param missionaryTeam the chosen missionaries
      */
     public void changeToVoteForMissionaries(List<String> missionaryTeam) {
+        resetBottomQuarterViews();
         //VISIBILITIES FOR DISPLAYING BUTTONS FOR VOTING FOR YES OR NO
+        v.findViewById(R.id.vote_for_missionaries).setVisibility(View.VISIBLE);
         //VISIBILITIES FOR DISPLAYING CHOSEN MISSIONARY TEAM
+
         GameTimer.everyoneDoneVoting(this, gameName);
     }
 
@@ -186,7 +193,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Called when a player clicks "Accept" when voting for a Missionary team.
      */
     public void acceptMissionaryTeam() {
+        resetBottomQuarterViews();
         // switch to visibilities for waiting for everyone to finish voting
+        v.findViewById(R.id.waiting_for_votes).setVisibility(View.VISIBLE);
         boolean vote = true;
         GameController.addVoteForMissionaries(vote, gameName, playerName);
     }
@@ -195,7 +204,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Called when a player clicks "Reject" when voting for a Missionary team.
      */
     public void rejectMissionaryTeam() {
+        resetBottomQuarterViews();
         // switch to visibilities for waiting for everyone to finish voting
+        v.findViewById(R.id.waiting_for_votes).setVisibility(View.VISIBLE);
         boolean vote = false;
         GameController.addVoteForMissionaries(vote, gameName, playerName);
     }
@@ -212,10 +223,13 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Handles the missionary, displays pass/fail buttons.
      */
     private void handleMissionary() {
+        resetBottomQuarterViews();
         if (GameController.checkMissionary(gameName, playerName)) {
             //Change visibilities for Missionary, see pass/fail buttons
+            v.findViewById(R.id.vote_for_mission).setVisibility(View.VISIBLE);
         } else {
             //change visibilities to waiting for missionaries to vote
+            v.findViewById(R.id.waiting_for_votes).setVisibility(View.VISIBLE);
         }
     }
 
@@ -223,7 +237,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Called when a Missionary clicks "PASS" when going on a Mission.
      */
     public void passMission() {
+        resetBottomQuarterViews();
         // switch to visibilities for waiting for other missionaries
+        v.findViewById(R.id.waiting_for_other_missionaries).setVisibility(View.VISIBLE);
         boolean vote = true;
         GameController.addPassFailForMission(true, gameName);
     }
@@ -232,7 +248,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Called when a Missionary clicks "FAIL" when going on a Mission.
      */
     public void failMission() {
+        resetBottomQuarterViews();
         // TBD switch to visibilities for waiting for other missionaries
+        v.findViewById(R.id.waiting_for_other_missionaries).setVisibility(View.VISIBLE);
         boolean vote = false;
         GameController.addPassFailForMission(false, gameName);
     }
@@ -258,8 +276,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      */
     public void showMissionPassed(int missionNum) {
         Toast.makeText(this.getActivity(), "The Mission passed!", Toast.LENGTH_SHORT).show();
+        //SHOW THAT THE MISSION PASSED AT THE CERTAIN MISSION NUMBER
         missionTracker.changeIconColor(missionNum, true);
-        //DO SOMETHING IN THE LITTLE THING IN THE MIDDLE TO SHOW THAT THE MISSION PASSED AT THE CERTAIN MISSION NUMBER
+
 
     }
 
@@ -270,8 +289,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      */
     public void showMissionFailed(int missionNum) {
         Toast.makeText(this.getActivity(), "The Mission failed!", Toast.LENGTH_SHORT).show();
+        //SHOW THAT THE MISSION FAILED AT THE CERTAIN MISSION NUMBER
         missionTracker.changeIconColor(missionNum, false);
-        //DO SOMETHING IN THE LITTLE THING IN THE MIDDLE TO SHOW THAT THE MISSION FAILED AT THE CERTAIN MISSION NUMBER
+
     }
 
     /**
@@ -336,5 +356,28 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         int id = res.getIdentifier(indexString, "id", this.getContext().getPackageName());
 
         return id;
+    }
+
+    public void resetBottomQuarterViews(){
+        ArrayList<MyTextView> views= new ArrayList<MyTextView>();
+        ArrayList<RelativeLayout> rlayouts = new ArrayList<RelativeLayout>();
+
+        views.add((MyTextView)v.findViewById(R.id.waiting_for_mission_leader));
+        views.add((MyTextView)v.findViewById(R.id.please_wait));
+        views.add((MyTextView)v.findViewById(R.id.waiting_for_votes));
+
+        rlayouts.add((RelativeLayout)v.findViewById(R.id.select_missionaries));
+        rlayouts.add((RelativeLayout)v.findViewById(R.id.vote_for_mission));
+        rlayouts.add((RelativeLayout)v.findViewById(R.id.vote_for_missionaries));
+
+        for (MyTextView view : views){
+            view.setVisibility(View.GONE);
+        }
+        for (RelativeLayout layout : rlayouts){
+            layout.setVisibility(View.GONE);
+        }
+
+
+
     }
 }

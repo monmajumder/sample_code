@@ -27,6 +27,7 @@
     <string name="title_activity_end_game">EndGameActivity</string>
     <string name="please_wait">Please wait...</string>
     <string name="waiting_for_votes">Waiting for other players to vote...</string>
+    <string name="waiting_for_other_missionaries">Waiting for the other missionaries to vote...</string>
     <string name="done_choosing">Done Selecting</string>
     <string name="failure">Failure</string>
     <string name="success">Success</string>
