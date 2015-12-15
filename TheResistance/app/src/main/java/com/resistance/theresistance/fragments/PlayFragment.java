@@ -134,6 +134,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
             Log.d("handleLeader numPlayers", String.valueOf(numPlayersOnMission));
             //Change visibilities for Mission Leader, with number of missionaries that need to be chosen
             v.findViewById(R.id.select_missionaries).setVisibility(View.VISIBLE);
+            leaderChoosingMissionaries();
 
         } else {
             //Change visibilities for waiting for mission leader to choose
