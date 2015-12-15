@@ -68,7 +68,11 @@ public class PlayerNameHandler {
     private static void createNewParsePlayerObject(String playerName) {
         Player object = new Player();
         object.setUsername(playerName);
-        object.saveInBackground();
+        try {
+            object.save();
+        } catch (ParseException e) {
+            Log.d("Parse", "Object not saved");
+        }
     }
 
     /**

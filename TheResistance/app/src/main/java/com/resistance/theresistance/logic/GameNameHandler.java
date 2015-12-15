@@ -81,7 +81,7 @@ public class GameNameHandler {
                 tooManyPlayers(activity);
             } else {
                 addPlayerToGame(object, playerName);
-                object.saveInBackground();
+                object.save();
                 startActivity();
             }
         } catch (ParseException e) {
@@ -110,7 +110,7 @@ public class GameNameHandler {
             newGame.setKeyword(keyword);
             newGame.setHost(player);
             newGame.addPlayer((Player) object);
-            newGame.saveInBackground();
+            newGame.save();
 
         } catch (ParseException e) {
             Log.d("createNewGame player", "The retrieval failed");
@@ -131,7 +131,7 @@ public class GameNameHandler {
             ParseObject object = query.getFirst();
             Log.d("addPlayerToGame player", "The retrieval succeeded");
             gameObject.addPlayer((Player) object);
-            gameObject.saveInBackground();
+            gameObject.save();
         } catch (ParseException e) {
             Log.d("addPlayerToGame player", "The retrieval failed");
         }
