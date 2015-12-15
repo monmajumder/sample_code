@@ -41,7 +41,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     public MissionTracker missionTracker;
     public RelativeLayout relativeLayout;
     public RelativeLayout playFragmentLayout;
-    public View view;
+    private View v;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
         ((com.resistance.theresistance.views.MyTextView) view.findViewById(R.id.game_play_room_name)).setText(gameRoomStr);
 
-        this.view = view;
+        this.v = view;
 
         handleResistanceOrSpy();
         changeToMissionLeaderChoosing();
@@ -148,7 +148,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
             for (String player : playerNames) {
                 playerSelectionOff(player);
             }
-            MyTextView waitingText = (MyTextView) view.findViewById(R.id.waiting_for_mission_leader);
+            MyTextView waitingText = (MyTextView) v.findViewById(R.id.waiting_for_mission_leader);
             waitingText.setVisibility(View.VISIBLE);
 
         }
