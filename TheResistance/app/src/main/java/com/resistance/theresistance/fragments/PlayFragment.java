@@ -132,17 +132,13 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         starParams.addRule(RelativeLayout.BELOW, tv.getId());
         relativeLayout.addView(star, starParams);
 
-        playerSelectionOn(currentLeader);
-
 
 
         if (GameController.checkLeader(gameName, playerName)) {
             this.numPlayersOnMission = GameController.getMissionariesRequired(gameName);
             Log.d("handleLeader numPlayers", String.valueOf(numPlayersOnMission));
             //Change visibilities for Mission Leader, with number of missionaries that need to be chosen
-            for (String player : playerNames) {
-                playerSelectionOn(player);
-            }
+
         } else {
             //Change visibilities for waiting for mission leader to choose
             for (String player : playerNames) {
@@ -158,14 +154,25 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Handles when a leader is choosing missionaries.
      */
     public void leaderChoosingMissionaries() {
-        //somehow take in clicks for players who the leader chooses, make sure it is the right number, numPlayersOnMission
-        ArrayList<String> chosenMissionaries = new ArrayList<>();
+
+        //take in clicks for players who the leader chooses, make sure it is the right number, numPlayersOnMission
+        final ArrayList<String> chosenMissionaries = new ArrayList<>();
+
+        for (String player : playerNames) {
+            playerSelectionOn(player, chosenMissionaries);
+        }
+
         if (chosenMissionaries.size() != this.numPlayersOnMission) {
             Toast.makeText(this.getActivity(), "Please choose exactly " + String.valueOf(this.numPlayersOnMission) + " players.", Toast.LENGTH_SHORT).show();
-            //somehow redo taking in the clicks for the players
+            chosenMissionaries.clear();
+            for (String player : playerNames) {
+                playerSelectionOff(player);
+            }
+
         }
         GameController.addChosenMissionaries(gameName, chosenMissionaries);
         GameController.changeState(gameName, Game.State.VOTE_FOR_MISSIONARIES);
+
         //change visibilities to "please wait"
     }
 
@@ -284,7 +291,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         this.getContext().startActivity(intent);
     }
 
-    public void playerSelectionOn(String playerName) {
+    public void playerSelectionOn(final String playerName, final ArrayList<String> chosenMissionaries) {
 
         ImageView iv = getImageViewFor(playerName);
 
@@ -294,9 +301,11 @@ public class PlayFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
 
                 if (clicked) {
+                    chosenMissionaries.add(playerName);
                     v.setBackgroundResource(R.drawable.playerborder);
                     clicked = false;
                 } else if (!clicked) {
+                    chosenMissionaries.remove(playerName);
                     v.setBackgroundResource(R.drawable.blank_transparency);
                     clicked = true;
                 }
@@ -308,6 +317,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     public void playerSelectionOff(String playerName){
 
         ImageView iv = getImageViewFor(playerName);
+        iv.setBackgroundResource(R.drawable.blank_transparency);
 
         iv.setOnClickListener(null);
 
