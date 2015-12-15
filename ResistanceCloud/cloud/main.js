@@ -91,9 +91,10 @@ function getMissionaryNames(round) {
 }
 
 function getNumMissionaries(mission) {
-  var missionaries = [];
   var rounds = mission.get("Rounds");
   var round = rounds[rounds.length -1];
+  console.log("round: " + round);
+  console.log("missionary array in round: " + round.get("Missionaries"));
   if (isDefined(round.get("Missionaries")))
     return round.get("Missionaries").length;
   else {
@@ -143,19 +144,18 @@ var actuallyAddMissionVote = function(game, vote) {
   console.log("missions: " + missions);
   var currentMission = missions[missions.length-1];
   console.log("currentMission:" + currentMission);
-  var numPass = currentMission.get("Pass");
-  var numFail = currentMission.get("Fail");
-  //add vote
+  var numPass = isDefined(currentMission.get("Pass")) ? currentMission.get("Pass") : 0;
+  var numFail = isDefined(currentMission.get("Fail")) ? currentMission.get("Fail") : 0;
   if (vote)
     currentMission.set("Pass", ++numPass);
   else {
     currentMission.set("Fail", ++numFail);
-    console.log("adding a fail vote");
+    console.log("adding a fail vote, there are now " + numFail + " fail votes");
   }
 
   //calculate number of players and votes
   var numVotes = numPass + numFail;
-
+  console.log("calling votingFinished with " + numVotes + " votes");
   if (votingFinished(currentMission,numVotes)) { //voting finished. update mission
     if (numFail == 0) 
       currentMission.set("Passed", true);
@@ -173,6 +173,7 @@ var actuallyAddMissionVote = function(game, vote) {
 }
 
 function votingFinished(currentMission, numVotes) {
+  console.log("checking if voting finished: " + getNumMissionaries(currentMission) + " missionaries and " + numVotes + " votes.");
   return (numVotes >= getNumMissionaries(currentMission)); //tbd: actually check how many missionaries are on the team
 }
 
@@ -314,6 +315,7 @@ function gameIsOver(game) {
 //checks if game is over
 //changes the game status if it is
 function checkIfGameOver(game) {
+  console.log("checking if game is over");
   var missions = game.get("Missions");
   var numMissionsPassed = 0;
   var numMissionsFailed = 0;
@@ -328,6 +330,7 @@ function checkIfGameOver(game) {
     return changeGameStatus(game, "RESISTANCE_WINS");
   }
   else if (numMissionsFailed >= 3) {
+    console.log("changing game status to spies win");
     return changeGameStatus(game, "SPIES_WIN");
   }
   else
