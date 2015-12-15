@@ -140,6 +140,14 @@ public class Mission extends ParseObject {
         return getBoolean("Passed");
     }
 
+    /**
+     * Sets whether or not a mission passed
+     * @param passed True if a mission passed, false if it failed
+     */
+    public void setPassed(boolean passed) {
+        put("Passed", passed);
+    }
+
     //DELETE
     public String getId() {
         return getObjectId();

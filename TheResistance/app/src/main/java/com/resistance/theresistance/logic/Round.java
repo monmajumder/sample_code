@@ -101,4 +101,20 @@ public class Round extends ParseObject {
         put("Dissentors", noVotes);
     }
 
+    /**
+     * Gets the missionaries accepted boolean
+     * @return True if accepted, false otherwise.
+     */
+    public boolean getMissionariesAccepted() {
+        return getBoolean("MissionariesAccepted");
+    }
+
+    /**
+     * Sets the missionaries accepted boolean
+     * @param accepted True if accepted, false otherwise.
+     */
+    public void setMissionariesAccepted(boolean accepted) {
+        put("MissionariesAccepted", accepted);
+    }
+
 }
