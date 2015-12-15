@@ -23,27 +23,30 @@ import org.junit.Test;
 @RunWith(Theories.class)
 public class PlayerNameHandlerTest extends ActivityInstrumentationTestCase2<MainActivity>{
 
+    private MainActivity mMainActivity;
+
     public PlayerNameHandlerTest(){
         super(MainActivity.class);
     }
 
-    public PlayerNameHandler data(){
+
+/*    public PlayerNameHandler data(){
         return new PlayerNameHandler(getActivity());
     }
 
-    /**
+    *//**
      * Creates GameNameHandler
-     */
+     *//*
     @DataPoint
     public static PlayerNameHandler dataP(){
         PlayerNameHandlerTest p = new PlayerNameHandlerTest();
         return p.data();
     }
 
-    /**
+    *//**
      * Verifying that the createGame works
      *@param pnh the GameNameHandler to be tested
-     */
+     *//*
     @Theory @Test
     public void createGameHandlerTest(PlayerNameHandler pnh){
         String pName = "Mindy";
@@ -65,6 +68,6 @@ public class PlayerNameHandlerTest extends ActivityInstrumentationTestCase2<Main
             exception = true;
         }
         assertFalse(exception);
-    }
+    }*/
 
 }

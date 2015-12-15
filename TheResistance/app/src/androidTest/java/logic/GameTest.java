@@ -66,7 +66,7 @@ public class GameTest {
      * Tests get current leader.
      */
     @Test
-    public void getCurrentLeader() {
+    public void testGetCurrentLeader() {
         Game game = new Game();
         Mission mission = new Mission();
         Round round = new Round();
@@ -94,7 +94,7 @@ public class GameTest {
      * Tests get current mission number.
      */
     @Test
-    public void getCurrentMissionNumber() {
+    public void testGetCurrentMissionNumber() {
         Game game = new Game();
         Mission mission1 = new Mission();
         Mission mission2 = new Mission();
