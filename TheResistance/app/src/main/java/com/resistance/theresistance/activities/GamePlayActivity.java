@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.fragments.HistoryFragment;
@@ -44,6 +46,11 @@ public class GamePlayActivity extends FragmentActivity {
      */
     private ViewPager _viewPager;
 
+    //DELETE MAYBES.
+    private PlayFragment playFragment;
+    private HistoryFragment historyFragment;
+
+
     /**
      * List of fragments.
      */
@@ -53,9 +60,12 @@ public class GamePlayActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
 
+        this.playFragment = new PlayFragment();
+        this.historyFragment = new HistoryFragment();
+
         // Create fragments.
-        _fragments.add(FRAGMENT_ONE, new PlayFragment());
-        _fragments.add(FRAGMENT_TWO, new HistoryFragment());
+        _fragments.add(FRAGMENT_ONE, this.playFragment);
+        _fragments.add(FRAGMENT_TWO, this.historyFragment);
 
         // Setup the fragments, defining the number of fragments, the screens and titles.
         _fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -63,6 +73,7 @@ public class GamePlayActivity extends FragmentActivity {
             public int getCount() {
                 return FRAGMENTS;
             }
+
 
             @Override
             public Fragment getItem(final int position) {
@@ -86,27 +97,22 @@ public class GamePlayActivity extends FragmentActivity {
     }
 
     public void leaderChoosingMissionaries(View v) {
-        PlayFragment fragment = (PlayFragment) this.getSupportFragmentManager().findFragmentByTag("play_fragment");
-        fragment.leaderChoosingMissionaries(v);
+        playFragment.leaderChoosingMissionaries(v);
     }
 
     public void acceptMissionaryTeam(View v) {
-        PlayFragment fragment = (PlayFragment) this.getSupportFragmentManager().findFragmentByTag("play_fragment");
-        fragment.acceptMissionaryTeam(v);
+        playFragment.acceptMissionaryTeam(v);
     }
 
     public void rejectMissionaryTeam(View v) {
-        PlayFragment fragment = (PlayFragment) this.getSupportFragmentManager().findFragmentByTag("play_fragment");
-        fragment.rejectMissionaryTeam(v);
+        playFragment.rejectMissionaryTeam(v);
     }
 
     public void passMission(View v) {
-        PlayFragment fragment = (PlayFragment) this.getSupportFragmentManager().findFragmentByTag("play_fragment");
-        fragment.passMission(v);
+        playFragment.passMission(v);
     }
 
     public void failMission(View v) {
-        PlayFragment fragment = (PlayFragment) this.getSupportFragmentManager().findFragmentByTag("play_fragment");
-        fragment.failMission(v);
+        playFragment.failMission(v);
     }
 }
