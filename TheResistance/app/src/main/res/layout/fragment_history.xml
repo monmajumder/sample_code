@@ -10,6 +10,6 @@
             android:id="@+id/Table"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-    </TableLayout>
+        </TableLayout>
     </HorizontalScrollView>
 </ScrollView>
