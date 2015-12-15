@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.resistance.theresistance.R;
@@ -111,7 +112,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     /**
      * Handles the leader, displays the start button if leader.
      */
-
     private void handleLeader() {
         resetBottomQuarterViews();
 
@@ -130,14 +130,14 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         starParams.addRule(RelativeLayout.BELOW, tv.getId());
         relativeLayout.addView(star, starParams);
 
-
-
         if (GameController.checkLeader(gameName, playerName)) {
             this.numPlayersOnMission = GameController.getMissionariesRequired(gameName);
 
             chosenMissionaries = new ArrayList<>();
 
             //Change visibilities for Mission Leader, with number of missionaries that need to be chosen
+            MyTextView view = (MyTextView) v.findViewById(R.id.select_missionaries_text);
+            view.setText("Please choose " + this.numPlayersOnMission + " missionaries.");
             v.findViewById(R.id.select_missionaries).setVisibility(View.VISIBLE);
 
             // take in clicks for players who the leader chooses
