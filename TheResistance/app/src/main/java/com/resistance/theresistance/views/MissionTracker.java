@@ -8,31 +8,40 @@ import android.widget.RelativeLayout;
 
 import com.resistance.theresistance.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by jwagner on 12/11/15.
  */
 public class MissionTracker extends RelativeLayout{
+
+    ArrayList<ImageView> missionIconViews = new ArrayList<>();
+    ArrayList<Integer> passIconIds = new ArrayList<>();
+    ArrayList<Integer> failIconIds = new ArrayList<>();
+
     public MissionTracker(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        setIconIds();
 
         TypedArray missionIcons = getResources().obtainTypedArray(R.array.mission_imgs);
         TypedArray iconIDs = getResources().obtainTypedArray(R.array.mission_icon_ids);
 
-        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        LayoutParams imageParams = new LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT);
 
-        RelativeLayout.LayoutParams imageParams2 = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        LayoutParams imageParams2 = new LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT);
 
-        RelativeLayout.LayoutParams imageParams3 = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        LayoutParams imageParams3 = new LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT);
 
-        RelativeLayout.LayoutParams imageParams4 = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        LayoutParams imageParams4 = new LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT);
 
         ImageView iv1 = new ImageView(this.getContext());
         iv1.setId(iconIDs.getResourceId(0, -1));
@@ -62,12 +71,43 @@ public class MissionTracker extends RelativeLayout{
         imageParams4.addRule(RelativeLayout.RIGHT_OF, iv4.getId());
         iv5.setLayoutParams(imageParams4);
 
+        missionIconViews.add(iv1);
+        missionIconViews.add(iv2);
+        missionIconViews.add(iv3);
+        missionIconViews.add(iv4);
+        missionIconViews.add(iv5);
 
         this.addView(iv1);
         this.addView(iv2);
         this.addView(iv3);
         this.addView(iv4);
         this.addView(iv5);
+    }
+
+    public void changeIconColor (int missNum, boolean pass) {
+        if (pass) {
+            missionIconViews.get(missNum-1).setImageResource(passIconIds.get(missNum - 1));
+        }
+        else {
+            missionIconViews.get(missNum-1).setImageResource(failIconIds.get(missNum-1));
+        }
+    }
+
+    private void setIconIds () {
+
+        //Set pass icon id arraylist
+        passIconIds.add(R.drawable.mission_icon_1_won);
+        passIconIds.add(R.drawable.mission_icon_2_won);
+        passIconIds.add(R.drawable.mission_icon_3_won);
+        passIconIds.add(R.drawable.mission_icon_4_won);
+        passIconIds.add(R.drawable.mission_icon_5_won);
+
+        //Set fail icon id arraylist
+        failIconIds.add(R.drawable.mission_icon_1_lost);
+        failIconIds.add(R.drawable.mission_icon_2_lost);
+        failIconIds.add(R.drawable.mission_icon_3_lost);
+        failIconIds.add(R.drawable.mission_icon_4_lost);
+        failIconIds.add(R.drawable.mission_icon_5_lost);
     }
 
 }
