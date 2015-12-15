@@ -107,10 +107,11 @@ public class GameTimer {
                             HistoryFragment history = activity.getHistoryFragment();
                             Round round;
 
-                            //Check if a new mission was created
+                            //Check if a new mission was created (check if mission team was rejected 5 times in a row)
                             if (GameController.getCurrentMission(game).getRounds().size() == 1) {
                                 round = GameController.getGame(game).getPreviousMission().getCurrentRound();
-                                history.addRoundInNewMission(round);
+                                history.addRound(round);
+                                thisFragment.showMissionFailedFiveRejects(GameController.getGame(game).getMissions().size()-1);
                             } else {
                                 round = GameController.getCurrentMission(game).getPreviousRound();
                                 if (GameController.getCurrentMission(game).getRounds().size() == 2) {
@@ -118,9 +119,9 @@ public class GameTimer {
                                 } else {
                                     history.addRound(round);
                                 }
+                                thisFragment.showMissionTeamRejected();
                             }
 
-                            thisFragment.showMissionTeamRejected();
                             thisFragment.changeToMissionLeaderChoosing();
                             Log.d("TIMER CHECK", "I AM DONE");
                         } else if (GameController.ifEveryoneDoneVoting(thisFragment, game) == Game.State.MISSIONARIES_VOTING) {
