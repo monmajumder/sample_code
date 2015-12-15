@@ -23,7 +23,9 @@
     <string name="spies_win">Spies Win</string>
     <string name="resistance_wins">Resistance Wins</string>
 
-<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_end_game">EndGameActivity</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="waiting_for_votes">Waiting for other players to vote...</string>
+    <string name="done_choosing">Done Choosing</string>
 </resources>
