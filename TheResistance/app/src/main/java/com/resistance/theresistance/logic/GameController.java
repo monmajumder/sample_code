@@ -196,6 +196,8 @@ public class GameController {
     public static int getMissionariesRequired(String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
+        query.include("Missions");
+        query.include("Missions.Rounds");
         try {
             ParseObject object = query.getFirst();
             Log.d("getMissionariesRequired", "The retrieval succeeded");
@@ -218,6 +220,8 @@ public class GameController {
     public static boolean checkMissionary(String gameName, String playerName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
+        query.include("Missions");
+        query.include("Missions.Rounds");
         try {
             ParseObject object = query.getFirst();
             Log.d("checkMissionary game", "The retrieval succeeded");
@@ -242,15 +246,16 @@ public class GameController {
         query.whereEqualTo("Name", gameName);
         try {
             ParseObject object = query.getFirst();
-            Log.d("checkStarted game", "The retrieval succeeded");
+            Log.d("checkMissLDone game", "The retrieval succeeded");
             Game gameObject = (Game) object;
+            Log.d("checkMISSDONE", String.valueOf(gameObject.getGameState()));
             if (gameObject.getGameState() == Game.State.MISSION_LEADER_CHOOSING) {
                 return false;
             }
             //add exceptions for wrong state
             return true;
         } catch (ParseException e) {
-            Log.d("checkStarted game", "The retrieval failed");
+            Log.d("checkMissLDone game", "The retrieval failed");
             return false;
         }
     }
@@ -282,13 +287,22 @@ public class GameController {
      * @param missionaries List of player names who were chosen to be missionaries
      */
     public static void addChosenMissionaries(String gameName, ArrayList<String> missionaries) {
+
+        for (String p : missionaries) {
+            Log.d("missionary",p);
+        }
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
+        query.include("Missions");
+        query.include("Missions.Rounds");
         try {
             ParseObject object = query.getFirst();
             Log.d("getCurrentMission game", "The retrieval succeeded");
             Game gameObject = (Game) object;
             gameObject.getCurrentMission().getCurrentRound().setMissionaries(missionaries);
+            gameObject.save();
+
         } catch (ParseException e) {
             Log.d("getCurrentMission game", "The retrieval failed");
         }
@@ -302,6 +316,8 @@ public class GameController {
     public static List<String> getChosenMissionaries(String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
+        query.include("Missions");
+        query.include("Missions.Rounds");
         try {
             ParseObject object = query.getFirst();
             Log.d("getCurrentMission game", "The retrieval succeeded");
@@ -382,6 +398,8 @@ public class GameController {
     public static Game.State ifMissionariesDoneVoting(PlayFragment fragment, String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
+        query.include("Missions");
+        query.include("Missions.Rounds");
         try {
             ParseObject object = query.getFirst();
             Log.d("playGame game", "The retrieval succeeded");
@@ -417,6 +435,7 @@ public class GameController {
             Log.d("changeState game", "The retrieval succeeded");
             Game gameObject = (Game) object;
             gameObject.setGameState(state);
+            gameObject.save();
         } catch (ParseException e) {
             Log.d("changeState game", "The retrieval failed");
         }

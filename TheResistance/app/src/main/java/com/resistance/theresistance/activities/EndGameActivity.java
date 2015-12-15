@@ -27,11 +27,11 @@ public class EndGameActivity extends AppCompatActivity {
 
     private void visibility(String s) {
         if (winner == "Resistance") {
-            TextView view = (TextView)findViewById(R.id.spies_wintextview);
+            TextView view = (TextView)findViewById(R.id.resistance_winstextview);
             view.setVisibility(View.VISIBLE);
         }
         else {
-            TextView view = (TextView)findViewById(R.id.resistance_winstextview);
+            TextView view = (TextView)findViewById(R.id.spies_wintextview);
             view.setVisibility(View.VISIBLE);
         }
 

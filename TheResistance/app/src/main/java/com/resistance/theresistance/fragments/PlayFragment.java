@@ -160,18 +160,24 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Handles when a leader is choosing missionaries.
      */
     public void leaderChoosingMissionaries(View view) {
-        resetBottomQuarterViews();
+        //resetBottomQuarterViews(); //DELETE
 
         // make sure chosen missionaries is the right number, numPlayersOnMission
 
         if (chosenMissionaries.size() != this.numPlayersOnMission) {
             Toast.makeText(this.getActivity(), "Please choose exactly " + String.valueOf(this.numPlayersOnMission) + " players.", Toast.LENGTH_SHORT).show();
             chosenMissionaries.clear();
+            return;
+            /**
             for (String player : playerNames) {
                 playerSelectionOff(player);
-            }
-
+            }**/
         }
+        resetBottomQuarterViews();
+        for (String player : playerNames) {
+            playerSelectionOff(player);
+        }
+
         GameController.addChosenMissionaries(gameName, chosenMissionaries);
         GameController.changeState(gameName, Game.State.VOTE_FOR_MISSIONARIES);
 
@@ -370,6 +376,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         views.add((MyTextView)v.findViewById(R.id.waiting_for_mission_leader));
         views.add((MyTextView)v.findViewById(R.id.please_wait));
         views.add((MyTextView)v.findViewById(R.id.waiting_for_votes));
+        views.add((MyTextView)v.findViewById(R.id.waiting_for_other_missionaries));
 
         rlayouts.add((RelativeLayout)v.findViewById(R.id.select_missionaries));
         rlayouts.add((RelativeLayout) v.findViewById(R.id.vote_for_mission));
@@ -381,8 +388,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         for (RelativeLayout layout : rlayouts){
             layout.setVisibility(View.GONE);
         }
-
-
 
     }
 }
