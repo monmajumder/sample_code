@@ -4,10 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 /**
- * Player class is responsible for creating the Player object,
- * and letting Players vote
- * @author Group 11
- *
+ * Player class is responsible for a single player. Keeps track of username and Player type - resistor or spy.
  */
 
 @ParseClassName("PlayerObject")

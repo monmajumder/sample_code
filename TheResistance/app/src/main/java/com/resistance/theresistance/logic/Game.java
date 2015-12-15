@@ -1,7 +1,5 @@
 package com.resistance.theresistance.logic;
 
-import android.util.Log;
-
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -9,13 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Game class where players will be able to join a game
- * by entering the "keyword" associated with game object.
- * GameController is in charge of adding players to Game.
- * @author Group 11
- *
+ * Game class that represents 1 game room. In charge of adding players.
  */
-
 @ParseClassName("GameObject")
 public class Game extends ParseObject {
 
@@ -81,7 +74,6 @@ public class Game extends ParseObject {
     public int getCurrentMissionNumber() {
         return getMissions().size();
     }
-
 
     //-----------------------------------------------
     // Getter and Setter Methods

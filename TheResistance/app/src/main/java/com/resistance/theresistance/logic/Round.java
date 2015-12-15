@@ -8,12 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Round class is in charge of storing each Round of
- * Mission. Purpose is to have an object that contains
- * all the information for each Mission round, that can be
- * stored in Mission more easily.
- * @author Group 11
- *
+ * Round class is in charge of storing each Round of a mission. A new round is started every time there is a new mission leader.
  */
 @ParseClassName("RoundObject")
 public class Round extends ParseObject {

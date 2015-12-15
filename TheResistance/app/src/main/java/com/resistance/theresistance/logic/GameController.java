@@ -373,6 +373,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles if all the missionaries are done voting
+     * @param fragment PlayFragment
+     * @param gameName Name of the game
+     * @return State of the game if the missionaries are done voting
+     */
     public static Game.State ifMissionariesDoneVoting(PlayFragment fragment, String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
