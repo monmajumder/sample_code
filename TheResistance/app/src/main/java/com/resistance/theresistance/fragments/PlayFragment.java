@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.resistance.theresistance.R;
@@ -26,8 +25,6 @@ import com.resistance.theresistance.views.PlayerView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.support.v4.app.Fragment;
 
 /**
  * Fragment that shows the Game Play.
