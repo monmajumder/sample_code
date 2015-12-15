@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.fragments.HistoryFragment;
@@ -84,4 +85,28 @@ public class GamePlayActivity extends FragmentActivity {
         _viewPager.setAdapter(_fragmentPagerAdapter);
     }
 
+    public void leaderChoosingMissionaries(View v) {
+        PlayFragment fragment = (PlayFragment) this.getSupportFragmentManager().findFragmentByTag("play_fragment");
+        fragment.leaderChoosingMissionaries(v);
+    }
+
+    public void acceptMissionaryTeam(View v) {
+        PlayFragment fragment = (PlayFragment) this.getSupportFragmentManager().findFragmentByTag("play_fragment");
+        fragment.acceptMissionaryTeam(v);
+    }
+
+    public void rejectMissionaryTeam(View v) {
+        PlayFragment fragment = (PlayFragment) this.getSupportFragmentManager().findFragmentByTag("play_fragment");
+        fragment.rejectMissionaryTeam(v);
+    }
+
+    public void passMission(View v) {
+        PlayFragment fragment = (PlayFragment) this.getSupportFragmentManager().findFragmentByTag("play_fragment");
+        fragment.passMission(v);
+    }
+
+    public void failMission(View v) {
+        PlayFragment fragment = (PlayFragment) this.getSupportFragmentManager().findFragmentByTag("play_fragment");
+        fragment.failMission(v);
+    }
 }
