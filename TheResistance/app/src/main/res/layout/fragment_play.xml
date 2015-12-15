@@ -31,17 +31,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <TextView
+    <com.resistance.theresistance.views.MyTextView
         android:id="@+id/waiting_for_mission_leader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Waiting for mission leader to select missionaries"
+        android:text="@string/waiting_for_mission_leader"
         android:layout_below="@+id/playerview"
         android:layout_alignStart="@+id/game_play_room_name"
         android:textSize="20sp"
         android:textAlignment="center"
         android:gravity="center_vertical|center_horizontal"
-        android:visibility="visible"/>
+        android:visibility="gone"
+        android:textIsSelectable="false" />
+
+    <com.resistance.theresistance.views.MyTextView
+        android:id="@+id/please_wait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/please_wait"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:visibility="gone"/>
+
+    <com.resistance.theresistance.views.MyTextView
+        android:id="@+id/waiting_for_votes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/waiting_for_votes"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        android:visibility="visible" />
+
 
 </RelativeLayout>
