@@ -355,7 +355,7 @@ public class GameController {
      * @param gameName Name of game
      * @return Game State Enum, Mission leader choosing or missionaries voting
      */
-    public static Game.State ifEveryoneDoneVoting(String gameName) {
+    public static Game.State ifEveryoneDoneVoting(PlayFragment fragment, String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
         try {
