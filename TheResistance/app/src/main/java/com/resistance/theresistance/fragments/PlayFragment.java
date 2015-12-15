@@ -190,7 +190,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         //VISIBILITIES FOR DISPLAYING CHOSEN MISSIONARY TEAM
         MyTextView view =(MyTextView) v.findViewById(R.id.vote_for_missionaries).findViewById(R.id.vote_on_missionaries_text);
         String missionaries = chosenMissionariesToString(missionaryTeam);
-        view.setText(R.string.do_you_accept + missionaries + "?");
+        Log.d("MISSIONARIESSSSSS", missionaries);
+        view.setText("Do you accept " + missionaries + " as the missionary team?");
+
          //VISIBILITIES FOR DISPLAYING BUTTONS FOR VOTING FOR YES OR NO
         v.findViewById(R.id.vote_for_missionaries).setVisibility(View.VISIBLE);
 
@@ -395,10 +397,15 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         }
 
     }
-    
+
+    /**
+     * Concatenates the names of the chosen missionaries to a string.
+     * @param chosenMissionaries List of chosen missionaries
+     * @return String of chosen missionary names
+     */
     public String chosenMissionariesToString(List<String> chosenMissionaries){
         String string = "";
-        for (int i = 0; i < chosenMissionaries.size()-1; i++) {
+        for (int i = 0; i < chosenMissionaries.size(); i++) {
             string += chosenMissionaries.get(i) + ", ";
         }
         return string;
