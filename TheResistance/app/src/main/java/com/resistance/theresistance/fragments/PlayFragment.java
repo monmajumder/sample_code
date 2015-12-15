@@ -286,13 +286,11 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         Toast.makeText(this.getActivity(), "The Mission passed!", Toast.LENGTH_SHORT).show();
         //SHOW THAT THE MISSION PASSED AT THE CERTAIN MISSION NUMBER
         missionTracker.changeIconColor(missionNum, true);
-
-
     }
+
 
     /**
      * Called when a mission was failed. Displays a toast and updates the UI.
-     *
      * @param missionNum Mission number that was failed.
      */
     public void showMissionFailed(int missionNum) {
@@ -300,6 +298,16 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         //SHOW THAT THE MISSION FAILED AT THE CERTAIN MISSION NUMBER
         missionTracker.changeIconColor(missionNum, false);
 
+    }
+
+    /**
+     * Called when a mission was failed because 5 rounds were rejected. Displays a toast and updates the UI.
+     * @param missionNum Mission number that was failed.
+     */
+    public void showMissionFailedFiveRejects (int missionNum) {
+        Toast.makeText(this.getActivity(), "The Mission failed because 5 teams were rejected.", Toast.LENGTH_SHORT).show();
+        //SHOW THAT THE MISSION FAILED AT THE CERTAIN MISSION NUMBER
+        missionTracker.changeIconColor(missionNum, false);
     }
 
     /**
