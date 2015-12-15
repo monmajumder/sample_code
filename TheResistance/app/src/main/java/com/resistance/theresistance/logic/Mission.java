@@ -1,20 +1,12 @@
 package com.resistance.theresistance.logic;
 
-import android.util.Log;
-
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
- * Mission class is in charge of all things mission related.
- * Keeps track of the mission number, creates the Mission Leader,
- * keeps track of mission history, etc.
- * @author Group 11
- *
+ * Mission class is in charge of a single mission. In charge of keeping track how many people voted to pass or fail the mission.
  */
 @ParseClassName("MissionObject")
 public class Mission extends ParseObject {
@@ -46,22 +38,6 @@ public class Mission extends ParseObject {
     public Round getCurrentRound() {
         rounds = getRounds();
         return rounds.get(rounds.size()-1);
-    }
-
-    /**
-     * Adds a vote to the total votes for Pass.
-     */
-    public void addPassVote() {
-        int newNum = getPass() + 1;
-        setPass(newNum);
-    }
-
-    /**
-     * Adds a vote to the total votes for Fail.
-     */
-    public void addFailVote() {
-        int newNum = getFail() + 1;
-        setFail(newNum);
     }
 
     //-----------------------------------------------
