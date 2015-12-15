@@ -24,6 +24,7 @@ import com.resistance.theresistance.views.MyTextView;
 import com.resistance.theresistance.views.PlayerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fragment that shows the Game Play.
@@ -183,7 +184,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      *
      * @param missionaryTeam the chosen missionaries
      */
-    public void changeToVoteForMissionaries(ArrayList<String> missionaryTeam) {
+    public void changeToVoteForMissionaries(List<String> missionaryTeam) {
         resetBottomQuarterViews();
 
         //VISIBILITIES FOR DISPLAYING CHOSEN MISSIONARY TEAM
@@ -395,7 +396,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     }
     
-    public String chosenMissionariesToString(ArrayList<String> chosenMissionaries){
+    public String chosenMissionariesToString(List<String> chosenMissionaries){
         String string = "";
         for (int i = 0; i < chosenMissionaries.size()-1; i++) {
             string += chosenMissionaries.get(i) + ", ";
