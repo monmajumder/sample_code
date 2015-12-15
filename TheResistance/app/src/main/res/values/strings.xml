@@ -18,6 +18,7 @@
     <string name="game_room_name">Game room name: </string>
     <string name="waiting_for_host">Waiting for host to begin &#8230;</string>
     <string name="title_activity_game_play">GamePlayActivity</string>
+    <string name="waiting_for_mission_leader">The Mission Leader is choosing missionaries...</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="spies_win">Spies Win</string>
     <string name="resistance_wins">Resistance Wins</string>

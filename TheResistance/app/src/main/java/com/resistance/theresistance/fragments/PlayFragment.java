@@ -40,6 +40,8 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     public PlayerView pview;
     public MissionTracker missionTracker;
     public RelativeLayout relativeLayout;
+    public RelativeLayout playFragmentLayout;
+    public View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,8 +69,11 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
         ((com.resistance.theresistance.views.MyTextView) view.findViewById(R.id.game_play_room_name)).setText(gameRoomStr);
 
+        this.view = view;
+
         handleResistanceOrSpy();
         changeToMissionLeaderChoosing();
+        handleLeader();
 
         return view;
     }
@@ -108,6 +113,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     /**
      * Handles the leader, displays the start button if leader.
      */
+
     private void handleLeader() {
         Log.d("handleLeader", gameName);
 
@@ -126,7 +132,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         starParams.addRule(RelativeLayout.BELOW, tv.getId());
         relativeLayout.addView(star, starParams);
 
-        togglePlayerSelection(currentLeader);
+        playerSelectionOn(currentLeader);
 
 
 
@@ -134,8 +140,17 @@ public class PlayFragment extends android.support.v4.app.Fragment {
             this.numPlayersOnMission = GameController.getMissionariesRequired(gameName);
             Log.d("handleLeader numPlayers", String.valueOf(numPlayersOnMission));
             //Change visibilities for Mission Leader, with number of missionaries that need to be chosen
+            for (String player : playerNames) {
+                playerSelectionOn(player);
+            }
         } else {
             //Change visibilities for waiting for mission leader to choose
+            for (String player : playerNames) {
+                playerSelectionOff(player);
+            }
+            MyTextView waitingText = (MyTextView) view.findViewById(R.id.waiting_for_mission_leader);
+            waitingText.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -269,27 +284,41 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         this.getContext().startActivity(intent);
     }
 
-    public void togglePlayerSelection(String playerName) {
+    public void playerSelectionOn(String playerName) {
 
-        int id = getLayoutIdForPlayer(playerName);
-        RelativeLayout rl = (RelativeLayout) pview.findViewById(id);
-        ImageView iv = (ImageView) rl.findViewById(id + 520);
+        ImageView iv = getImageViewFor(playerName);
 
         iv.setOnClickListener(new View.OnClickListener() {
             boolean clicked = true;
+
             public void onClick(View v) {
 
-                if(clicked) {
+                if (clicked) {
                     v.setBackgroundResource(R.drawable.playerborder);
                     clicked = false;
-                }
-                else if (!clicked){
+                } else if (!clicked) {
                     v.setBackgroundResource(R.drawable.blank_transparency);
                     clicked = true;
                 }
 
-             }
+            }
         });
+    }
+
+    public void playerSelectionOff(String playerName){
+
+        ImageView iv = getImageViewFor(playerName);
+
+        iv.setOnClickListener(null);
+
+    }
+
+    public ImageView getImageViewFor(String playerName){
+        int id = getLayoutIdForPlayer(playerName);
+        RelativeLayout rl = (RelativeLayout) pview.findViewById(id);
+        ImageView iv = (ImageView) rl.findViewById(id + 520);
+
+        return iv;
     }
 
     public int getLayoutIdForPlayer(String playerName){
