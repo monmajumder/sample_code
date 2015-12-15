@@ -66,6 +66,17 @@
         android:textSize="30sp"
         android:visibility="gone" />
 
+    <com.resistance.theresistance.views.MyTextView
+        android:id="@+id/waiting_for_other_missionaries"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/waiting_for_other_missionaries"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:id="@+id/select_missionaries"
         android:layout_width="match_parent"
