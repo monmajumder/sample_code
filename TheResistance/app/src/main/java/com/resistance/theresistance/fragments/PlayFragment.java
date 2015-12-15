@@ -24,7 +24,6 @@ import com.resistance.theresistance.views.MyTextView;
 import com.resistance.theresistance.views.PlayerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Fragment that shows the Game Play.
@@ -165,10 +164,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
             Toast.makeText(this.getActivity(), "Please choose exactly " + String.valueOf(this.numPlayersOnMission) + " players.", Toast.LENGTH_SHORT).show();
             chosenMissionaries.clear();
             return;
-            /**
-            for (String player : playerNames) {
-                playerSelectionOff(player);
-            }**/
         }
         resetBottomQuarterViews();
         for (String player : playerNames) {
@@ -188,11 +183,15 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      *
      * @param missionaryTeam the chosen missionaries
      */
-    public void changeToVoteForMissionaries(List<String> missionaryTeam) {
+    public void changeToVoteForMissionaries(ArrayList<String> missionaryTeam) {
         resetBottomQuarterViews();
-        //VISIBILITIES FOR DISPLAYING BUTTONS FOR VOTING FOR YES OR NO
-        v.findViewById(R.id.vote_for_missionaries).setVisibility(View.VISIBLE);
+
         //VISIBILITIES FOR DISPLAYING CHOSEN MISSIONARY TEAM
+        MyTextView view =(MyTextView) v.findViewById(R.id.vote_for_missionaries).findViewById(R.id.vote_on_missionaries_text);
+        String missionaries = chosenMissionariesToString(missionaryTeam);
+        view.setText(R.string.do_you_accept + missionaries + "?");
+         //VISIBILITIES FOR DISPLAYING BUTTONS FOR VOTING FOR YES OR NO
+        v.findViewById(R.id.vote_for_missionaries).setVisibility(View.VISIBLE);
 
         GameTimer.everyoneDoneVoting(this, gameName);
     }
@@ -394,5 +393,13 @@ public class PlayFragment extends android.support.v4.app.Fragment {
             layout.setVisibility(View.GONE);
         }
 
+    }
+    
+    public String chosenMissionariesToString(ArrayList<String> chosenMissionaries){
+        String string = "";
+        for (int i = 0; i < chosenMissionaries.size()-1; i++) {
+            string += chosenMissionaries.get(i) + ", ";
+        }
+        return string;
     }
 }

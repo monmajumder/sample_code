@@ -155,7 +155,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/playerview"
         android:layout_centerHorizontal="true"
-        android:visibility="visible">
+        android:visibility="gone">
         <com.resistance.theresistance.views.MyTextView
             android:id="@+id/vote_on_missionaries_text"
             android:layout_width="wrap_content"
