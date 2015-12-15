@@ -103,13 +103,22 @@ public class GameTimer {
                     public void run() {
                         if (GameController.ifEveryoneDoneVoting(game) == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
-                            Fragment history = thisFragment.getActivity().getFragmentManager().findFragmentByTag("history_fragment");
-                            Round round = GameController.getCurrentMission(game).getCurrentRound();
+                            GamePlayActivity activity = (GamePlayActivity) thisFragment.getActivity();
+                            HistoryFragment history = activity.getHistoryFragment();
+                            Round round;
+
                             //Check if a new mission was created
                             if (GameController.getCurrentMission(game).getRounds().size() == 1) {
-                                //history.addRoundInNewMission(round);
+                                round = GameController.getGame(game).getPreviousMission().getCurrentRound();
+                                history.addRoundInNewMission(round);
+                            } else {
+                                round = GameController.getCurrentMission(game).getPreviousRound();
+                                if (GameController.getCurrentMission(game).getRounds().size() == 2) {
+                                    history.addRoundInNewMission(round);
+                                } else {
+                                    history.addRound(round);
+                                }
                             }
-                            //history.addRound(round);
 
                             thisFragment.showMissionTeamRejected();
                             thisFragment.changeToMissionLeaderChoosing();
@@ -148,9 +157,17 @@ public class GameTimer {
                             Log.d("missionaries done TIMER", "ONE TIME");
                         } else if (state == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
-                            Fragment history = thisFragment.getActivity().getFragmentManager().findFragmentByTag("history_fragment");
-                            Round round = GameController.getCurrentMission(game).getCurrentRound();
-                            //history.addRoundInNewMission(round);
+                            GamePlayActivity activity = (GamePlayActivity) thisFragment.getActivity();
+                            HistoryFragment history = activity.getHistoryFragment();
+                            Round round = GameController.getGame(game).getPreviousMission().getCurrentRound();
+
+                            if (round.getMissionaries() == null) {
+                                Log.d("FUCK ME", "NULLLLLLLLLL");
+                            } else {
+                                Log.d("YAAAAAAAAAAAS", "not null");
+                            }
+
+                            history.addRoundInNewMission(round);
                             thisFragment.changeToMissionLeaderChoosing();
                             Log.d("missionaries done TIMER", "I AM DONE");
                         } else if (state == Game.State.RESISTANCE_WINS) {

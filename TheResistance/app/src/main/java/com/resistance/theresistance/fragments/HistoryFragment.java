@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import com.resistance.theresistance.R;
+import com.resistance.theresistance.logic.GameController;
+import com.resistance.theresistance.logic.Player;
 import com.resistance.theresistance.logic.Round;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,9 +28,9 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
 
     private String gameName;
     private int currentMissionNumber;
-    //ArrayList<String> players = GameController.updatePlayers(gameName); //real list of players
-    ArrayList<String> players = new ArrayList<>(); //DELETE - ONLY FOR TESTING PURPOSES
-    private Round test; //DELETE - ONLY FOR TESTING PURPOSES
+    ArrayList<String> players; //real list of players
+    //ArrayList<String> players = new ArrayList<>(); //DELETE - ONLY FOR TESTING PURPOSES
+    //private Round test; //DELETE - ONLY FOR TESTING PURPOSES
 
     public HistoryFragment() {
         currentMissionNumber = 0;
@@ -44,9 +48,12 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        dummyPlayers(); // testing purposes
+
+        players = GameController.updatePlayers(gameName);
+        //dummyPlayers(); // testing purposes
         addPlayerImages();
 
+        /**
         Round dummy = dummyRound(); // testing
         addRoundInNewMission(dummy);
         addRound(dummy); //testing
@@ -58,7 +65,7 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         addRoundInNewMission(dummy);
         addRoundInNewMission(dummy);
         addRound(dummy);
-        addRound(dummy);
+        addRound(dummy); **/
 
     }
 
@@ -131,8 +138,10 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
      */
     private void addRoundBlocks(Round r,boolean isNewMission) {
         Round round = r;
-        ArrayList<String> missionaries = (ArrayList<String>) round.getMissionaries();
-        ArrayList<String> yesVotes = (ArrayList<String>) round.getAssentors();
+
+        List<String> missionaries = round.getMissionaries();
+
+        ArrayList<String> yesVotes = (round.getAssentors() != null) ? ((ArrayList<String>) round.getAssentors()) : new ArrayList<String>();
         ArrayList<Integer> resourceIDs = new ArrayList<>();
         String leader = round.getLeader();
         boolean isMissionary, votedYes, isLeader;
@@ -151,21 +160,23 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
 
         //Go through the players array to check for which box each one needs
         for (int i= 0; i < players.size(); i++) {
+
+
             //check to see if the player is the mission leader
-            if (players.get(i) == leader) {
+            if (players.get(i).equals(leader)) {
                 isLeader = true;
             }
 
             //check to see if the player is a missionary
             for (int x = 0; x < missionaries.size(); x++) {
-                if (missionaries.get(x) ==  players.get(i)) {
+                if (missionaries.get(x).equals(players.get(i))) {
                     isMissionary = true;
                 }
             }
 
             //check to see if the player voted yes
             for (int y = 0; y < yesVotes.size(); y++) {
-                if (yesVotes.get(y) == players.get(i)) {
+                if (yesVotes.get(y).equals(players.get(i))) {
                     votedYes = true;
                 }
             }
@@ -208,6 +219,7 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         /* Extract data from round */
     }
 
+
     /**
      * Fills in a dummy arraylist of players
      * DELETE - FOR TESTING PURPOSES ONLY
@@ -223,11 +235,11 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         players.add("7");
     }
 
-    /**
+/*    *//**
      * Create a dummy Round
      * Delete - Testing Purposes only
      * @return Round
-     */
+     *//*
     private Round dummyRound() {
 
         //missionaries arraylist
@@ -248,5 +260,6 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         test.setAssentors(tempAss);
 
         return test;
-    }
+    }*/
+
 }

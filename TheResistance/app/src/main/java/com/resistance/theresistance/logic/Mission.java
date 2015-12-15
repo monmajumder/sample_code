@@ -40,6 +40,15 @@ public class Mission extends ParseObject {
         return rounds.get(rounds.size()-1);
     }
 
+    /**
+     * Returns the previous Round.
+     * @return Round object that is the previous round.
+     */
+    public Round getPreviousRound() {
+        rounds = getRounds();
+        return rounds.get(rounds.size()-2);
+    }
+
     //-----------------------------------------------
     // Getter and Setter Methods
     //-----------------------------------------------

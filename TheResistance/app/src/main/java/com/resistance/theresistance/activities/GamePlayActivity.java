@@ -115,4 +115,12 @@ public class GamePlayActivity extends FragmentActivity {
     public void failMission(View v) {
         playFragment.failMission(v);
     }
+
+    public PlayFragment getPlayFragment() {
+        return this.playFragment;
+    }
+
+    public HistoryFragment getHistoryFragment() {
+        return this.historyFragment;
+    }
 }
