@@ -454,10 +454,10 @@ public class GameControllerTest {
         GameController.addVoteForMissionaries(true, gameName, playerName);
         assertEquals(Game.State.MISSIONARIES_VOTING, GameController.getState(gameName));
     }
-
-    /**
+/*
+    *//**
      * Test if everyone done voting.
-     */
+     *//*
     @Test
     public void testIfEveryoneDoneVoting() {
         String gameName = UUID.randomUUID().toString();
@@ -470,7 +470,7 @@ public class GameControllerTest {
             assertTrue(false);
         }
         assertEquals(Game.State.MISSIONARIES_VOTING, GameController.ifEveryoneDoneVoting(gameName));
-    }
+    }*/
 
     /**
      * Tests when a new mission is created after missionaries vote.
