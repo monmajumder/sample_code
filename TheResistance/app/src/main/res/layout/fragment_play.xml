@@ -100,7 +100,8 @@
             android:layout_below="@+id/select_missionaries_text"
             android:layout_centerHorizontal="true"
             android:text="@string/done_choosing"
-            android:id="@+id/button" />
+            android:id="@+id/button"
+            android:onClick="leaderChoosingMissionaries"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -126,7 +127,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/vote_on_mission_text"
-            android:layout_toLeftOf="@+id/centerPoint" />
+            android:layout_toLeftOf="@+id/centerPoint"
+            android:onClick="passMission"/>
 
         <TextView
             android:id="@+id/centerPoint"
@@ -143,7 +145,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/vote_on_mission_text"
-            android:layout_toRightOf="@+id/centerPoint" />
+            android:layout_toRightOf="@+id/centerPoint"
+            android:onClick="failMission"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -169,7 +172,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/vote_on_missionaries_text"
-            android:layout_toLeftOf="@+id/centerPoint2" />
+            android:layout_toLeftOf="@+id/centerPoint2"
+            android:onClick="acceptMissionaryTeam"/>
 
         <TextView
             android:id="@+id/centerPoint2"
@@ -186,7 +190,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/vote_on_missionaries_text"
-            android:layout_toRightOf="@+id/centerPoint2" />
+            android:layout_toRightOf="@+id/centerPoint2"
+            android:onClick="rejectMissionaryTeam"/>
     </RelativeLayout>
 
 </RelativeLayout>
