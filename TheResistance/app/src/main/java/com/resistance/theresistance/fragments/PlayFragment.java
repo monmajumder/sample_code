@@ -41,6 +41,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     public MissionTracker missionTracker;
     public RelativeLayout relativeLayout;
     public RelativeLayout playFragmentLayout;
+    private ArrayList<String> chosenMissionaries;
     private View v;
 
     @Override
@@ -131,9 +132,16 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
         if (GameController.checkLeader(gameName, playerName)) {
             this.numPlayersOnMission = GameController.getMissionariesRequired(gameName);
-            Log.d("handleLeader numPlayers", String.valueOf(numPlayersOnMission));
+
+            chosenMissionaries = new ArrayList<>();
+
             //Change visibilities for Mission Leader, with number of missionaries that need to be chosen
             v.findViewById(R.id.select_missionaries).setVisibility(View.VISIBLE);
+
+            // take in clicks for players who the leader chooses
+            for (String player : playerNames) {
+                playerSelectionOn(player, chosenMissionaries);
+            }
 
         } else {
             //Change visibilities for waiting for mission leader to choose
@@ -152,12 +160,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     public void leaderChoosingMissionaries() {
         resetBottomQuarterViews();
 
-        //take in clicks for players who the leader chooses, make sure it is the right number, numPlayersOnMission
-        final ArrayList<String> chosenMissionaries = new ArrayList<>();
-
-        for (String player : playerNames) {
-            playerSelectionOn(player, chosenMissionaries);
-        }
+        // make sure chosen missionaries is the right number, numPlayersOnMission
 
         if (chosenMissionaries.size() != this.numPlayersOnMission) {
             Toast.makeText(this.getActivity(), "Please choose exactly " + String.valueOf(this.numPlayersOnMission) + " players.", Toast.LENGTH_SHORT).show();
@@ -367,7 +370,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         views.add((MyTextView)v.findViewById(R.id.waiting_for_votes));
 
         rlayouts.add((RelativeLayout)v.findViewById(R.id.select_missionaries));
-        rlayouts.add((RelativeLayout)v.findViewById(R.id.vote_for_mission));
+        rlayouts.add((RelativeLayout) v.findViewById(R.id.vote_for_mission));
         rlayouts.add((RelativeLayout)v.findViewById(R.id.vote_for_missionaries));
 
         for (MyTextView view : views){
