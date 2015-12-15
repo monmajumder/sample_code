@@ -75,7 +75,7 @@ public class GameWaitingActivity extends AppCompatActivity {
 //        player1.setVisibility(View.VISIBLE);
 
         //COMMENTED OUT FOR TESTING PURPOSES
-        //handleHost();
+        handleHost();
         addPlayerIcons();
         GameTimer.gameStarted(this, gameName);
     }
