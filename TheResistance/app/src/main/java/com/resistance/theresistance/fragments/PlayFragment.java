@@ -26,6 +26,8 @@ import com.resistance.theresistance.views.PlayerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.support.v4.app.Fragment;
+
 /**
  * Fragment that shows the Game Play.
  */
@@ -157,7 +159,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     /**
      * Handles when a leader is choosing missionaries.
      */
-    public void leaderChoosingMissionaries() {
+    public void leaderChoosingMissionaries(View view) {
         resetBottomQuarterViews();
 
         // make sure chosen missionaries is the right number, numPlayersOnMission
@@ -195,7 +197,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     /**
      * Called when a player clicks "Accept" when voting for a Missionary team.
      */
-    public void acceptMissionaryTeam() {
+    public void acceptMissionaryTeam(View view) {
         resetBottomQuarterViews();
         // switch to visibilities for waiting for everyone to finish voting
         v.findViewById(R.id.waiting_for_votes).setVisibility(View.VISIBLE);
@@ -206,7 +208,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     /**
      * Called when a player clicks "Reject" when voting for a Missionary team.
      */
-    public void rejectMissionaryTeam() {
+    public void rejectMissionaryTeam(View view) {
         resetBottomQuarterViews();
         // switch to visibilities for waiting for everyone to finish voting
         v.findViewById(R.id.waiting_for_votes).setVisibility(View.VISIBLE);
@@ -239,7 +241,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     /**
      * Called when a Missionary clicks "PASS" when going on a Mission.
      */
-    public void passMission() {
+    public void passMission(View view) {
         resetBottomQuarterViews();
         // switch to visibilities for waiting for other missionaries
         v.findViewById(R.id.waiting_for_other_missionaries).setVisibility(View.VISIBLE);
@@ -250,7 +252,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     /**
      * Called when a Missionary clicks "FAIL" when going on a Mission.
      */
-    public void failMission() {
+    public void failMission(View view) {
         resetBottomQuarterViews();
         // TBD switch to visibilities for waiting for other missionaries
         v.findViewById(R.id.waiting_for_other_missionaries).setVisibility(View.VISIBLE);
