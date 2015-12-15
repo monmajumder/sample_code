@@ -32,4 +32,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <com.resistance.theresistance.views.MyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/waiting_for_mission_leader"
+        android:id="@+id/waiting_for_mission_leader"
+        android:visibility="invisible"/>
+
 </RelativeLayout>
