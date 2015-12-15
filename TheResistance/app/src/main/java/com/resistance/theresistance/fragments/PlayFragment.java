@@ -19,6 +19,7 @@ import com.resistance.theresistance.activities.EndGameActivity;
 import com.resistance.theresistance.logic.Game;
 import com.resistance.theresistance.logic.GameController;
 import com.resistance.theresistance.logic.GameTimer;
+import com.resistance.theresistance.views.MissionTracker;
 import com.resistance.theresistance.views.MyTextView;
 import com.resistance.theresistance.views.PlayerView;
 
@@ -37,6 +38,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     private Context context;
     public ArrayList<String> playerNames;
     public PlayerView pview;
+    public MissionTracker missionTracker;
     public RelativeLayout relativeLayout;
     public RelativeLayout playFragmentLayout;
     public View view;
@@ -50,7 +52,13 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         playerName = preferences.getString("playerName", "none");
         playerNames = GameController.updatePlayers(gameName);
         pview = (PlayerView) view.findViewById(R.id.playerview);
+        missionTracker = (MissionTracker) view.findViewById(R.id.missiontracker);
 
+        //TESTING PURPOSES - DELETE
+        showMissionFailed(3);
+        showMissionPassed(1);
+        showMissionFailed(2);
+        
         this.context = getActivity().getApplicationContext();
 
         //UI Components here
@@ -153,7 +161,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         //somehow take in clicks for players who the leader chooses, make sure it is the right number, numPlayersOnMission
         ArrayList<String> chosenMissionaries = new ArrayList<>();
         if (chosenMissionaries.size() != this.numPlayersOnMission) {
-            Toast.makeText(context, "Please choose exactly " + String.valueOf(this.numPlayersOnMission) + " players.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getActivity(), "Please choose exactly " + String.valueOf(this.numPlayersOnMission) + " players.", Toast.LENGTH_SHORT).show();
             //somehow redo taking in the clicks for the players
         }
         GameController.addChosenMissionaries(gameName, chosenMissionaries);
@@ -222,7 +230,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Called when a Missionary clicks "FAIL" when going on a Mission.
      */
     public void failMission() {
-        // switch to visibilities for waiting for other missionaries
+        // TBD switch to visibilities for waiting for other missionaries
         boolean vote = false;
         GameController.addPassFailForMission(false, gameName);
     }
@@ -231,14 +239,14 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Displays a toast if the Missionary Team was approved.
      */
     public void showMissionTeamApproved() {
-        Toast.makeText(context, "The Mission Team was approved.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getActivity(), "The Mission Team was approved.", Toast.LENGTH_SHORT).show();
     }
 
     /**
      * Displays a toast if the Missionary Team was rejected.
      */
     public void showMissionTeamRejected() {
-        Toast.makeText(context, "The Mission Team was rejected.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getActivity(), "The Mission Team was rejected.", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -247,8 +255,10 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * @param missionNum Mission number that was passed.
      */
     public void showMissionPassed(int missionNum) {
-        Toast.makeText(context, "The Mission passed!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getActivity(), "The Mission passed!", Toast.LENGTH_SHORT).show();
+        missionTracker.changeIconColor(missionNum, true);
         //DO SOMETHING IN THE LITTLE THING IN THE MIDDLE TO SHOW THAT THE MISSION PASSED AT THE CERTAIN MISSION NUMBER
+
     }
 
     /**
@@ -257,7 +267,8 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * @param missionNum Mission number that was failed.
      */
     public void showMissionFailed(int missionNum) {
-        Toast.makeText(context, "The Mission failed!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getActivity(), "The Mission failed!", Toast.LENGTH_SHORT).show();
+        missionTracker.changeIconColor(missionNum, false);
         //DO SOMETHING IN THE LITTLE THING IN THE MIDDLE TO SHOW THAT THE MISSION FAILED AT THE CERTAIN MISSION NUMBER
     }
 
