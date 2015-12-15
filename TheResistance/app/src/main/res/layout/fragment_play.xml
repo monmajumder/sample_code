@@ -42,14 +42,36 @@
         android:textSize="20sp"
         android:textAlignment="center"
         android:gravity="center_vertical|center_horizontal"
+        android:visibility="gone" />
+
+    <com.resistance.theresistance.views.MyTextView
+        android:id="@+id/please_wait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/please_wait"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
         android:visibility="gone"/>
+
+    <com.resistance.theresistance.views.MyTextView
+        android:id="@+id/waiting_for_votes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/waiting_for_votes"
+        android:layout_below="@+id/playerview"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/select_missionaries"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/playerview"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:visibility="visible">
 
         <com.resistance.theresistance.views.MyTextView
             android:id="@+id/select_missionaries_text"
@@ -59,8 +81,7 @@
             android:textSize="20sp"
             android:textAlignment="center"
             android:gravity="center_vertical|center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:visibility="visible"/>
+            android:layout_centerHorizontal="true" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,6 +91,5 @@
             android:id="@+id/button" />
 
     </RelativeLayout>
-
 
 </RelativeLayout>
