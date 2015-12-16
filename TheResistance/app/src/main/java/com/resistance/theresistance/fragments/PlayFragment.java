@@ -324,6 +324,11 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         this.getContext().startActivity(intent);
     }
 
+    /**
+     * Turns on the ability to select players when mission leader is choosing
+     * @param playerName Name of the player
+     * @param chosenMissionaries List of chosen missionaries
+     */
     public void playerSelectionOn(final String playerName, final ArrayList<String> chosenMissionaries) {
 
         ImageView iv = getImageViewFor(playerName);
@@ -347,6 +352,10 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         });
     }
 
+    /**
+     * Turns off the ability to select players and unhighlights previously selected players.
+     * @param playerName Name of the player
+     */
     public void playerSelectionOff(String playerName){
 
         ImageView iv = getImageViewFor(playerName);
@@ -356,12 +365,21 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     }
 
+    /**
+     * Unhighlights the previously selected players.
+     * @param playerName Name of the player.
+     */
     public void playerSelectionOffClickOn (String playerName) {
 
         ImageView iv = getImageViewFor(playerName);
         iv.setBackgroundResource(R.drawable.blank_transparency);
     }
 
+    /**
+     * Gets the image view for a player.
+     * @param playerName Name of player.
+     * @return View for a player
+     */
     public ImageView getImageViewFor(String playerName){
         int id = getLayoutIdForPlayer(playerName);
         RelativeLayout rl = (RelativeLayout) pview.findViewById(id);
@@ -370,6 +388,11 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         return iv;
     }
 
+    /**
+     * Gets layout id for a player.
+     * @param playerName Name of player
+     * @return Layout id
+     */
     public int getLayoutIdForPlayer(String playerName){
 
         int index = playerNames.indexOf(playerName);
@@ -382,6 +405,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         return id;
     }
 
+    /**
+     * Clears all the views on the bottom quarter of the screen.
+     */
     public void resetBottomQuarterViews(){
         ArrayList<MyTextView> views= new ArrayList<MyTextView>();
         ArrayList<RelativeLayout> rlayouts = new ArrayList<RelativeLayout>();

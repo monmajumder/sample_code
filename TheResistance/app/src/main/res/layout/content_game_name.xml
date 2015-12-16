@@ -85,14 +85,4 @@
         android:layout_centerHorizontal="true"
         android:visibility="invisible" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="End Game"
-        android:id="@+id/end_game_button"
-        android:layout_alignTop="@+id/sorry_use_another_name"
-        android:layout_alignLeft="@+id/enter_game_keyword"
-        android:layout_alignStart="@+id/enter_game_keyword"
-        android:onClick="endGame" />/>
-
 </RelativeLayout>
