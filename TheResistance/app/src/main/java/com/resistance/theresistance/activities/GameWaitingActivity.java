@@ -106,18 +106,11 @@ public class GameWaitingActivity extends AppCompatActivity {
      */
     public void startGame(View view) {
 
-
-//        if (!GameController.checkEnoughPlayers(gameName)) {
-//            tooFewPlayers();
-//            return;
-//        }
-
-        /**
-        //COMMENTED OUT FOR NOW FOR TESTING PURPOSES.
+        //Check if enough players.
         if (!GameController.checkEnoughPlayers(gameName)) {
             tooFewPlayers();
             return;
-        } **/
+        }
 
 
         //Call Cloud function

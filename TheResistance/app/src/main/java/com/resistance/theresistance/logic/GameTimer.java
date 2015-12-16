@@ -101,7 +101,10 @@ public class GameTimer {
                 thisFragment.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (GameController.ifEveryoneDoneVoting(thisFragment, game) == Game.State.MISSION_LEADER_CHOOSING) {
+                        Game.State returnedState = GameController.ifEveryoneDoneVoting(game);
+                        if (returnedState == null) {
+                            //DO NOTHING
+                        } else if (returnedState == Game.State.MISSION_LEADER_CHOOSING) {
                             timer.cancel();
                             GamePlayActivity activity = (GamePlayActivity) thisFragment.getActivity();
                             HistoryFragment history = activity.getHistoryFragment();
@@ -111,7 +114,7 @@ public class GameTimer {
                             if (GameController.getCurrentMission(game).getRounds().size() == 1) {
                                 round = GameController.getGame(game).getPreviousMission().getCurrentRound();
                                 history.addRound(round);
-                                thisFragment.showMissionFailedFiveRejects(GameController.getGame(game).getMissions().size()-1);
+                                thisFragment.showMissionFailedFiveRejects(GameController.getGame(game).getMissions().size() - 1);
                             } else {
                                 round = GameController.getCurrentMission(game).getPreviousRound();
                                 if (GameController.getCurrentMission(game).getRounds().size() == 2) {
@@ -124,11 +127,14 @@ public class GameTimer {
 
                             thisFragment.changeToMissionLeaderChoosing();
                             Log.d("TIMER CHECK", "I AM DONE");
-                        } else if (GameController.ifEveryoneDoneVoting(thisFragment, game) == Game.State.MISSIONARIES_VOTING) {
+                        } else if (returnedState == Game.State.MISSIONARIES_VOTING) {
                             timer.cancel();
                             thisFragment.showMissionTeamApproved();
                             thisFragment.changeToMissionaryVoting();
                             Log.d("everyone done TIMER", "I AM DONE");
+                        } else if (returnedState == Game.State.SPIES_WIN) {
+                            timer.cancel();
+                            thisFragment.changeToGameOver(returnedState);
                         } else {
                             Log.d("everyone done TIMER", "ONE TIME");
                         }
@@ -160,8 +166,14 @@ public class GameTimer {
                             timer.cancel();
                             GamePlayActivity activity = (GamePlayActivity) thisFragment.getActivity();
                             HistoryFragment history = activity.getHistoryFragment();
-                            Round round = GameController.getGame(game).getPreviousMission().getCurrentRound();
-                            history.addRoundInNewMission(round);
+
+                            Mission previousMission = GameController.getGame(game).getPreviousMission();
+                            Round round = previousMission.getCurrentRound();
+                            if (previousMission.getRounds().size() == 1) {
+                                history.addRoundInNewMission(round);
+                            } else {
+                                history.addRound(round);
+                            }
                             thisFragment.changeToMissionLeaderChoosing();
                             Log.d("missionaries done TIMER", "I AM DONE");
                         } else if (state == Game.State.RESISTANCE_WINS) {

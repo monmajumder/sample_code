@@ -370,12 +370,11 @@ public class GameControllerTest {
         round2.setLeader("Monica");
         Round round3 = new Round();
         round3.setMissionariesAccepted(false);
-        Round round4 = new Round();
         round3.setLeader("Andrew");
+        Round round4 = new Round();
+        round4.setLeader("Jenny");
         round4.setMissionariesAccepted(false);
         Round round5 = new Round();
-        round4.setLeader("Jenny");
-        round5.setMissionariesAccepted(false);
         round5.setLeader(playerName);
 
         ArrayList<String> assentors = new ArrayList<>(Arrays.asList("Candace", "Monica"));
@@ -412,6 +411,90 @@ public class GameControllerTest {
         assertEquals(Game.State.MISSION_LEADER_CHOOSING, GameController.getState(gameName));
         assertEquals(2, GameController.getGame(gameName).getMissions().size());
         assertEquals(1, GameController.getCurrentMission(gameName).getRounds().size());
+    }
+
+    /**
+     * Test case where a 5th round is failed where 2 missions already failed so spies win.
+     */
+    @Test
+    public void testAddVoteForMissionariesToSpiesWin() {
+        String gameName = UUID.randomUUID().toString();
+        String playerName = UUID.randomUUID().toString();
+        Game game = createUniqueGame(gameName, playerName);
+
+        Player player1 = new Player();
+        player1.setUsername("Candace1");
+        Player player2 = new Player();
+        player2.setUsername("Monica1");
+        Player player3 = new Player();
+        player3.setUsername("Andrew1");
+        Player player4 = new Player();
+        player4.setUsername("Jenny1");
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.addPlayer(player3);
+        game.addPlayer(player4);
+
+        Mission mission1 = new Mission();
+        mission1.setPassed(false);
+        Mission mission2 = new Mission();
+        mission2.setPassed(false);
+        Mission mission3 = new Mission();
+
+        Round round1 = new Round();
+        round1.setMissionariesAccepted(false);
+        round1.setLeader("Candace");
+        Round round2 = new Round();
+        round2.setMissionariesAccepted(false);
+        round2.setLeader("Monica");
+        Round round3 = new Round();
+        round3.setMissionariesAccepted(false);
+        round3.setLeader("Andrew");
+        Round round4 = new Round();
+        round4.setLeader("Jenny");
+        round4.setMissionariesAccepted(false);
+        Round round5 = new Round();
+        round5.setLeader(playerName);
+
+        ArrayList<String> assentors = new ArrayList<>(Arrays.asList("Candace", "Monica"));
+        ArrayList<String> dissentors = new ArrayList<>(Arrays.asList("Jenny", "Andrew"));
+        round5.setAssentors(assentors);
+        round5.setDissentors(dissentors);
+
+        List<Round> rounds = new ArrayList<>();
+        rounds.add(round1);
+        rounds.add(round2);
+        rounds.add(round3);
+        rounds.add(round4);
+        rounds.add(round5);
+        mission3.setRounds(rounds);
+
+        List<Mission> missions = new ArrayList<>();
+        missions.add(mission1);
+        missions.add(mission2);
+        missions.add(mission3);
+        game.setMissions(missions);
+
+        try {
+            player1.save();
+            player2.save();
+            player3.save();
+            player4.save();
+            round1.save();
+            round2.save();
+            round3.save();
+            round4.save();
+            round5.save();
+            mission1.save();
+            mission2.save();
+            mission3.save();
+            game.save();
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+
+        GameController.addVoteForMissionaries(false, gameName, playerName);
+        assertEquals(Game.State.SPIES_WIN, GameController.getState(gameName));
     }
 
     /**
