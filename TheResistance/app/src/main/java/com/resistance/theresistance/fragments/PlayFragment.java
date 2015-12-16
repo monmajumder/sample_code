@@ -168,6 +168,9 @@ public class PlayFragment extends android.support.v4.app.Fragment {
             return;
         }
         resetBottomQuarterViews();
+        for (String player : playerNames) {
+            playerSelectionOff(player);
+        }
 
         GameController.addChosenMissionaries(gameName, chosenMissionaries);
         GameController.changeState(gameName, Game.State.VOTE_FOR_MISSIONARIES);
