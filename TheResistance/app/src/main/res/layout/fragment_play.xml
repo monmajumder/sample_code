@@ -38,7 +38,6 @@
         android:layout_centerHorizontal="true"
         android:text="@string/waiting_for_mission_leader"
         android:layout_below="@+id/playerview"
-        android:layout_alignStart="@+id/game_play_room_name"
         android:textSize="20sp"
         android:textStyle="italic"
         android:textAlignment="center"
