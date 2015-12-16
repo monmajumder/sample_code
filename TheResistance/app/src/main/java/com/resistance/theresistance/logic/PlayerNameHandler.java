@@ -14,8 +14,6 @@ import com.resistance.theresistance.activities.MainActivity;
 
 /**
  * Handles user input for username.
- *
- * Created by Candace on 11/13/2015.
  */
 public class PlayerNameHandler {
 

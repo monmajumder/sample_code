@@ -28,14 +28,22 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
 
     private String gameName;
     private int currentMissionNumber;
-    ArrayList<String> players; //real list of players
-    //ArrayList<String> players = new ArrayList<>(); //DELETE - ONLY FOR TESTING PURPOSES
-    //private Round test; //DELETE - ONLY FOR TESTING PURPOSES
+    ArrayList<String> players;
 
+    /**
+     * HistoryFragment constructor.
+     */
     public HistoryFragment() {
         currentMissionNumber = 0;
     }
 
+    /**
+     * Called on create
+     * @param inflater LayoutInflator
+     * @param container ViewGroup container
+     * @param savedInstanceState Saved state
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, null);
@@ -45,33 +53,21 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
+    /**
+     * Called when the HistoryFragment is started.
+     */
     @Override
     public void onStart() {
         super.onStart();
 
         players = GameController.updatePlayers(gameName);
-        //dummyPlayers(); // testing purposes
         addPlayerImages();
         addNames();
-
-        /**
-        Round dummy = dummyRound(); // testing
-        addRoundInNewMission(dummy);
-        addRound(dummy); //testing
-        addRound(dummy);
-        addRoundInNewMission(dummy);
-        addRound(dummy);
-        addRound(dummy);
-        addRoundInNewMission(dummy);
-        addRoundInNewMission(dummy);
-        addRoundInNewMission(dummy);
-        addRound(dummy);
-        addRound(dummy); **/
 
     }
 
     /**
-     * Adds Player names
+     * Adds Player names to the history screen.
      */
     private void addNames() {
         ArrayList<String> names = new ArrayList<String>();
@@ -93,7 +89,6 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         tl = (TableLayout) getView().findViewById(R.id.Table);
         /* Create a new row to be added. */
         TableRow round = new TableRow(this.getActivity());
-//        round.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         round = addObject(round, R.drawable.blank_transparency);
         for (int i = 0; i < textViews.size(); i++) {
             round = addText(round, textViews.get(i));
@@ -163,6 +158,12 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         return round;
     }
 
+    /**
+     * Adds tex to the row
+     * @param round TableRow
+     * @param view TextView
+     * @return TableRow that has the added text
+     */
     private TableRow addText(TableRow round, TextView view)
     {
         view.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -185,6 +186,7 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
     public void addRound(Round r) {
         addRoundBlocks(r,false);
     }
+
     /**
      * Adds a round's outcomes to the history
      * @param r the round to be added
@@ -270,50 +272,6 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         //add a new row
         addRow(resourceIDs);
 
-        /* Extract data from round */
     }
-
-
-    /**
-     * Fills in a dummy arraylist of players
-     * DELETE - FOR TESTING PURPOSES ONLY
-     */
-    private void dummyPlayers() {
-        //Add players
-        players.add("Monica");
-        players.add("Andrew");
-        players.add("Jenny");
-        players.add("Mindy");
-        players.add("Candace");
-        players.add("6");
-        players.add("7");
-    }
-
-/*    *//**
-     * Create a dummy Round
-     * Delete - Testing Purposes only
-     * @return Round
-     *//*
-    private Round dummyRound() {
-
-        //missionaries arraylist
-        ArrayList<String> tempMiss = new ArrayList<>();
-        tempMiss.add("Monica");
-        tempMiss.add("Andrew");
-        tempMiss.add("Jenny");
-
-        //assentors arraylist
-        ArrayList<String> tempAss = new ArrayList<>();
-        tempAss.add("Monica");
-        tempAss.add("Andrew");
-
-        //Create the round - set leader, missionaries, assentors
-        test = new Round();
-        test.setLeader("Monica");
-        test.setMissionaries(tempMiss);
-        test.setAssentors(tempAss);
-
-        return test;
-    }*/
 
 }

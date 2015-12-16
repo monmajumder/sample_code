@@ -46,10 +46,8 @@ public class GamePlayActivity extends FragmentActivity {
      */
     private ViewPager _viewPager;
 
-    //DELETE MAYBES.
     private PlayFragment playFragment;
     private HistoryFragment historyFragment;
-
 
     /**
      * List of fragments.
@@ -96,30 +94,58 @@ public class GamePlayActivity extends FragmentActivity {
         _viewPager.setAdapter(_fragmentPagerAdapter);
     }
 
+    /**
+     * Called when a leader clicks "done" when choosing missionaries.
+     * @param v Button view
+     */
     public void leaderChoosingMissionaries(View v) {
         playFragment.leaderChoosingMissionaries(v);
     }
 
+    /**
+     * Called when a player clicks "accept" when choosing missionaries.
+     * @param v Button view
+     */
     public void acceptMissionaryTeam(View v) {
         playFragment.acceptMissionaryTeam(v);
     }
 
+    /**
+     * Called when a player clicks "reject" when choosing missionaries.
+     * @param v Button view
+     */
     public void rejectMissionaryTeam(View v) {
         playFragment.rejectMissionaryTeam(v);
     }
 
+    /**
+     * Called when a missionary clicks "pass" when going on a mission.
+     * @param v Button view
+     */
     public void passMission(View v) {
         playFragment.passMission(v);
     }
 
+    /**
+     * Called when a missionary clicks "fail" when going on a mission.
+     * @param v Button view
+     */
     public void failMission(View v) {
         playFragment.failMission(v);
     }
 
+    /**
+     * Returns the play fragment in an activity.
+     * @return play fragment
+     */
     public PlayFragment getPlayFragment() {
         return this.playFragment;
     }
 
+    /**
+     * Returns the history fragment in an activity.
+     * @return history fragment
+     */
     public HistoryFragment getHistoryFragment() {
         return this.historyFragment;
     }

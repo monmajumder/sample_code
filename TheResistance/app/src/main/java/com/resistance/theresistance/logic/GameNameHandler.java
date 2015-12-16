@@ -5,8 +5,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.parse.CountCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -16,7 +14,6 @@ import com.resistance.theresistance.activities.GameNameActivity;
 
 /**
  * Handles user input for name of the game. Either create or join game.
- * Created by Candace on 11/13/2015.
  */
 public class GameNameHandler {
 
@@ -36,7 +33,8 @@ public class GameNameHandler {
     /**
      * Called when a user wants to create a game
      * @param thisActivity GameNameActivity
-     * @param gName name of the new game room
+     * @param gName name of the game room
+     * @param pName name of the player
      */
     public static void createGameHandler(GameNameActivity thisActivity, String gName, String pName) {
         gameName = gName;
@@ -62,7 +60,8 @@ public class GameNameHandler {
     /**
      * Called when a user wants to join a game.
      * @param thisActivity GameNameActivity
-     * @param gName name of the game room to be joined
+     * @param gName game room name
+     * @param pName name of the player
      */
     public static void joinGameHandler(GameNameActivity thisActivity, String gName, String pName) {
         gameName = gName;

@@ -7,13 +7,15 @@ import com.parse.ParseObject;
 
 /**
  * Starts the application.
- * Created by andrewshiau on 10/26/15.
  */
 
 public class MyApplication extends Application {
 
     public GameController controller;
 
+    /**
+     * Called when the applicaiton is started.
+     */
     @Override
     public void onCreate() {
         super.onCreate();

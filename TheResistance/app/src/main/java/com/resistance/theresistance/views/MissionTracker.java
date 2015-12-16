@@ -12,7 +12,7 @@ import com.resistance.theresistance.R;
 import java.util.ArrayList;
 
 /**
- * Created by jwagner on 12/11/15.
+ * Tracks the missions on the PlayFragment.
  */
 public class MissionTracker extends RelativeLayout{
 
@@ -20,6 +20,11 @@ public class MissionTracker extends RelativeLayout{
     ArrayList<Integer> passIconIds = new ArrayList<>();
     ArrayList<Integer> failIconIds = new ArrayList<>();
 
+    /**
+     * Inialize text view with context and attributes.
+     * @param context Context
+     * @param attrs Attributes
+     */
     public MissionTracker(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -85,6 +90,11 @@ public class MissionTracker extends RelativeLayout{
         this.addView(iv5);
     }
 
+    /**
+     * Changes the icon color on the mission tracker.
+     * @param missNum Number of mission to be changed
+     * @param pass True if mission passed, false if mission failed
+     */
     public void changeIconColor (int missNum, boolean pass) {
         if (pass) {
             missionIconViews.get(missNum-1).setImageResource(passIconIds.get(missNum - 1));
@@ -95,6 +105,9 @@ public class MissionTracker extends RelativeLayout{
         }
     }
 
+    /**
+     * Sets the ids on the icons.
+     */
     private void setIconIds () {
 
         //Set pass icon id arraylist

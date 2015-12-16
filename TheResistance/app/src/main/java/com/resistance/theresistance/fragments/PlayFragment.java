@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +43,13 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     private ArrayList<String> chosenMissionaries;
     private View v;
 
+    /**
+     * Called on create of the PlayFragment.
+     * @param inflater LayoutInflater
+     * @param container ViewGroup container
+     * @param savedInstanceState Saved state
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -174,6 +180,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Handles when a leader is choosing missionaries.
+     * @param view View
      */
     public void leaderChoosingMissionaries(View view) {
 
@@ -201,7 +208,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Called when the game state is Vote For Missionaries.
-     *
      * @param missionaryTeam the chosen missionaries
      */
     public void changeToVoteForMissionaries(List<String> missionaryTeam) {
@@ -220,6 +226,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Called when a player clicks "Accept" when voting for a Missionary team.
+     * @param view View
      */
     public void acceptMissionaryTeam(View view) {
         resetBottomQuarterViews();
@@ -231,6 +238,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Called when a player clicks "Reject" when voting for a Missionary team.
+     * @param view View
      */
     public void rejectMissionaryTeam(View view) {
         resetBottomQuarterViews();
@@ -264,6 +272,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Called when a Missionary clicks "PASS" when going on a Mission.
+     * @param view View
      */
     public void passMission(View view) {
         resetBottomQuarterViews();
@@ -275,6 +284,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Called when a Missionary clicks "FAIL" when going on a Mission.
+     * @param view View
      */
     public void failMission(View view) {
         resetBottomQuarterViews();
@@ -300,7 +310,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Called when a mission was passed. Displays a toast and updates the UI.
-     *
      * @param missionNum Mission number that was passed.
      */
     public void showMissionPassed(int missionNum) {
@@ -308,7 +317,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         //SHOW THAT THE MISSION PASSED AT THE CERTAIN MISSION NUMBER
         missionTracker.changeIconColor(missionNum, true);
     }
-
 
     /**
      * Called when a mission was failed. Displays a toast and updates the UI.
@@ -333,7 +341,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
     /**
      * Starts the Game Over activity.
-     *
      * @param state State of the game, either Resistance Wins or Spies Win.
      */
     public void changeToGameOver(Game.State state) {
