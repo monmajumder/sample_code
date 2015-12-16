@@ -5,18 +5,18 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.resistance.theresistance.R;
 import com.resistance.theresistance.logic.GameController;
-import com.resistance.theresistance.logic.Player;
 import com.resistance.theresistance.logic.Round;
+import com.resistance.theresistance.views.MyTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +52,7 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         players = GameController.updatePlayers(gameName);
         //dummyPlayers(); // testing purposes
         addPlayerImages();
+        addNames();
 
         /**
         Round dummy = dummyRound(); // testing
@@ -67,6 +68,37 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         addRound(dummy);
         addRound(dummy); **/
 
+    }
+
+    /**
+     * Adds Player names
+     */
+    private void addNames() {
+        ArrayList<String> names = new ArrayList<String>();
+        ArrayList<MyTextView> textViews = new ArrayList<MyTextView>();
+        MyTextView v;
+        for (int i = 0; i < players.size(); i++) {
+            v = new MyTextView(this.getContext());
+            /*extract substring*/
+            String subname = (players.get(i) + "  ").substring(0,3);
+            /*add spaces to substring in case name < 3 characters*/
+            names.add(i, "    " + subname + "   ");
+            /* set the textview text*/
+            v.setText(names.get(i));
+            /* add to the textviews array*/
+            textViews.add(v);
+        }
+
+        TableLayout tl;
+        tl = (TableLayout) getView().findViewById(R.id.Table);
+        /* Create a new row to be added. */
+        TableRow round = new TableRow(this.getActivity());
+//        round.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+        round = addObject(round, R.drawable.blank_transparency);
+        for (int i = 0; i < textViews.size(); i++) {
+            round = addText(round, textViews.get(i));
+        }
+        tl.addView(round, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
     }
 
     /**
@@ -102,6 +134,22 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
     }
 
     /**
+     * Add the player names under the player image
+     * @param names of player names
+     */
+    private void addNameUnderImage(ArrayList<String> names) {
+        TableLayout tl;
+        tl = (TableLayout) getView().findViewById(R.id.Table);
+        /* Create a new row to be added. */
+        TableRow round = new TableRow(this.getActivity());
+        round.setLayoutParams(new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+        for (String name : names) {
+            round = addObject(round, 1);
+        }
+
+    }
+
+    /**
      * Adds an object to a row.
      * @param round The round to be added onto.
      * @param resourceId The id of the resource to be added.
@@ -115,6 +163,12 @@ public class  HistoryFragment extends android.support.v4.app.Fragment {
         return round;
     }
 
+    private TableRow addText(TableRow round, TextView view)
+    {
+        view.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+        round.addView(view);
+        return round;
+    }
     /**
      * Adds a round in a new mission
      * @param r the round to be added
