@@ -138,16 +138,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         int id = getLayoutIdForPlayer(currentLeader);
         relativeLayout = (RelativeLayout) pview.findViewById(id);
         MyTextView tv = (MyTextView) relativeLayout.findViewById(id+320);
-
-        //TRY TO REMOVE PREVIOUS STAR
-        ImageView oldStar = (ImageView) relativeLayout.findViewById(R.id.star);
-        if (oldStar != null) {
-            Log.d("STARRRRR","IS NOT NULL");
-            relativeLayout.removeView(oldStar);
-        } else {
-            Log.d("STARRRRR","IS NULL");
-        }
-
+        
         ImageView star = new ImageView(this.getContext());
         star.setId(R.id.star);
         star.setImageResource(R.drawable.star);
