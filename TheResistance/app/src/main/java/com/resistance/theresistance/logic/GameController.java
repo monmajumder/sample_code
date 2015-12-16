@@ -15,10 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * GameController class is in charge of controlling the Game.
- * Deals with Game related functions including starting and playing a Game.
- * @author Group 11
- *
+ * GameController class is in charge of controlling the logic and is in charge of all Parse queries.
  */
 public class GameController {
 
@@ -355,7 +352,7 @@ public class GameController {
      * @param gameName Name of game
      * @return Game State Enum, Mission leader choosing or missionaries voting
      */
-    public static Game.State ifEveryoneDoneVoting(PlayFragment fragment, String gameName) {
+    public static Game.State ifEveryoneDoneVoting(String gameName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);
         try {
@@ -366,6 +363,8 @@ public class GameController {
                 return Game.State.MISSION_LEADER_CHOOSING;
             } else if (gameObject.getGameState() == Game.State.MISSIONARIES_VOTING) {
                 return Game.State.MISSIONARIES_VOTING;
+            } else if (gameObject.getGameState() == Game.State.SPIES_WIN) {
+                return Game.State.SPIES_WIN;
             }
         } catch (ParseException e) {
             Log.d("ifEveryoneDoneVoting", "The retrieval failed");
