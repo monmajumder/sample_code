@@ -1,6 +1,5 @@
 package com.resistance.theresistance.logic;
 
-import android.app.Fragment;
 import android.util.Log;
 
 import com.resistance.theresistance.activities.GamePlayActivity;

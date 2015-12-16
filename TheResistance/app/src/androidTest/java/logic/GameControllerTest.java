@@ -748,25 +748,6 @@ public class GameControllerTest {
     }
 
     /**
-     * Check that missionaries are done voting.
-     */
-    @Test
-    public void testIfMissionariesDoneVoting() {
-        /**
-        GamePlayActivity activity = new GamePlayActivity();
-        String gameName = UUID.randomUUID().toString();
-        String playerName = UUID.randomUUID().toString();
-        Game game = createUniqueGame(gameName, playerName);
-        game.setGameState(Game.State.MISSION_LEADER_CHOOSING);
-        try {
-            game.save();
-        } catch (ParseException e) {
-            assertTrue(false);
-        }
-        assertEquals(Game.State.MISSION_LEADER_CHOOSING, GameController.ifMissionariesDoneVoting(activity, gameName)); **/
-    }
-
-    /**
      * Tests if a game state is changed.
      */
     @Test

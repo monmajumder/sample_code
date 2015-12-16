@@ -46,8 +46,6 @@ public class GameNameActivity extends AppCompatActivity {
         textView.setTextSize(40);
         textView.setText(name);
 
-        //
-
     }
 
     /**
@@ -126,12 +124,5 @@ public class GameNameActivity extends AppCompatActivity {
         String storedName = preferences.getString("playerName","none");
         return storedName;
     }
-
-    /**
-     * Test End Game - need to delete
-    public void endGame(View v) {
-        Intent intent = new Intent(this, EndGameActivity.class);
-        startActivity(intent);
-    }**/
 
 }

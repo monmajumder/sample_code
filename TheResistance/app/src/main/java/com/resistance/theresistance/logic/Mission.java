@@ -133,7 +133,10 @@ public class Mission extends ParseObject {
         put("Passed", passed);
     }
 
-    //DELETE
+    /**
+     * Gets the object ID for a mission object.
+     * @return Id for a mission object
+     */
     public String getId() {
         return getObjectId();
     }

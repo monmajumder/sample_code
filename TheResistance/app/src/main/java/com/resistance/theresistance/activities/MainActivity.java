@@ -94,9 +94,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("playerName", playerName);
         editor.commit();
 
-        //Check if playerName stored
-        //String storedPreference = preferences.getString("playerName","none");
-        //Log.d("check",storedPreference);
     }
 
     /**

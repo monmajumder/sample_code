@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Tests Game.
- * */
+ */
 public class GameTest {
 
     /**

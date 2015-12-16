@@ -19,13 +19,18 @@ import java.util.ArrayList;
 import ru.biovamp.widget.CircleLayout;
 
 /**
- * Created by jwagner on 12/11/15.
+ * Defines the PlayerView that is the CircleLayout.
  */
 public class PlayerView extends CircleLayout {
     String gameName;
     String playerName;
     public ArrayList<String> playerNames;
 
+    /**
+     * Constructor for the PlayerView.
+     * @param context
+     * @param attrs
+     */
     public PlayerView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -36,23 +41,16 @@ public class PlayerView extends CircleLayout {
         this.addPlayerIcons();
 
     }
-//
-//    @Override
-//    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-//
-//    }
 
+    /**
+     * Adds a player to the PlayerView.
+     * @param playerNumber
+     */
     private void addPlayer(int playerNumber){
 
         TypedArray playerIcons = getResources().obtainTypedArray(R.array.player_imgs);
         TypedArray playerIds = getResources().obtainTypedArray(R.array.player_ids_ints);
         playerNames = GameController.updatePlayers(gameName);
-        //CircleLayout circleLayout = (CircleLayout) view.findViewById(R.id.circleview2);
-//        CircleLayout circleLayout = new CircleLayout(this.getContext());
-
-//        CircleLayout.LayoutParams circleParams = new CircleLayout.LayoutParams(
-//                CircleLayout.LayoutParams.WRAP_CONTENT,
-//                CircleLayout.LayoutParams.WRAP_CONTENT);
 
         // Creating a new RelativeLayout
         RelativeLayout relativeLayout = new RelativeLayout(this.getContext());
@@ -105,6 +103,9 @@ public class PlayerView extends CircleLayout {
         this.addView(relativeLayout);
     }
 
+    /**
+     * Adds the player icons to the view.
+     */
     public void addPlayerIcons() {
 
         ArrayList<String> playerNames = GameController.updatePlayers(gameName);

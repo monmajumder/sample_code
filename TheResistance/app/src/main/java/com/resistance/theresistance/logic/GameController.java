@@ -6,7 +6,6 @@ import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.resistance.theresistance.activities.GamePlayActivity;
 import com.resistance.theresistance.fragments.PlayFragment;
 
 import java.util.ArrayList;

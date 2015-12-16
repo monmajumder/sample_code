@@ -71,10 +71,6 @@ public class GameWaitingActivity extends AppCompatActivity {
 
         ((com.resistance.theresistance.views.MyTextView)findViewById(R.id.game_room_name)).setText(gameRoomStr);
 
-//        ImageView player1 = new ImageView(this);
-//        player1.setVisibility(View.VISIBLE);
-
-        //COMMENTED OUT FOR TESTING PURPOSES
         handleHost();
         addPlayerIcons();
         GameTimer.gameStarted(this, gameName);
@@ -103,6 +99,7 @@ public class GameWaitingActivity extends AppCompatActivity {
 
     /**
      * Called when a Host presses the "Start" button. Calls Cloud function to take care of starting a game.
+     * @param view Button view
      */
     public void startGame(View view) {
 
@@ -111,7 +108,6 @@ public class GameWaitingActivity extends AppCompatActivity {
             tooFewPlayers();
             return;
         }
-
 
         //Call Cloud function
         HashMap<String,Object> arguments = new HashMap<>();
@@ -122,48 +118,11 @@ public class GameWaitingActivity extends AppCompatActivity {
             Log.d("startGame", "Cloud function did not call successfully");
         }
 
-        //STARTING THE NEW ACTIVITY SHOULD BE SOMEWHERE ELSE. DELETE THIS.
         intent = new Intent(this, GamePlayActivity.class);
         intent.putExtra(ANOTHER_EXTRA_MESSAGE, gameName);
         intent.putStringArrayListExtra(PLAYER_NAMES, playerNames);
         startActivity(intent);
 
-        /**
-        //TEST IF CHECKHOST WORKS. DELETE.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String storedPlayer = preferences.getString("playerName","none");
-        Log.d("checkPlayerName", storedPlayer);
-        if (GameController.checkHost(gameName, storedPlayer)) {
-            Log.d("CHECKING", "YES. THIS PLAYER IS HOST.");
-        } else {
-            Log.d("CHECKING", "NO. THIS PLAYER IS NOT HOST.");
-        }
-
-         //TEST IF CHECK STATE WORKS. DELETE.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String storedPlayer = preferences.getString("playerName","none");
-        Log.d("checkPlayerName", storedPlayer);
-        if (GameController.checkStarted(gameName)) {
-            Log.d("CHECKING", "YES. GAME HAS STARTED.");
-        } else {
-            Log.d("CHECKING", "NO. GAME HAS NOT STARTED.");
-        }
-
-        //TEST IF UPDATE PLAYERS WORKS. DELETE.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String storedPlayer = preferences.getString("playerName","none");
-        Log.d("checkPlayerName", storedPlayer);
-        ArrayList<String> testPlayers = new ArrayList<>();
-        testPlayers = GameController.updatePlayers(gameName);
-        for (String name : testPlayers) {
-            Log.d("Player name", name);
-        }
-
-        //TEST IF CHECK MISSION LEADER DONE CHOOSING WORKS. DELETE.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String storedGame = preferences.getString("gameName","none");
-        Log.d("checkGameName", storedGame);
-        GameController.missionLeaderDoneChoosing(storedGame); **/
     }
 
     /**
@@ -183,7 +142,6 @@ public class GameWaitingActivity extends AppCompatActivity {
         ArrayList<String> playerNames = GameController.updatePlayers(gameName);
         CircleLayout circleLayout = (CircleLayout) findViewById(R.id.circleview);
 
-
         // Creating a new RelativeLayout
         RelativeLayout relativeLayout = new RelativeLayout(this);
 
@@ -202,7 +160,6 @@ public class GameWaitingActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-
 
         //Creating a new TextView
         MyTextView tv = new MyTextView(this);
