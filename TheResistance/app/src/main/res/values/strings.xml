@@ -9,7 +9,7 @@
     <string name="hi_name">Hi, </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_game_name">GameNameActivity</string>
-    <string name="game_keyword">Enter a game keyword to join.</string>
+    <string name="game_keyword">Enter a game keyword.</string>
     <string name="game">Game</string>
     <string name="join">Join</string>
     <string name="create">Create</string>

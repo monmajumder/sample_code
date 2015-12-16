@@ -69,7 +69,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
         handleResistanceOrSpy();
         changeToMissionLeaderChoosing();
-        handleLeader();
 
         return view;
     }
@@ -129,7 +128,6 @@ public class PlayFragment extends android.support.v4.app.Fragment {
             RelativeLayout relativeLayoutToRemoveStar = (RelativeLayout) pview.findViewById(idToRemoveStar);
             ImageView oldStar = (ImageView) relativeLayoutToRemoveStar.findViewById(R.id.star);
             relativeLayoutToRemoveStar.removeView(oldStar);
-
         }
 
         String currentLeader = GameController.getCurrentMission(gameName).getCurrentMissionLeader();
@@ -138,7 +136,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         int id = getLayoutIdForPlayer(currentLeader);
         relativeLayout = (RelativeLayout) pview.findViewById(id);
         MyTextView tv = (MyTextView) relativeLayout.findViewById(id+320);
-        
+
         ImageView star = new ImageView(this.getContext());
         star.setId(R.id.star);
         star.setImageResource(R.drawable.star);
@@ -417,7 +415,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     public int getLayoutIdForPlayer(String playerName){
 
         int index = playerNames.indexOf(playerName);
-        Log.d("name of leader:", playerName);
+        //Log.d("name of leader:", playerName);
         String indexString = "" + index;
 
         Resources res = getResources();

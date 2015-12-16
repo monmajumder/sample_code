@@ -108,9 +108,9 @@ public class GameController {
             List<Player> listOfPlayers = gameObject.fetchIfNeeded().getList("Players");
             for (Player player : listOfPlayers) {
                 allPlayers.add(player.fetchIfNeeded().getString("Name"));
-                Log.d("Name", player.fetchIfNeeded().getString("Name"));
+                //Log.d("Name", player.fetchIfNeeded().getString("Name"));
             }
-                Log.d("Size of allplayers", String.valueOf(allPlayers.size()));
+                //Log.d("Size of allplayers", String.valueOf(allPlayers.size()));
             return allPlayers;
         } catch (ParseException e) {
             Log.d("updatePlayers game", "The retrieval failed");
@@ -248,7 +248,7 @@ public class GameController {
             ParseObject object = query.getFirst();
             Log.d("checkMissLDone game", "The retrieval succeeded");
             Game gameObject = (Game) object;
-            Log.d("checkMISSDONE", String.valueOf(gameObject.getGameState()));
+            //Log.d("checkMISSDONE", String.valueOf(gameObject.getGameState()));
             if (gameObject.getGameState() == Game.State.MISSION_LEADER_CHOOSING) {
                 return false;
             }
@@ -289,9 +289,9 @@ public class GameController {
      */
     public static void addChosenMissionaries(String gameName, ArrayList<String> missionaries) {
 
-        for (String p : missionaries) {
-            Log.d("missionary",p);
-        }
+        //for (String p : missionaries) {
+        //    Log.d("missionary",p);
+        //}
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("GameObject");
         query.whereEqualTo("Name", gameName);

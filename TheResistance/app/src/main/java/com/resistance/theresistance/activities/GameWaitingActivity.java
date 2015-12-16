@@ -256,7 +256,7 @@ public class GameWaitingActivity extends AppCompatActivity {
         String a;
         for (int i = numPlayersInRoom; i < playerNames.size(); i++) {
             a = playerNames.size() + "";
-            Log.d("player Names size", a);
+            //Log.d("player Names size", a);
             addPlayer(i);
         }
         numPlayersInRoom = numPlayers;

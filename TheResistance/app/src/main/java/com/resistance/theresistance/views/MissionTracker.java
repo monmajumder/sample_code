@@ -90,7 +90,7 @@ public class MissionTracker extends RelativeLayout{
             missionIconViews.get(missNum-1).setImageResource(passIconIds.get(missNum - 1));
         }
         else {
-            Log.d("something", "mission number is: " + missNum);
+            //Log.d("something", "mission number is: " + missNum);
             missionIconViews.get(missNum-1).setImageResource(failIconIds.get(missNum-1));
         }
     }
