@@ -161,13 +161,6 @@ public class GameTimer {
                             GamePlayActivity activity = (GamePlayActivity) thisFragment.getActivity();
                             HistoryFragment history = activity.getHistoryFragment();
                             Round round = GameController.getGame(game).getPreviousMission().getCurrentRound();
-
-                            if (round.getMissionaries() == null) {
-                                Log.d("FUCK ME", "NULLLLLLLLLL");
-                            } else {
-                                Log.d("YAAAAAAAAAAAS", "not null");
-                            }
-
                             history.addRoundInNewMission(round);
                             thisFragment.changeToMissionLeaderChoosing();
                             Log.d("missionaries done TIMER", "I AM DONE");
