@@ -37,13 +37,17 @@ public class EndGameActivity extends AppCompatActivity {
 
     }
 
+    //TO do: FIX THIS.
     public void startNewGame(View view) {
-        intent = new Intent(this, GamePlayActivity.class);
+        intent = new Intent(this, GameNameActivity.class);
         startActivity(intent);
     }
 
-    public void quit(View view) {
-        intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+    //To do: FIX THIS.
+    public void endGame(View view) {
+        //intent = new Intent(this, MainActivity.class);
+        //startActivity(intent);
+        finish();
+        System.exit(0);
     }
 }
