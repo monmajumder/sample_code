@@ -1,7 +1,9 @@
 package com.resistance.theresistance.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -12,8 +14,13 @@ import com.resistance.theresistance.fragments.PlayFragment;
 public class EndGameActivity extends AppCompatActivity {
 
     private static Intent intent;
+    public final static String EXTRA_MESSAGE = "com.resistance.theresistance.MESSAGE";
     String winner;
 
+    /**
+     * Called on create.
+     * @param savedInstanceState state of instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +32,10 @@ public class EndGameActivity extends AppCompatActivity {
         visibility(winner);
     }
 
+    /**
+     * Sets the visibility on the activity
+     * @param s String that specifies the winner
+     */
     private void visibility(String s) {
         if (winner == "Resistance") {
             TextView view = (TextView)findViewById(R.id.resistance_winstextview);
@@ -34,20 +45,18 @@ public class EndGameActivity extends AppCompatActivity {
             TextView view = (TextView)findViewById(R.id.spies_wintextview);
             view.setVisibility(View.VISIBLE);
         }
-
     }
 
-    //TO do: FIX THIS.
+    /**
+     * Starts the Game Name Activity
+     * @param view Button click
+     */
     public void startNewGame(View view) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String playerName = preferences.getString("playerName", "none");
         intent = new Intent(this, GameNameActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, playerName);
         startActivity(intent);
     }
 
-    //To do: FIX THIS.
-    public void endGame(View view) {
-        //intent = new Intent(this, MainActivity.class);
-        //startActivity(intent);
-        finish();
-        System.exit(0);
-    }
 }

@@ -64,25 +64,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quit"
-        android:id="@+id/quitbutton"
-        android:layout_gravity="bottom|right"
-        android:layout_below="@+id/playagain"
-        android:layout_alignRight="@+id/playagain"
-        android:layout_alignEnd="@+id/playagain"
-        android:layout_marginTop="60dp"
-        android:layout_marginRight="50dp"
-        android:onClick="endGame"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play"
+        android:text="Play Again"
         android:id="@+id/play"
-        android:layout_gravity="bottom|right"
-        android:layout_alignTop="@+id/quitbutton"
-        android:layout_alignLeft="@+id/playagain"
-        android:layout_alignStart="@+id/playagain"
-        android:layout_marginLeft="50dp"
+        android:layout_marginTop="67dp"
+        android:layout_below="@+id/playagain"
+        android:layout_centerHorizontal="true"
         android:onClick = "startNewGame"/>
 </RelativeLayout>
