@@ -5,4 +5,5 @@
     <item name="mission_icon_3" type="id" />
     <item name="mission_icon_4" type="id" />
     <item name="mission_icon_5" type="id" />
+    <item name="star" type="id" />
 </resources>

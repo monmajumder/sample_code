@@ -112,14 +112,44 @@ public class PlayFragment extends android.support.v4.app.Fragment {
     private void handleLeader() {
         resetBottomQuarterViews();
 
+        //Remove previous star
+        Game game = GameController.getGame(gameName);
+        if (game.getMissions().size() == 1 && game.getCurrentMission().getRounds().size() == 1) {
+            //do nothing if first mission of first round, no star created yet
+        } else {
+            String previousLeader;
+            if (game.getCurrentMission().getRounds().size() == 1) {
+                int index = game.getMissions().size() - 2;
+                previousLeader = game.getMissions().get(index).getCurrentMissionLeader();
+            } else {
+                previousLeader = game.getCurrentMission().getPreviousRound().getLeader();
+            }
+
+            int idToRemoveStar = getLayoutIdForPlayer(previousLeader);
+            RelativeLayout relativeLayoutToRemoveStar = (RelativeLayout) pview.findViewById(idToRemoveStar);
+            ImageView oldStar = (ImageView) relativeLayoutToRemoveStar.findViewById(R.id.star);
+            relativeLayoutToRemoveStar.removeView(oldStar);
+
+        }
+
         String currentLeader = GameController.getCurrentMission(gameName).getCurrentMissionLeader();
-        // Change position of little star
         playerNames = GameController.updatePlayers(gameName);
 
         int id = getLayoutIdForPlayer(currentLeader);
         relativeLayout = (RelativeLayout) pview.findViewById(id);
         MyTextView tv = (MyTextView) relativeLayout.findViewById(id+320);
+
+        //TRY TO REMOVE PREVIOUS STAR
+        ImageView oldStar = (ImageView) relativeLayout.findViewById(R.id.star);
+        if (oldStar != null) {
+            Log.d("STARRRRR","IS NOT NULL");
+            relativeLayout.removeView(oldStar);
+        } else {
+            Log.d("STARRRRR","IS NULL");
+        }
+
         ImageView star = new ImageView(this.getContext());
+        star.setId(R.id.star);
         star.setImageResource(R.drawable.star);
 
         RelativeLayout.LayoutParams starParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -417,7 +447,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         views.add((MyTextView)v.findViewById(R.id.waiting_for_votes));
         views.add((MyTextView)v.findViewById(R.id.waiting_for_other_missionaries));
 
-        rlayouts.add((RelativeLayout)v.findViewById(R.id.select_missionaries));
+        rlayouts.add((RelativeLayout) v.findViewById(R.id.select_missionaries));
         rlayouts.add((RelativeLayout) v.findViewById(R.id.vote_for_mission));
         rlayouts.add((RelativeLayout)v.findViewById(R.id.vote_for_missionaries));
 
