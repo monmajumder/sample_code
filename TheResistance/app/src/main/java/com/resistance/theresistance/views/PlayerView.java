@@ -108,11 +108,11 @@ public class PlayerView extends CircleLayout {
     public void addPlayerIcons() {
 
         ArrayList<String> playerNames = GameController.updatePlayers(gameName);
-        Log.d("Player names size", String.valueOf(playerNames.size()));
+        //Log.d("Player names size", String.valueOf(playerNames.size()));
 
         for (int i = 0; i < playerNames.size(); i++) {
             addPlayer(i);
-            Log.d("Looped", "looped!");
+            //Log.d("Looped", "looped!");
         }
     }
 }
