@@ -157,19 +157,17 @@ public class PlayFragment extends android.support.v4.app.Fragment {
      * Handles when a leader is choosing missionaries.
      */
     public void leaderChoosingMissionaries(View view) {
-        //resetBottomQuarterViews(); //DELETE
 
         // make sure chosen missionaries is the right number, numPlayersOnMission
-
         if (chosenMissionaries.size() != this.numPlayersOnMission) {
             Toast.makeText(this.getActivity(), "Please choose exactly " + String.valueOf(this.numPlayersOnMission) + " players.", Toast.LENGTH_SHORT).show();
             chosenMissionaries.clear();
+            for (String player : playerNames) {
+                playerSelectionOffClickOn(player);
+            }
             return;
         }
         resetBottomQuarterViews();
-        for (String player : playerNames) {
-            playerSelectionOff(player);
-        }
 
         GameController.addChosenMissionaries(gameName, chosenMissionaries);
         GameController.changeState(gameName, Game.State.VOTE_FOR_MISSIONARIES);
@@ -190,8 +188,7 @@ public class PlayFragment extends android.support.v4.app.Fragment {
         //VISIBILITIES FOR DISPLAYING CHOSEN MISSIONARY TEAM
         MyTextView view =(MyTextView) v.findViewById(R.id.vote_for_missionaries).findViewById(R.id.vote_on_missionaries_text);
         String missionaries = chosenMissionariesToString(missionaryTeam);
-        Log.d("MISSIONARIESSSSSS", missionaries);
-        view.setText("Do you accept " + missionaries + " as the missionary team?");
+        view.setText("Do you accept " + missionaries + "as the missionary team?");
 
          //VISIBILITIES FOR DISPLAYING BUTTONS FOR VOTING FOR YES OR NO
         v.findViewById(R.id.vote_for_missionaries).setVisibility(View.VISIBLE);
@@ -354,6 +351,12 @@ public class PlayFragment extends android.support.v4.app.Fragment {
 
         iv.setOnClickListener(null);
 
+    }
+
+    public void playerSelectionOffClickOn (String playerName) {
+
+        ImageView iv = getImageViewFor(playerName);
+        iv.setBackgroundResource(R.drawable.blank_transparency);
     }
 
     public ImageView getImageViewFor(String playerName){
